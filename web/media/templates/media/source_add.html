@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Source Add{% endblock %}
+{% block content %}
+
 <h1>Add a new source</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -21,3 +25,5 @@ Kind
 
 <input type="submit" value="Add">
 </form>
+
+{% endblock content %}

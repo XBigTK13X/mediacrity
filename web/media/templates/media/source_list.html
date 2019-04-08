@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Sources{% endblock %}
+{% block content %}
 <a href="{% url 'media:source_add' %}">Create a new source</a>
 
 <br/>
@@ -5,9 +8,10 @@
 
 {% if sources %}
   {% for source in sources %}
-    <a href="{% url 'media:source_edit' %}/{{source.id}}">{{ source.name }}</a>
+    <a href="{% url 'media:source_edit' source_id=source.id %}">{{ source.name }}</a>
     <br/>
   {% endfor %}
 {% else %}
   No sources found. How about you try adding one?
 {% endif %}
+{% endblock %}
