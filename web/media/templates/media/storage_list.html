@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Storage{% endblock %}
+{% block content %}
+<a href="{% url 'media:storage_add' %}">Create new storage</a>
+
+<br/>
+<br/>
+
+{% if storages %}
+  {% for storage in storages %}
+    <a href="{% url 'media:storage_edit' storage_id=storage.id %}">{{ storage.name }}</a>
+    <br/>
+  {% endfor %}
+{% else %}
+  No storages found. How about adding one?
+{% endif %}
+{% endblock %}

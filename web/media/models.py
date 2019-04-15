@@ -1,13 +1,24 @@
 from django.db import models
 
+class StorageKind(models.Model):
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=1024)
+
+class Storage(models.Model):
+    kind = models.ForeignKey(StorageKind, on_delete=models.CASCADE)
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=1024)
+    path = models.CharField(max_length=1024)
+    command_line_arguments = models.CharField(max_length=1024)
+
 class SourceKind(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=1024)
 
 class Source(models.Model):
+    kind = models.ForeignKey(SourceKind, on_delete=models.CASCADE)
     name = models.CharField(max_length=1024)
     description = models.CharField(max_length=1024)
-    kind = models.ForeignKey(SourceKind, on_delete=models.CASCADE)
     origin_path = models.CharField(max_length=1024)
     content_path = models.CharField(max_length=1024)
     discussion_path = models.CharField(max_length=1024)
@@ -24,7 +35,7 @@ class Media(models.Model):
     load_path = models.CharField(max_length=1024)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
     order = models.IntegerField(blank=True, null=True)
-    thumbnail_path = models.CharField(max_length=1024, blank=True, null=True)
+    thumbnail_path = models.CharField(max_length=1024)
 
 class Album(models.Model):
     name = models.CharField(max_length=1024)

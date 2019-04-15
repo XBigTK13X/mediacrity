@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Storage Add{% endblock %}
+{% block content %}
+
+<h1>Add a new storage location</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'media:storage_upsert' %}" method="post">
+{% csrf_token %}
+
+<input name="name" value=""><label for="name">Name</label>
+<br/>
+<input name="description" value=""><label for="description">Description</label>
+<br/>
+<input name="path" value=""><label for="path">Path</label>
+<br/>
+<input name="command_line_arguments" value=""><label for="command_line_arguments">Command Line Arguments</label>
+<br/>
+Kind
+<br/>
+{% for kind in storage_kinds %}
+    <input type="radio" name="kind" id="kind{{ forloop.counter }}" value="{{ kind.id }}">
+    <label for="kind{{ forloop.counter }}">{{ kind.name }}</label>
+    <br>
+{% endfor %}
+
+<input type="submit" value="Add">
+</form>
+
+{% endblock content %}

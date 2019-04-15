@@ -25,13 +25,28 @@ def upsert_source_kinds(apps, schema_editor):
             description=kind['description']
         )
 
+def upsert_storage_kinds(apps, schema_editor):
+    kinds = [
+        {
+            'name': 'ecryptfs',
+            'description': 'Encrypted file system requiring a password.'
+        }
+    ]
+
+    StorageKind = apps.get_model('media', 'StorageKind')
+    for kind in kinds:
+        StorageKind.objects.update_or_create(
+            name=kind['name'],
+            description=kind['description']
+        )
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('media', '0002_media_thumbnail_path'),
+        ('media', '0001_initial'),
     ]
 
     operations = [
         migrations.RunPython(upsert_source_kinds),
+        migrations.RunPython(upsert_storage_kinds),
     ]

@@ -5,10 +5,9 @@
 {% block content %}
 {% if user.is_authenticated %}
   <br/>
+  <a href="{% url 'media:storage_list' %}"> Manage storage </a>
+  <br/>
   <a href="{% url 'media:source_list' %}"> Manage sources </a>
-  <br/>
-  <br/>
-  <a href="{% url 'media:index' %}"> Browse content </a>
 {% else %}
   <p>You are not logged in</p>
 {% endif %}

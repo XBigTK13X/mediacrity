@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Storage Edit{% endblock %}
+{% block content %}
+
+This storage is named {{storage.name}}. It points to the path {{storage.path}}.
+
+<form action="{% url 'media:storage_mount' %}" method='POST'>
+  <input name="password" type="password" value=""><label for="password">Password</label>
+  <button type='submit'>Mount</button>
+</form>
+<form action="{% url 'media:storage_unmount' %}" method='POST'>
+  <button type='submit'>Unmount</button>
+</form>
+
+{% endblock content %}
