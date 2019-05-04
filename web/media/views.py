@@ -36,15 +36,16 @@ def source_insert(request):
 
 @login_required
 def source_edit(request, source_id):
+    source = Source.objects.get(id=source_id)
     context = {
-        'source': Source.objects.get(id=source_id)
+        'source': source,
+        'source_kind': SourceKind.objects.get(id=source.kind_id)
     }
     return render(request, 'media/source_edit.html', context)
 
 @login_required
 def source_update(request, source_id):
     instance = Source.objects.get(id=source_id)
-    instance.kind_id = request.POST['kind']
     instance.name = request.POST['name']
     instance.description = request.POST['description']
     instance.origin_path = request.POST['path']
@@ -96,7 +97,7 @@ def storage_update(request, storage_id):
 def storage_mount(request, storage_id):
     storage = Storage.objects.get(id=storage_id)
     storage_kind = StorageKind.objects.get(id=storage.kind_id)
-    script_path = storage_kind.mount_script_path.replace("<script>",settings.SCRIPT_DIR)
+    script_path = storage_kind.mount_script_path.replace("<script>", settings.SCRIPT_DIR)
     # TODO How to do this without being root?
     command = f"sudo {script_path} {storage.path} {request.POST['password']}"
     process = subprocess.Popen(command, shell=True, cwd=os.getcwd())
@@ -112,7 +113,7 @@ def storage_mount(request, storage_id):
 def storage_unmount(request, storage_id):
     storage = Storage.objects.get(id=storage_id)
     storage_kind = StorageKind.objects.get(id=storage.kind_id)
-    script_path = storage_kind.unmount_script_path.replace("<script>",settings.SCRIPT_DIR)
+    script_path = storage_kind.unmount_script_path.replace("<script>", settings.SCRIPT_DIR)
     # TODO How to do this without being root?
     command = f"sudo {script_path} {storage.path}"
     print(f"Doing command [{command}]")

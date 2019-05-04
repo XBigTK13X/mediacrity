@@ -2,6 +2,19 @@
 {% block title %}Source Edit{% endblock %}
 {% block content %}
 
-This source is named {{source.name}}.
+This is a {{source_kind.name}} source.
+
+<br/>
+
+<form action="{% url 'media:source_update' source_id=source.id %}" method="post">
+{% csrf_token %}
+<input name="name" value="{{source.name}}"><label for="name">Name</label>
+<br/>
+<input name="description" value="{{source.description}}"><label for="description">Description</label>
+<br/>
+<input name="path" value="{{source.origin_path}}"><label for="path">Path or API Key</label>
+<br/>
+<input type="submit" value="Save">
+</form>
 
 {% endblock content %}
