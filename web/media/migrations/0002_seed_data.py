@@ -29,7 +29,9 @@ def upsert_storage_kinds(apps, schema_editor):
     kinds = [
         {
             'name': 'ecryptfs',
-            'description': 'Encrypted file system requiring a password.'
+            'description': 'Encrypted file system requiring a password.',
+            'mount_script_path': '<script>/ecryptfs/mount.sh',
+            'unmount_script_path': '<script>/ecryptfs/unmount.sh'
         }
     ]
 
@@ -37,7 +39,9 @@ def upsert_storage_kinds(apps, schema_editor):
     for kind in kinds:
         StorageKind.objects.update_or_create(
             name=kind['name'],
-            description=kind['description']
+            description=kind['description'],
+            mount_script_path=kind['mount_script_path'],
+            unmount_script_path=kind['unmount_script_path']
         )
 
 class Migration(migrations.Migration):

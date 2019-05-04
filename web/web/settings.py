@@ -125,3 +125,5 @@ LOGOUT_REDIRECT_URL = 'home'
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SCRIPT_DIR = os.environ.get('MEDIACRITY_SCRIPT_DIR')

@@ -6,7 +6,7 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'media:storage_upsert' %}" method="post">
+<form action="{% url 'media:storage_insert' %}" method="post">
 {% csrf_token %}
 
 <input name="name" value=""><label for="name">Name</label>
@@ -14,8 +14,6 @@
 <input name="description" value=""><label for="description">Description</label>
 <br/>
 <input name="path" value=""><label for="path">Path</label>
-<br/>
-<input name="command_line_arguments" value=""><label for="command_line_arguments">Command Line Arguments</label>
 <br/>
 Kind
 <br/>

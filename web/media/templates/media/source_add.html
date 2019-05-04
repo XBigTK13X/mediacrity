@@ -6,7 +6,7 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'media:source_upsert' %}" method="post">
+<form action="{% url 'media:source_insert' %}" method="post">
 {% csrf_token %}
 
 <input name="name" value=""><label for="name">Name</label>

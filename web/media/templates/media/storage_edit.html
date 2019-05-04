@@ -2,13 +2,25 @@
 {% block title %}Storage Edit{% endblock %}
 {% block content %}
 
-This storage is named {{storage.name}}. It points to the path {{storage.path}}.
+<form action="{% url 'media:storage_update' storage_id=storage.id }">
+{% csrf_token %}
+This storage is named {{storage.name}}.
+<br/>
+It points to the path {{storage.path}}.
+<br/>
+</form>
 
-<form action="{% url 'media:storage_mount' %}" method='POST'>
+<br/>
+
+<form action="{% url 'media:storage_mount' storage_id=storage.id %}" method='POST'>
+  {% csrf_token %}
   <input name="password" type="password" value=""><label for="password">Password</label>
+  <br/>
   <button type='submit'>Mount</button>
 </form>
-<form action="{% url 'media:storage_unmount' %}" method='POST'>
+<br/>
+<form action="{% url 'media:storage_unmount' storage_id=storage.id %}" method='POST'>
+  {% csrf_token %}
   <button type='submit'>Unmount</button>
 </form>
 
