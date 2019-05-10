@@ -131,3 +131,22 @@ SCRIPT_DIR = os.environ.get('MEDIACRITY_SCRIPT_DIR')
 REDDIT_CLIENT_ID=os.environ.get('MEDIACRITY_REDDIT_CLIENT_ID')
 REDDIT_CLIENT_SECRET=os.environ.get('MEDIACRITY_REDDIT_CLIENT_SECRET')
 REDDIT_USER_AGENT=os.environ.get('MEDIACRITY_REDDIT_USER_AGENT')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/mediacrity-debug.log',
+        },
+    },
+    'loggers': {
+        'debug': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}

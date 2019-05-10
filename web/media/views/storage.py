@@ -6,78 +6,24 @@ from django.contrib.auth.decorators import login_required
 
 from django.conf import settings
 
-from .models import Source, SourceKind, Storage, StorageKind
-
-import subprocess, os
+from ..models import Source, SourceKind, Storage, StorageKind
 
 @login_required
-def source_list(request):
-    context = {
-        'sources': Source.objects.all()
-    }
-    return render(request, 'media/source_list.html', context)
-
-@login_required
-def source_add(request):
-    context = {
-        'source_kinds': SourceKind.objects.all()
-    }
-    return render(request, 'media/source_add.html', context)
-
-@login_required
-def source_insert(request):
-    instance = Source.objects.create(
-        kind_id = request.POST['kind'],
-        name = request.POST['name'],
-        description = request.POST['description'],
-        origin_path = request.POST['path']
-    )
-    return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
-
-@login_required
-def source_edit(request, source_id):
-    source = Source.objects.get(id=source_id)
-    context = {
-        'source': source,
-        'source_kind': SourceKind.objects.get(id=source.kind_id)
-    }
-    return render(request, 'media/source_edit.html', context)
-
-@login_required
-def source_update(request, source_id):
-    instance = Source.objects.get(id=source_id)
-    instance.name = request.POST['name']
-    instance.description = request.POST['description']
-    instance.origin_path = request.POST['path']
-    instance.save()
-    return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
-
-@login_required
-def source_sync(request, source_id):
-    instance = Source.objects.get(id=source_id)
-    kind = SourceKind.objects.get(id=instance.kind_id)
-    if(kind.name == "reddit"):
-        job_id = 100 #todo make a job
-        return HttpResponseRedirect(reverse('media:job_status', args=(job_id,)))
-    else:
-        return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
-
-@login_required
-def storage_list(request):
+def list(request):
     context = {
         'storages': Storage.objects.all()
     }
     return render(request, 'media/storage_list.html', context)
 
 @login_required
-def storage_add(request):
+def add(request):
     context = {
         'storage_kinds': StorageKind.objects.all()
     }
     return render(request, 'media/storage_add.html', context)
 
 @login_required
-def storage_insert(request):
+def insert(request):
     instance = Storage.objects.create(
         kind_id = request.POST['kind'],
         name = request.POST['name'],
@@ -87,14 +33,14 @@ def storage_insert(request):
     return HttpResponseRedirect(reverse('media:storage_edit', args=(instance.id,)))
 
 @login_required
-def storage_edit(request, storage_id):
+def edit(request, storage_id):
     context = {
         'storage': Storage.objects.get(id=storage_id)
     }
     return render(request, 'media/storage_edit.html', context)
 
 @login_required
-def storage_update(request, storage_id):
+def update(request, storage_id):
     instance = Storage.objects.get(id=storage_id)
     instance.kind_id = request.POST['kind']
     instance.name = request.POST['name']
@@ -104,7 +50,7 @@ def storage_update(request, storage_id):
     return HttpResponseRedirect(reverse('media:storage_edit', args=(instance.id,)))
 
 @login_required
-def storage_mount(request, storage_id):
+def mount(request, storage_id):
     storage = Storage.objects.get(id=storage_id)
     storage_kind = StorageKind.objects.get(id=storage.kind_id)
     script_path = storage_kind.mount_script_path.replace("<script>", settings.SCRIPT_DIR)
@@ -120,7 +66,7 @@ def storage_mount(request, storage_id):
     return HttpResponseRedirect(reverse('media:storage_edit', args=(storage_id,)))
 
 @login_required
-def storage_unmount(request, storage_id):
+def unmount(request, storage_id):
     storage = Storage.objects.get(id=storage_id)
     storage_kind = StorageKind.objects.get(id=storage.kind_id)
     script_path = storage_kind.unmount_script_path.replace("<script>", settings.SCRIPT_DIR)
@@ -131,8 +77,3 @@ def storage_unmount(request, storage_id):
     result = process.wait()
     # TODO maybe show a message if something went wrong. This usually means you unmounted something not mounted
     return HttpResponseRedirect(reverse('media:storage_edit', args=(storage_id,)))
-
-@login_required
-def job_status(request, job_id):
-    context = {}
-    return render(request, 'media/job_status.html', context)

@@ -16,8 +16,8 @@ This is a {{source_kind.name}} source.
 <br/>
 <input type="submit" value="Save">
 </form>
-
-<form action"{% url 'media:source_sync' source_id=source.id %}" method="post">
+<br/>
+<form action="{% url 'media:source_sync' source_id=source.id %}" method="post">
 {% csrf_token %}
 <input type="submit" value="Sync">
 </form>
