@@ -46,6 +46,7 @@ class Album(models.Model):
     description = models.CharField(max_length=1024)
     sources = models.ManyToManyField(Source)
     media = models.ManyToManyField(Media)
+    albums = models.ManyToManyField("self", blank=True)
 
 class WebLink(models.Model):
     name = models.CharField(max_length=1024)

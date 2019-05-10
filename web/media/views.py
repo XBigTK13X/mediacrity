@@ -53,6 +53,16 @@ def source_update(request, source_id):
     return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
 
 @login_required
+def source_sync(request, source_id):
+    instance = Source.objects.get(id=source_id)
+    kind = SourceKind.objects.get(id=instance.kind_id)
+    if(kind.name == "reddit"):
+        job_id = 100 #todo make a job
+        return HttpResponseRedirect(reverse('media:job_status', args=(job_id,)))
+    else:
+        return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
+
+@login_required
 def storage_list(request):
     context = {
         'storages': Storage.objects.all()
@@ -121,3 +131,8 @@ def storage_unmount(request, storage_id):
     result = process.wait()
     # TODO maybe show a message if something went wrong. This usually means you unmounted something not mounted
     return HttpResponseRedirect(reverse('media:storage_edit', args=(storage_id,)))
+
+@login_required
+def job_status(request, job_id):
+    context = {}
+    return render(request, 'media/job_status.html', context)

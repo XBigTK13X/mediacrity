@@ -10,6 +10,9 @@ urlpatterns = [
     path('source/insert', views.source_insert, name='source_insert'),
     path('source/<int:source_id>/update', views.source_update, name='source_update'),
     path('source/<int:source_id>/edit', views.source_edit, name='source_edit'),
+    path('source/<int:source_id>/sync', views.source_sync, name='source_sync'),
+
+    path('job/<int:job_id>', views.job_status),
 
     path('storage/list', views.storage_list, name='storage_list'),
     path('storage/add', views.storage_add, name='storage_add'),
