@@ -1,8 +1,12 @@
-def connect():
-    import os
-    import django
-    from django.conf import settings
+import os
+import django
+from django.conf import settings
 
+def job_log(job,message):
+    job.logs += message + '\n'
+    job.save()
+
+def connect():
     settings.configure(
         DATABASES={
             'default': {

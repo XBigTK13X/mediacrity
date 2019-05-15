@@ -6,9 +6,9 @@ from django.conf import settings
 
 from media.models import Source, SourceKind, Storage, StorageKind, Job, JobStatus
 
-from message import write
-
 import logging
+
+import message.write
 
 logger = logging.getLogger('debug')
 
@@ -56,12 +56,16 @@ def update(request, source_id):
 
 @login_required
 def sync(request, source_id):
-    instance = Source.objects.get(id=source_id)
-    kind = SourceKind.objects.get(id=instance.kind_id)
+    source = Source.objects.get(id=source_id)
+    kind = SourceKind.objects.get(id=source.kind_id)
     job_status = JobStatus.objects.get(name="pending")
-    if(kind.name == "reddit"):
+    if(kind.name == "reddit" and '<->' in source.origin_path):
         job = Job.objects.create(status_id=job_status.id)
-        write.extract(job.id, source_id)
+        message.write.send({
+            'job_id': job.id,
+            'source_id': source_id,
+            'handler': 'extract_reddit_saves'
+        })
         return HttpResponseRedirect(reverse('media:job_status', args=(job.id,)))
     else:
         return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
