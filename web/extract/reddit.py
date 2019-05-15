@@ -1,13 +1,13 @@
 import json, os, praw
 
-from django.conf import settings
+from web import settings
 
-#from common import ioutil
+from common import ioutil
 
 def reddit_api(source):
-    username, password = source.path.split('<->')
+    username, password = source.origin_path.split('<->')
     return praw.Reddit(
-        client_id=settings.REDDIT_CLIENT_ID
+        client_id=settings.REDDIT_CLIENT_ID,
         client_secret=settings.REDDIT_CLIENT_SECRET,
         username=username,
         password=password,
@@ -15,14 +15,14 @@ def reddit_api(source):
     )
 
 def get_saves(source):
-    saves_cache_path = ioutil.path(config['source_dirs_reddit'], config['reddit_username']+'.json')
+    username, password = source.origin_path.split('<->')
+    saves_cache_path = ioutil.path(settings.REDDIT_SAVES_DIR, f"{username}.json")
 
-    if not ioutil.should_download(config, saves_cache_path) and config['enable_reddit_save_cache']:
-        with open(saves_cache_path, 'r') as file_data:
-            return json.load(file_data)
+    if ioutil.cached(saves_cache_path):
+        return ioutil.read_json(saves_cache_path)
 
     reddit = reddit_api(source)
-    saved = reddit.user.me().saved(limit=config['reddit_read_limit'])
+    saved = reddit.user.me().saved(limit=settings.REDDIT_SAVE_READ_LIMIT)
     results = {}
     save_index = -1
     for save in saved:
@@ -34,17 +34,18 @@ def get_saves(source):
         result = {
             'reddit_link': save.permalink,
             'reddit_post_id': post_id,
-            'sort_index': save_index
+            'sort_index': save_index,
+            'created': save.created
         }
-
+        if hasattr(save, 'title'):
+            result['title'] = save.title
         if hasattr(save, 'url'):
             result['internet_link'] = save.url
         if callable(save.permalink):
             result['reddit_link'] = save.permalink(fast=True)
-        # Use timestamps instead of result set order
         result['reddit_index'] = result['sort_index']
         results[post_id] = result
-    with open(saves_cache_path, 'w') as data_file:
-        results_json = json.dumps(results, indent=4)
-        data_file.write(results_json)
+
+    ioutil.write_json(saves_cache_path, results)
+
     return results

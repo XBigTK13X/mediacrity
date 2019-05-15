@@ -1,4 +1,4 @@
-import queue.connect
+import message.connect
 import json
 
 def extract(job_id, source_id):
@@ -6,6 +6,6 @@ def extract(job_id, source_id):
         'job_id': job_id,
         'source_id': source_id
     }
-    connection, channel = queue.connect.create('extract')
+    connection, channel = message.connect.create('extract')
     channel.basic_publish(exchange='', routing_key='extract', body=json.dumps(payload))
     connection.close()

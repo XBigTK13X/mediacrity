@@ -131,6 +131,9 @@ SCRIPT_DIR = os.environ.get('MEDIACRITY_SCRIPT_DIR')
 REDDIT_CLIENT_ID=os.environ.get('MEDIACRITY_REDDIT_CLIENT_ID')
 REDDIT_CLIENT_SECRET=os.environ.get('MEDIACRITY_REDDIT_CLIENT_SECRET')
 REDDIT_USER_AGENT=os.environ.get('MEDIACRITY_REDDIT_USER_AGENT')
+REDDIT_SAVE_READ_LIMIT=1000
+
+TEMP_DIR=os.environ.get('MEDIACRITY_TEMP_DIR')
 
 LOGGING = {
     'version': 1,
@@ -139,7 +142,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': '/tmp/mediacrity-debug.log',
+            'filename': os.path.join(TEMP_DIR,'django.log'),
         },
     },
     'loggers': {
@@ -150,3 +153,7 @@ LOGGING = {
         },
     },
 }
+
+REDDIT_SAVES_DIR=os.path.join(TEMP_DIR,'reddit','saves')
+
+FILE_CACHE_ENABLED=True

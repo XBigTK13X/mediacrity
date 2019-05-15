@@ -6,7 +6,7 @@ from django.conf import settings
 
 from media.models import Source, SourceKind, Storage, StorageKind, Job, JobStatus
 
-from queue import write
+from message import write
 
 import logging
 

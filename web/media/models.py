@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 class StorageKind(models.Model):
     name = models.CharField(max_length=128)
@@ -19,6 +20,8 @@ class SourceKind(models.Model):
     description = models.CharField(max_length=1024)
 
 class Source(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     kind = models.ForeignKey(SourceKind, on_delete=models.CASCADE)
     name = models.CharField(max_length=1024)
     description = models.CharField(max_length=1024)
@@ -30,6 +33,8 @@ class Source(models.Model):
     legacy_v2_id = models.CharField(max_length=1024)
 
 class Media(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=1024)
     description = models.CharField(max_length=1024)
     content_hash = models.CharField(max_length=128)
@@ -42,6 +47,8 @@ class Media(models.Model):
     hidden = models.BooleanField(default=False)
 
 class Album(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=1024)
     description = models.CharField(max_length=1024)
     sources = models.ManyToManyField(Source)
