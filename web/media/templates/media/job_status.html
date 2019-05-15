@@ -2,6 +2,20 @@
 {% block title %}Job Status{% endblock %}
 {% block content %}
 
-There will be information here about the running job.
+Current job status: {{ job_status.name }}. Last updated {{job.updated}}.
+
+<br/>
+
+Job logs
+<br/>
+{% if job_logs %}
+  <ul>
+  {% for log in job_logs %}
+    <li>{{log}}</li>
+  {% endfor %}
+</ul>
+{% else %}
+  No logs found.
+{% endif %}
 
 {% endblock content %}

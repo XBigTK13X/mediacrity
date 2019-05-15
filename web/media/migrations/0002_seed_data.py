@@ -2,7 +2,7 @@
 
 from django.db import migrations
 
-def upsert_source_kinds(apps, schema_editor):
+def create_source_kinds(apps, schema_editor):
     kinds = [
         {
             'name': 'reddit',
@@ -20,12 +20,12 @@ def upsert_source_kinds(apps, schema_editor):
 
     SourceKind = apps.get_model('media', 'SourceKind')
     for kind in kinds:
-        SourceKind.objects.update_or_create(
+        SourceKind.objects.create(
             name=kind['name'],
             description=kind['description']
         )
 
-def upsert_storage_kinds(apps, schema_editor):
+def create_storage_kinds(apps, schema_editor):
     kinds = [
         {
             'name': 'ecryptfs',
@@ -37,12 +37,39 @@ def upsert_storage_kinds(apps, schema_editor):
 
     StorageKind = apps.get_model('media', 'StorageKind')
     for kind in kinds:
-        StorageKind.objects.update_or_create(
+        StorageKind.objects.create(
             name=kind['name'],
             description=kind['description'],
             mount_script_path=kind['mount_script_path'],
             unmount_script_path=kind['unmount_script_path']
         )
+
+def create_job_statuses(apps, schema_editor):
+        kinds = [
+            {
+                'name': 'pending',
+                'description': 'The job is scheduled to run.'
+            },
+            {
+                'name': 'failed',
+                'description': 'An error occurred that caused the job the prematurely exit.'
+            },
+            {
+                'name': 'success',
+                'description': 'The job finished running without error.'
+            },
+            {
+                'name': 'running',
+                'description': 'The job was acquired by a worker.'
+            }
+        ]
+
+        JobStatus = apps.get_model('media', 'JobStatus')
+        for kind in kinds:
+            JobStatus.objects.create(
+                name=kind['name'],
+                description=kind['description']
+            )
 
 class Migration(migrations.Migration):
 
@@ -51,6 +78,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(upsert_source_kinds),
-        migrations.RunPython(upsert_storage_kinds),
+        migrations.RunPython(create_source_kinds),
+        migrations.RunPython(create_storage_kinds),
+        migrations.RunPython(create_job_statuses),
     ]

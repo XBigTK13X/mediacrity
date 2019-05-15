@@ -8,6 +8,8 @@ from django.conf import settings
 
 from ..models import Source, SourceKind, Storage, StorageKind
 
+import subprocess, os
+
 @login_required
 def list(request):
     context = {

@@ -59,3 +59,13 @@ class Tag(models.Model):
     sources = models.ManyToManyField(Source)
     media = models.ManyToManyField(Media)
     album = models.ManyToManyField(Album)
+
+class JobStatus(models.Model):
+    name = models.CharField(max_length=1024)
+    description = models.CharField(max_length=1024)
+
+class Job(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    status = models.ForeignKey(JobStatus, on_delete=models.CASCADE)
+    logs = models.TextField()
