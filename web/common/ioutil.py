@@ -1,6 +1,9 @@
+import requests
 import os
 import hashlib
 import json
+import shutil
+import time
 
 from web import settings
 
@@ -21,6 +24,7 @@ def path(*targets):
 	result = os.path.join(targets[0], targets[1])
 	for ii in range(2, len(targets)):
 		result = os.path.join(result, targets[ii])
+	mkdir(os.path.dirname(result))
 	return result
 
 
@@ -39,7 +43,7 @@ def path_compact(*targets):
 	return path(*targets)
 
 def cached(path):
-	return os.path.isfile(path) and settings.FILE_CACHE_ENABLED
+	return os.path.isfile(path) and settings.FILE_CACHE_ENABLED and os.path.getsize(path) > 0
 
 def write_json(path, dict_content):
     if not os.path.isfile(path):
@@ -51,3 +55,14 @@ def write_json(path, dict_content):
 def read_json(path):
     with open(path, 'r') as file_data:
         return json.load(file_data)
+
+def get_file(url, local_path):
+    headers = {
+        'User-Agent': settings.REDDIT_USER_AGENT,
+        'From': 'mediacrity@github.com'
+    }
+    response = requests.get(url, headers=headers, stream=True)
+    with open(local_path, 'wb') as local_file:
+        shutil.copyfileobj(response.raw, local_file)
+    del response
+    time.sleep(1)

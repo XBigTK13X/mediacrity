@@ -5,7 +5,8 @@ from extract import reddit
 from common import file_cache,orm
 import datetime, json
 
-default_source_kind = SourceKind.objects.get(name="ripme")
+ripme_source_kind = SourceKind.objects.get(name="ripme")
+imgur_source_kind = SourceKind.objects.get(name="imgur")
 
 def handle(job, payload):
     source_id = payload['source_id']
@@ -48,15 +49,21 @@ def handle(job, payload):
             save_source.origin_path = reddit_link
             save_source.discussion_path = reddit_link
 
+        save_source.kind_id = ripme_source_kind.id
+
+        handler = 'extract-ripme-link'
+        if 'imgur' in save_source.origin_path:
+            handler = 'extract-imgur-link'
+            save_source.kind_id = imgur_source_kind.id
+
         save_source.legacy_order = save['sort_index']
-        save_source.kind_id = default_source_kind.id
         save_source.legacy_v1_id = save_hash
         save_source.name = save_title
         save_source.description="Auto generated source based on reddit saves."
         save_source.save()
         message.write.send(
             source_id=save_source.id,
-            handler='extract-ripme-link'
+            handler=handler
         )
         album.sources.add(save_source)
     orm.job_log(job, f"Ensuring all generated sources are in the album {album_slug}")

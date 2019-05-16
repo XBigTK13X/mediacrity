@@ -156,4 +156,10 @@ LOGGING = {
 
 REDDIT_SAVES_DIR=os.path.join(TEMP_DIR,'reddit','saves')
 
+IMGUR_CLIENT_ID=os.environ.get('MEDIACRITY_IMGUR_CLIENT_ID')
+IMGUR_CLIENT_SECRET=os.environ.get('MEDIACRITY_IMGUR_CLIENT_SECRET')
+
 FILE_CACHE_ENABLED=True
+EXTRACT_DIR="mediacrity/01-extract"
+TRANSFORM_DIR="mediacrity/02-transform"
+LOAD_DIR="mediacrity/03-load"

@@ -38,6 +38,7 @@ class Media(models.Model):
     name = models.CharField(max_length=1024)
     description = models.CharField(max_length=1024)
     content_hash = models.CharField(max_length=128)
+    origin_path = models.CharField(max_length=1024, blank=True, null=True)
     extract_path = models.CharField(max_length=1024)
     transform_path = models.CharField(max_length=1024)
     load_path = models.CharField(max_length=1024)
