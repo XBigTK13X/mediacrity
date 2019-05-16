@@ -3,11 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-
-from media.models import Source, SourceKind, Storage, StorageKind, Job, JobStatus
-
+from media.models import Source, SourceKind, Storage, StorageKind
 import logging
-
 import message.write
 
 logger = logging.getLogger('debug')
@@ -51,21 +48,17 @@ def update(request, source_id):
     instance.name = request.POST['name']
     instance.description = request.POST['description']
     instance.origin_path = request.POST['path']
+    if 'discussion_path' in request.POST:
+        instance.discussion_path = request.POST['discussion_path']
     instance.save()
     return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
 
 @login_required
 def sync(request, source_id):
+    job_id = message.write.send(
+        source_id=source_id,
+        handler='extract_reddit_saves'
+    )
     source = Source.objects.get(id=source_id)
     kind = SourceKind.objects.get(id=source.kind_id)
-    job_status = JobStatus.objects.get(name="pending")
-    if(kind.name == "reddit" and '<->' in source.origin_path):
-        job = Job.objects.create(status_id=job_status.id)
-        message.write.send({
-            'job_id': job.id,
-            'source_id': source_id,
-            'handler': 'extract_reddit_saves'
-        })
-        return HttpResponseRedirect(reverse('media:job_status', args=(job.id,)))
-    else:
-        return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
+    return HttpResponseRedirect(reverse('media:job_status', args=(job_id,)))

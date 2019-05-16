@@ -10,6 +10,7 @@ It contains a description of {{storage.description}}.
 <br/>
 It points to the path {{storage.path}}.
 <br/>
+Mediacrity thinks this storage is {% if locked %} locked{% else %} unlocked{% endif %}.
 </form>
 
 <br/>
@@ -25,5 +26,18 @@ It points to the path {{storage.path}}.
   {% csrf_token %}
   <button type='submit'>Unmount</button>
 </form>
+
+{% if contents %}
+</br>
+Files and dirs found at top level.
+<br/>
+  <ul>
+  {% for entry in contents %}
+    <li>{{entry}}</li>
+  {% endfor %}
+</ul>
+{% else %}
+  No files or dirs found in this storage.
+{% endif %}
 
 {% endblock content %}

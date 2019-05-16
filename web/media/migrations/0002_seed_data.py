@@ -5,7 +5,7 @@ from django.db import migrations
 def create_source_kinds(apps, schema_editor):
     kinds = [
         {
-            'name': 'reddit',
+            'name': 'reddit-saves',
             'description': 'A reddit account with saved posts to download.'
         },
         {
@@ -15,6 +15,14 @@ def create_source_kinds(apps, schema_editor):
         {
             'name': 'file-system',
             'description': 'A path to a local directory to import.'
+        },
+        {
+            'name': 'reddit-post',
+            'description': 'An image, album, or comment on reddit.'
+        },
+        {
+            'name': 'ripme',
+            'description': 'URL to be handled by download utility.'
         }
     ]
 

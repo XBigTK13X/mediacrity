@@ -12,8 +12,12 @@ This is a {{source_kind.name}} source.
 <br/>
 <input name="description" value="{{source.description}}"><label for="description">Description</label>
 <br/>
-<input name="path" value="{{source.origin_path}}"><label for="path">Path or API Key</label>
+<input name="origin_path" value="{{source.origin_path}}"><label for="path"><a href="{{source.origin_path}}">Path or API Key</a></label>
 <br/>
+{% if source_kind.name == "reddit-post" %}
+<input name="discussion_path" value="{{source.discussion_path}}"><label for="dicussion_path"><a href="{{source.discussion_path}}">URL to reddit discussion<a/></label>
+<br/>
+{% endif %}
 <input type="submit" value="Save">
 </form>
 <br/>

@@ -1,7 +1,5 @@
 import json, os, praw
-
 from web import settings
-
 from common import ioutil
 
 def reddit_api(source):

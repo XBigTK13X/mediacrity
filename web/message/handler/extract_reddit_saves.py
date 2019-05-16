@@ -1,25 +1,17 @@
-import json
-
 from django.core.exceptions import ObjectDoesNotExist
-
 from media.models import Source, SourceKind, Storage, StorageKind, Job, JobStatus, Album
-
+import message.write
 from extract import reddit
-
 from common import file_cache,orm
+import datetime, json
 
-import datetime
+default_source_kind = SourceKind.objects.get(name="reddit-post")
 
-def handle(payload):
-    job_id = payload['job_id']
+def handle(job, payload):
     source_id = payload['source_id']
     source = Source.objects.get(id=source_id)
-    job = Job.objects.get(id=job_id)
-    job.logs = "";
-    job.save()
-    job_status = JobStatus.objects.get(name="running")
-    job.status_id = job_status.id
-    print(f"Tracking progress in job {job_id} for source {source_id}")
+    job.source_id = source
+    print(f"Tracking progress in job {job.id} for source {source_id}")
     orm.job_log(job,f"Beginning extract of reddit saves for {source.name}.")
     album_slug = f"reddit-saves-{source.name}-generated"
     album = None
@@ -30,7 +22,7 @@ def handle(payload):
         album = Album.objects.create(name=album_slug)
         orm.job_log(job, f"Creating new reddit saves album {album_slug}")
     saves = reddit.get_saves(source)
-    orm.job_log(job, f"Retrieved {len(saves)} saves for {source.name}")
+    orm.job_log(job, f"Retrieved saves for {source.name}")
     for key, save in saves.items():
         save_slug = save['reddit_link']
         save_hash = file_cache.hash(save_slug)
@@ -42,19 +34,30 @@ def handle(payload):
         try:
             save_source = Source.objects.get(legacy_v1_id=save_hash)
             orm.job_log(job, f"Updating existing source {save_source.id} for reddit save {save_title}")
-            save_source.title = save_title
-            save_source.created = save_created
-            save_source.save()
         except ObjectDoesNotExist:
-            save_source = Source.objects.create(
-                legacy_v1_id=save_hash,
-                name=save_title,
-                kind_id=source.kind_id,
-                description="Auto generated source based on reddit saves.",
-                legacy_order=save['sort_index'],
-                created=save_created
-            )
+            save_source = Source.objects.create()
             orm.job_log(job, f"Created a new source {save_source.id} for reddit save {save_title}")
+        save_source.title = save_title
+        save_source.created = save_created
+        save_source.origin_path = save['reddit_link']
+        reddit_link = f"https://old.reddit.com{save['reddit_link']}"
+        if 'internet_link' in save:
+            save_source.origin_path = save['internet_link']
+            save_source.discussion_path = reddit_link
+        else:
+            save_source.origin_path = reddit_link
+            save_source.discussion_path = reddit_link
+
+        save_source.legacy_order = save['sort_index']
+        save_source.kind_id = default_source_kind.id
+        save_source.legacy_v1_id = save_hash
+        save_source.name = save_title
+        save_source.description="Auto generated source based on reddit saves."
+        save_source.save()
+        message.write.send(
+            source_id=save_source.id,
+            handler='extract_reddit_link'
+        )
         album.sources.add(save_source)
     orm.job_log(job, f"Ensuring all generated sources are in the album {album_slug}")
     album.save()
