@@ -5,7 +5,7 @@ from extract import reddit
 from common import file_cache,orm
 import datetime, json
 
-default_source_kind = SourceKind.objects.get(name="reddit-post")
+default_source_kind = SourceKind.objects.get(name="ripme")
 
 def handle(job, payload):
     source_id = payload['source_id']
@@ -56,7 +56,7 @@ def handle(job, payload):
         save_source.save()
         message.write.send(
             source_id=save_source.id,
-            handler='extract_reddit_link'
+            handler='extract-ripme-link'
         )
         album.sources.add(save_source)
     orm.job_log(job, f"Ensuring all generated sources are in the album {album_slug}")

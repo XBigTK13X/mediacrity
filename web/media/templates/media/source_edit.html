@@ -4,6 +4,12 @@
 
 This is a {{source_kind.name}} source.
 
+<ul>
+  <li>origin_path - <a href="{{source.origin_path}}">{{source.origin_path}}</a></li>
+  <li>discussion_path - <a href="{{source.discussion_path}}">{{source.discussion_path}}</a></li>
+  <li>content_path - <a href="file:///{{source.content_path}}">{{source.content_path}}</a></li>
+</ul>
+
 <br/>
 
 <form action="{% url 'media:source_update' source_id=source.id %}" method="post">
@@ -12,12 +18,6 @@ This is a {{source_kind.name}} source.
 <br/>
 <input name="description" value="{{source.description}}"><label for="description">Description</label>
 <br/>
-<input name="origin_path" value="{{source.origin_path}}"><label for="path"><a href="{{source.origin_path}}">Path or API Key</a></label>
-<br/>
-{% if source_kind.name == "reddit-post" %}
-<input name="discussion_path" value="{{source.discussion_path}}"><label for="dicussion_path"><a href="{{source.discussion_path}}">URL to reddit discussion<a/></label>
-<br/>
-{% endif %}
 <input type="submit" value="Save">
 </form>
 <br/>
@@ -25,5 +25,10 @@ This is a {{source_kind.name}} source.
 {% csrf_token %}
 <input type="submit" value="Sync">
 </form>
+
+{% if job %}
+<br/>
+<a href="{% url 'media:job_status' job_id=job.id %}">Latest related job - {{job_status.name}}</a>
+{% endif %}
 
 {% endblock content %}

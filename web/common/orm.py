@@ -3,7 +3,7 @@ import django
 from django.conf import settings
 
 def job_log(job,message):
-    job.logs = message + '\n' + job.logs
+    job.logs = job.logs + '\n' + message
     job.save()
 
 def connect():

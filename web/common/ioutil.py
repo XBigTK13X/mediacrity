@@ -26,14 +26,17 @@ def path(*targets):
 
 def path_compact(*targets):
 	targets = list(targets)
+	if len(targets) == 1:
+		targets = targets[0].split('/')
 	# Given a path to a cache_id directory, split the path into a/b/abcdef..xyz format
 	last = targets[-1]
-	targets[-1] = last[0]
-	targets.append(last[1])
+	targets[-1] = f"{last[0]}"
+	targets.append(f"{last[1]}")
+	targets.append(f"{last[2]}")
+	targets.append(f"{last[3]}")
 	targets.append(last)
-
+	targets[0] = '/'+targets[0]
 	return path(*targets)
-
 
 def cached(path):
 	return os.path.isfile(path) and settings.FILE_CACHE_ENABLED
