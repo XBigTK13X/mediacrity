@@ -23,15 +23,26 @@ def handle(job, payload):
     images = imgur.download(source)
     for image in images:
         orm.job_log(job, f"Storing image {image['origin_path']} at {image['extract_path']}")
-        Media.objects.create(
-            source_id=source.id,
-            order=image['sort_index'],
-            origin_path=image['origin_path'],
-            extract_path=image['extract_path'],
-            content_hash=image['content_hash']
-        )
+        media = None
+        try:
+            media = Media.objects.get(content_hash=image['content_hash'], source_id=source_id)
+            orm.job_log(job, f"Updating existing media {media.id} - {media.content_hash} - {source_id}")
+        except ObjectDoesNotExist:
+            media = Media.objects.create(
+                source_id=source.id,
+                content_hash=image['content_hash']
+            )
+            orm.job_log(job, f"Creating new media {media.content_hash} - {source_id}")
+        media.order=image['sort_index']
+        media.origin_path=image['origin_path']
+        media.extract_path=image['extract_path']
+        media.save()
 
     orm.job_log(job, "Completed imgur download")
     job_status = JobStatus.objects.get(name="success")
     job.status_id = job_status.id
     job.save()
+    message.write.send(
+        source_id=source.id,
+        handler='transform-media'
+    )

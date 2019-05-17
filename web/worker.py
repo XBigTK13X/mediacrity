@@ -1,3 +1,4 @@
+import traceback
 from common import orm
 orm.connect()
 
@@ -12,6 +13,7 @@ failed_status = JobStatus.objects.get(name="failed")
 def callback(channel, method, properties, body):
     print(f"Message received {body}")
     payload = json.loads(body)
+    errors = False
     if 'handler' in payload:
         job_id = payload['job_id']
         job = Job.objects.get(id=job_id)
@@ -32,9 +34,12 @@ def callback(channel, method, properties, body):
             else:
                 print(f"Unknown handler [{handler}]")
         except Exception as e:
+            errors = True
             job.status_id = failed_status.id
-            orm.job_log(job, f"{e}")
+            orm.job_log(job, f"{e}\n {traceback.format_exc()}")
     else:
         print(f"No handler provided")
+    print(f"Message processed with{'' if errors else ' no'} errors")
+    channel.basic_ack(delivery_tag=method.delivery_tag)
 
 message.read.watch(callback)

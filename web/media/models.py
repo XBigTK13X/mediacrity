@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from common import ioutil
 
 class StorageKind(models.Model):
     name = models.CharField(max_length=128)
@@ -46,6 +47,16 @@ class Media(models.Model):
     order = models.IntegerField(blank=True, null=True)
     thumbnail_path = models.CharField(max_length=1024)
     hidden = models.BooleanField(default=False)
+
+    def extension(self):
+        return ioutil.extension(self.final_path())
+
+    def final_path(self):
+        if self.transform_path != None and self.transform_path != "":
+            return self.transform_path
+        if self.extract_path != None and self.extract_path != "":
+            return self.extract_path
+        return self.origin_path
 
 class Album(models.Model):
     created = models.DateTimeField(auto_now_add=True)

@@ -14,13 +14,21 @@ def job_fail(result, job, error):
         job_status = JobStatus.objects.get(name="failed")
         job.status_id = job_status.id
         job.save()
-        orm.job_log(job, error)
+        job_log(job, error)
         raise Exception(error)
 
 def extract_dir(subdir, hash):
     from media.models import Storage
     storage = Storage.objects.first()
     path = f"{storage.path}/{config.EXTRACT_DIR}/{subdir}/{hash}"
+    path = ioutil.path_compact(path)
+    ioutil.mkdir(path)
+    return path
+
+def transform_dir(subdir, hash):
+    from media.models import Storage
+    storage = Storage.objects.first()
+    path = f"{storage.path}/{config.TRANSFORM_DIR}/{subdir}/{hash}"
     path = ioutil.path_compact(path)
     ioutil.mkdir(path)
     return path

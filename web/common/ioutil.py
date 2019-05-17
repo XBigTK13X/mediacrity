@@ -4,6 +4,7 @@ import hashlib
 import json
 import shutil
 import time
+import pathlib
 
 from web import settings
 
@@ -66,3 +67,6 @@ def get_file(url, local_path):
         shutil.copyfileobj(response.raw, local_file)
     del response
     time.sleep(1)
+
+def extension(path):
+	return pathlib.Path(path).suffix.lower().replace('.','')

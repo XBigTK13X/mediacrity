@@ -163,3 +163,26 @@ FILE_CACHE_ENABLED=True
 EXTRACT_DIR="mediacrity/01-extract"
 TRANSFORM_DIR="mediacrity/02-transform"
 LOAD_DIR="mediacrity/03-load"
+
+MESSAGE_QUEUE='mediacrity'
+
+TRANSFORM_IGNORE_EXTENTIONS = [
+    ".txt",
+    ".json",
+    ".py"
+]
+
+VIDEO_FORMATS = [
+    '3gp',
+    'avi',
+    'flv',
+    'gif',
+    'mkv',
+    'mov',
+    'mp4',
+    'mpg',
+    'webm',
+    'wmv'
+]
+
+SUPPRESS_TRANSCODE_LOGGING=0

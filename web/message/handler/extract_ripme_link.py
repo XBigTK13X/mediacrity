@@ -31,3 +31,7 @@ def handle(job, payload):
     job_status = JobStatus.objects.get(name="success")
     job.status_id = job_status.id
     job.save()
+    message.write.send(
+        source_id=source.id,
+        handler='transform-media'
+    )

@@ -12,7 +12,7 @@ logger = logging.getLogger('debug')
 @login_required
 def list(request):
     context = {
-        'sources': Source.objects.all()
+        'sources': Source.objects.select_related().all()
     }
     return render(request, 'media/source_list.html', context)
 
@@ -35,14 +35,13 @@ def insert(request):
 
 @login_required
 def edit(request, source_id):
-    source = Source.objects.get(id=source_id)
+    source = Source.objects.select_related().get(id=source_id)
     latest_job = Job.objects.filter(source_id=source).order_by('-created').first()
     job_status = None
     if latest_job != None:
         job_status = JobStatus.objects.get(id=latest_job.status_id)
     context = {
         'source': source,
-        'source_kind': SourceKind.objects.get(id=source.kind_id),
         'job': latest_job,
         'job_status': job_status
     }
@@ -68,6 +67,8 @@ def sync(request, source_id):
         handler = 'extract-reddit-saves'
     elif kind.name == "ripme":
         handler = 'extract-ripme-link'
+    elif kind.name == 'imgur':
+        handler = 'extract-imgur-link'
     job_id = message.write.send(
         source_id=source_id,
         handler=handler

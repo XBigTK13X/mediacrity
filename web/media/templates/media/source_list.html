@@ -8,7 +8,7 @@
 
 {% if sources %}
   {% for source in sources %}
-    <a href="{% url 'media:source_edit' source_id=source.id %}">{{ source.name }}</a>
+    <a href="{% url 'media:source_edit' source_id=source.id %}">{{source.id}} - {{source.kind.name}} - {{ source.name }} - {{source.legacy_v1_id}}</a>
     <br/>
   {% endfor %}
 {% else %}
