@@ -25,4 +25,6 @@ else
   SUPPRESS_LOGS=""
 fi
 
-ffmpeg -i "${INPUT_PATH}" -c:v libvpx -crf 12 -b:v 1M -auto-alt-ref 0 "${OUTPUT_PATH}" "${SUPPRESS_LOGS}"
+set -x
+
+ffmpeg -i "${INPUT_PATH}" -c:v libvpx -crf 12 -b:v 1M -auto-alt-ref 0 "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}

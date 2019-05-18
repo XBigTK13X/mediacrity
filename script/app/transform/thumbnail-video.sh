@@ -31,4 +31,4 @@ else
   SUPPRESS_LOGS=""
 fi
 
-ffmpeg -ss $FRAME -i "${INPUT_PATH}" -vframes 1 -filter:v 'yadif,scale=100:100' "${OUTPUT_PATH}" -y "${SUPPRESS_LOGS}"
+ffmpeg -ss $FRAME -i "${INPUT_PATH}" -vframes 1 -filter:v 'yadif,scale=100:100' "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
