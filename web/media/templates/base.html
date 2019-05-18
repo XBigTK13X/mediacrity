@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/mediacrity.css' %}" />
 </head>
 <body>
-  <main>
+  <div class="page-container">
     <a href="{% url 'home' %}">Home</a>
     &nbsp;|&nbsp;
     {% if user.is_authenticated %}
@@ -19,6 +19,6 @@
     <br/>
     {% block content %}
     {% endblock %}
-  </main>
+  </div>
 </body>
 </html>

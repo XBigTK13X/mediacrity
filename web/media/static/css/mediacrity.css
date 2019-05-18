@@ -1,3 +1,189 @@
 input{
   width: 400px;
 }
+
+body {
+  margin: 5px;
+  padding: 5px;
+  font-family: sans-serif;
+}
+
+.fluid-container{
+  display: inline-flex;
+  width: 100px;
+  height: 100px;
+}
+
+@media (min-width: 1000px) {
+  .fluid-container{
+    display: inline-flex;
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.image img{
+    width: 100%;
+    height: 100%;
+}
+
+@media (min-width: 1000px) {
+  .image img{
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.page-container{
+  width: 100%;
+  margin: auto;
+}
+
+.nav-column{
+    width: 10%;
+    float:right;
+    word-break: break-all;
+    margin-right: 1%;
+}
+
+.content-column{
+    float:right;
+    margin-right: 1%;
+    width: 88%
+}
+
+.hidden{
+    display: none;
+}
+
+.media-container{
+
+}
+
+.metadata{
+    overflow: auto;
+}
+
+.media{
+
+}
+
+.clear{
+    clear: both;
+}
+
+img {
+    max-width: 100%;
+    max-height: 800px;
+    display: block;
+    margin: 0 auto;
+
+}
+
+video {
+    max-width: 100%;
+    max-height: 800px;
+    display: block;
+    margin: 0 auto;
+}
+
+.image{
+    /*width:200px;*/
+    /*height:200px;*/
+}
+.overlay{
+    width:100%;
+    height:100%;
+    display:none;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+.overlay div {
+    position:relative;
+    display:inline-block;
+    top:50%;
+    margin:-50% 5px 0 0;
+}
+ul.media {
+    list-style: none;
+    width: 100%;
+}
+ul.media li {
+    position:relative;
+    display:inline-block;
+}
+li .overlay {
+    display:block;
+    margin: 33px;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+li a .overlay{
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.bucket_summary{
+    margin-left: 40px;
+}
+
+.preview-container{
+    position: relative;
+    text-align: center;
+    margin: 0px 2px;
+}
+
+.top-overlay {
+    position: absolute;
+    top: 15%;
+    left: 33%;
+    transform: translate(-50%, -50%);
+    color:white;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+    text-align:left;
+    font-size: .7em;
+}
+
+.bottom-overlay {
+    position: absolute;
+    top: 75%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    color:white;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+    text-align: right;
+    font-size: .7em;
+}
+
+.json-pretty {
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  width: 60%;
+}
+
+.nav-button{
+  max-width: 90%;
+  margin: auto;
+}
+
+.nav-button button {
+  margin: 5px 5px;
+}
+
+.meta-block{
+}
+
+.search-form form {
+
+}
+
+.search-form input {
+  margin: 1em 1em;
+  height: 2em;
+  width: 50%;
+}

@@ -14,10 +14,10 @@ def reddit_api(source):
 
 def get_saves(source):
     username, password = source.origin_path.split('<->')
-    saves_cache_path = ioutil.path(settings.REDDIT_SAVES_DIR, f"{username}.json")
+    #saves_cache_path = ioutil.path(settings.REDDIT_SAVES_DIR, f"{username}.json")
 
-    if ioutil.cached(saves_cache_path):
-        return ioutil.read_json(saves_cache_path)
+    #if ioutil.cached(saves_cache_path):
+    #    return ioutil.read_json(saves_cache_path)
 
     reddit = reddit_api(source)
     saved = reddit.user.me().saved(limit=settings.REDDIT_SAVE_READ_LIMIT)
@@ -44,6 +44,6 @@ def get_saves(source):
         result['reddit_index'] = result['sort_index']
         results[post_id] = result
 
-    ioutil.write_json(saves_cache_path, results)
+    #ioutil.write_json(saves_cache_path, results)
 
     return results

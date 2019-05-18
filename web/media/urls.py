@@ -1,20 +1,23 @@
 from django.urls import path
 
-from .views import storage
-from .views import source
+from .views import media
 from .views import job
+from .views import source
+from .views import storage
 
 app_name='media'
 
 urlpatterns = [
+    path('job/<int:job_id>', job.status, name='job_status'),
+
+    path('media/<int:media_id>', media.view, name='media_view'),
+
     path('source/list', source.list, name='source_list'),
     path('source/add', source.add, name='source_add'),
     path('source/insert', source.insert, name='source_insert'),
     path('source/<int:source_id>/update', source.update, name='source_update'),
     path('source/<int:source_id>/edit', source.edit, name='source_edit'),
     path('source/<int:source_id>/sync', source.sync, name='source_sync'),
-
-    path('job/<int:job_id>', job.status, name='job_status'),
 
     path('storage/list', storage.list, name='storage_list'),
     path('storage/add', storage.add, name='storage_add'),

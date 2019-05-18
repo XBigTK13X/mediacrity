@@ -16,7 +16,7 @@ def generate(job, source, media):
     media.thumbnail_path = get_path(source, media)
     media.save()
     if not ioutil.cached(media.thumbnail_path):
-        input_path = media.final_path()
+        input_path = media.server_path
         output_path = media.thumbnail_path
         if ioutil.cached(output_path):
             return output_path

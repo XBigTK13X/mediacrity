@@ -1,0 +1,14 @@
+{% load static %}
+<div className="media-container">
+  {% if media.extension == 'mp4' %}
+    <video controls autoPlay className="media">
+      <source src={% static media.web_content_path %} type="video/mp4"/>
+    </video>
+  {% elif media.extension == 'webm' %}
+    <video controls autoPlay className="media">
+      <source src={% static media.web_content_path %} type="video/mp4"/>
+    </video>
+  {% else %}
+    <img className="media" src={% static media.web_content_path %} alt="{{media.content_hash}}" />
+  {% endif %}
+</div>

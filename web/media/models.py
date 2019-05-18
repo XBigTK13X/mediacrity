@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from common import ioutil
+from web import settings
 
 class StorageKind(models.Model):
     name = models.CharField(max_length=128)
@@ -47,16 +48,32 @@ class Media(models.Model):
     order = models.IntegerField(blank=True, null=True)
     thumbnail_path = models.CharField(max_length=1024)
     hidden = models.BooleanField(default=False)
+    byte_size = models.IntegerField(blank=True, null=True)
 
+    @property
     def extension(self):
-        return ioutil.extension(self.final_path())
+        return ioutil.extension(self.server_path)
 
-    def final_path(self):
+    @property
+    def server_path(self):
         if self.transform_path != None and self.transform_path != "":
             return self.transform_path
         if self.extract_path != None and self.extract_path != "":
             return self.extract_path
         return self.origin_path
+
+    @property
+    def web_content_path(self):
+        path = self.server_path
+        for dir in settings.STATICFILES_DIRS:
+            path = path.replace(dir,'')
+        return path
+
+    def web_thumbnail_path(self):
+        path = self.thumbnail_path
+        for dir in settings.STATICFILES_DIRS:
+            path = path.replace(dir,'')
+        return path
 
 class Album(models.Model):
     created = models.DateTimeField(auto_now_add=True)

@@ -1,0 +1,15 @@
+{% load static %}
+<div className="fluid-container">
+  <a href="{% url 'media:media_view' media_id=media.id %}">
+      <div className="preview-container">
+        <div className="image">
+          <img src={% static media.web_thumbnail_path %} alt="{{media.content_hash}}" title="{{media.content_hash}}" />
+        </div>
+        {% if media.extension == 'mp4' %}
+          <div className="top-overlay">VIDEO</div>
+        {% elif media.extension == 'webm' %}
+          <div className="top-overlay">WEBM</div>
+        {% endif %}
+      </div>
+  </a>
+</div>

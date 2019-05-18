@@ -13,7 +13,6 @@ def status(request, job_id):
     job = Job.objects.select_related().get(id=job_id)
     job_logs = job.logs.replace('\\n','\n').split('\n')
     time_elapsed = job.updated - job.created
-    print(time_elapsed)
     context = {
         'job': job,
         'job_logs': job_logs,

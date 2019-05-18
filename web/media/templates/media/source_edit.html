@@ -28,7 +28,19 @@ This is a {{source.kind.name}} source.
 
 {% if job %}
 <br/>
-<a href="{% url 'media:job_status' job_id=job.id %}">Latest related job - {{job_status.name}}</a>
+<a href="{% url 'media:job_status' job_id=job.id %}">Latest related job - {{job.status.name}}</a>
+{% endif %}
+<br/>
+{% if media %}
+  {% for item in media %}
+    <div>
+      <div key={index} className="fluid-container">
+        {% include "media/comp/media_preview.html" with media=item only %}
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+No media found for this source. Try running a sync.
 {% endif %}
 
 {% endblock content %}

@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from media.models import Source, SourceKind, Storage, StorageKind, Job, JobStatus
+from media.models import Source, SourceKind, Storage, StorageKind, Job, JobStatus, Media
 import logging
 import message.write
 
@@ -36,14 +36,12 @@ def insert(request):
 @login_required
 def edit(request, source_id):
     source = Source.objects.select_related().get(id=source_id)
-    latest_job = Job.objects.filter(source_id=source).order_by('-created').first()
-    job_status = None
-    if latest_job != None:
-        job_status = JobStatus.objects.get(id=latest_job.status_id)
+    latest_job = Job.objects.select_related().filter(source_id=source).order_by('-created').first()
+    media = Media.objects.filter(source_id=source).order_by('created')
     context = {
         'source': source,
         'job': latest_job,
-        'job_status': job_status
+        'media': media
     }
     return render(request, 'media/source_edit.html', context)
 

@@ -45,12 +45,14 @@ def handle(job, payload):
                 if media.extract_path != extract_path:
                     media.extract_path = extract_path
                     media.save()
-                if transcode.is_video(media.extract_path) and media.extension() != 'webm':
+                if transcode.is_video(media.extract_path) and media.extension != 'webm':
                     transform_dir = orm.transform_dir(source.kind.name, source.legacy_v1_id)
                     transform_path = ioutil.path(transform_dir, f"{media.content_hash}.mp4")
                     if not ioutil.cached(transform_path):
                         media.transform_path = transcode.video(job, media.extract_path, transform_path)
                         media.save()
+                media.byte_size = os.path.getsize(media.server_path)
+                media.save()
                 thumbnail.generate(job, source, media)
 
     job_status = JobStatus.objects.get(name="success")
