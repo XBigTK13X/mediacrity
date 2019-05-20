@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from media.models import Source, SourceKind, Storage, StorageKind, Job, JobStatus, Album
+from media.models import *
 import message.write
 from extract import reddit
 from common import file_cache,orm
@@ -7,6 +7,8 @@ import datetime, json
 
 ripme_source_kind = SourceKind.objects.get(name="ripme")
 imgur_source_kind = SourceKind.objects.get(name="imgur")
+reddit_post_source_kind = SourceKind.objects.get(name="reddit-post")
+youtube_dl_source_kind = SourceKind.objects.get(name="youtube-dl")
 
 def handle(job, payload):
     source_id = payload['source_id']
@@ -57,9 +59,18 @@ def handle(job, payload):
         save_source.kind_id = ripme_source_kind.id
 
         handler = 'extract-ripme-link'
+
         if 'imgur' in save_source.origin_path:
             handler = 'extract-imgur-link'
             save_source.kind_id = imgur_source_kind.id
+
+        if 'i.redd.it' in save_source.origin_path:
+            handler = 'extract-reddit-post'
+            save_source.kind_id = reddit_post_source_kind.id
+
+        if 'pornhub' in save_source.origin_path:
+            handler = 'extract-youtube-dl-link'
+            save_source.kind_id = youtube_dl_source_kind.id
 
         save_source.legacy_order = save['sort_index']
         save_source.legacy_v1_id = save_hash

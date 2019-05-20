@@ -40,7 +40,7 @@ def video(job, input_path, output_path):
     script_path = f"{settings.SCRIPT_DIR}/transform/thumbnail-video.sh"
     cwd =  f"{settings.SCRIPT_DIR}/transform"
     while fail_safe > 0:
-        command = f"{script_path} {frame} {input_path} {temp_path} {settings.SUPPRESS_TRANSCODE_LOGGING}"
+        command = f"{script_path} {frame} '{input_path}' '{temp_path}' {settings.SUPPRESS_TRANSCODE_LOGGING}"
         orm.job_log(job, f"Running command {command}")
         process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout,stderr = process.communicate()
@@ -63,7 +63,7 @@ def video(job, input_path, output_path):
 def image(job, input_path, output_path):
     script_path = f"{settings.SCRIPT_DIR}/transform/thumbnail-image.sh"
     cwd =  f"{settings.SCRIPT_DIR}/transform"
-    command = f"{script_path} {input_path} {output_path}"
+    command = f"{script_path} '{input_path}' '{output_path}'"
     orm.job_log(job, f"Running command {command}")
     process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout,stderr = process.communicate()

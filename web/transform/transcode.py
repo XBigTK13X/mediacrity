@@ -11,14 +11,16 @@ def is_video(path):
     return ioutil.extension(path) in settings.VIDEO_FORMATS
 
 def has_audio(input_path):
-    command = f"ffprobe -v error -show_format -show_streams {input_path} | grep -q audio"
+    command = f"ffprobe -v error -show_format -show_streams '{input_path}' | grep -q audio"
     process = subprocess.Popen(command, shell=True, cwd=os.getcwd())
     return process.wait() == 0
 
 
 def video(job, input_path, output_path):
+    print("Transcoding video")
     extension = ioutil.extension(input_path)
     if not has_audio(input_path):
+        print("No audio found")
         if extension == 'webm':
             return input_path
         output_path = output_path.replace('.mp4','.webm')
@@ -38,7 +40,7 @@ def video(job, input_path, output_path):
 def animate(job, input_path, output_path):
     script_path = f"{settings.SCRIPT_DIR}/transform/transcode-animation.sh"
     cwd =  f"{settings.SCRIPT_DIR}/transform"
-    command = f"{script_path} {input_path} {output_path} {settings.SUPPRESS_TRANSCODE_LOGGING}"
+    command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING}"
     orm.job_log(job, f"Running command {command}")
     process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout,stderr = process.communicate()
@@ -57,7 +59,7 @@ def ffmpeg(job, input_path, output_path, log=False):
     if not '.mpg' in input_path and not '.avi' in input_path:
         script_path = f"{settings.SCRIPT_DIR}/transform/transcode-video.sh"
         cwd =  f"{settings.SCRIPT_DIR}/transform"
-        command = f"{script_path} {input_path} {output_path} {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode}"
+        command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode}"
         orm.job_log(job, f"Running command {command}")
         process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout,stderr = process.communicate()
@@ -71,7 +73,7 @@ def ffmpeg(job, input_path, output_path, log=False):
 
     if result != 0:
         fallback_mode = 1
-        command = f"{script_path} {input_path} {output_path} {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode}"
+        command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode}"
         orm.job_log(job, f"Running command {command}")
         process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout,stderr = process.communicate()

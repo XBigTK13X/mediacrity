@@ -33,18 +33,18 @@ export default class MediaPreview extends Component{
   }
 }
 
-<div className="fluid-container">
+<div class="fluid-container">
   <a href="{% url 'media:source_sync' source_id=source.id %}"
   <UISref to={this.props.source?'source':'media'} params={this.props.source?{sourceId: this.props.source.hash_id}:{mediaId: this.props.media.media_id}}>
     <a>
-      <div className="preview-container">
-        <div className="image">
+      <div class="preview-container">
+        <div class="image">
           {% include "media/comp/placeholder" %}<Placeholder mediaId={this.props.media.media_id}>
             <img src={`/${this.props.media.thumbnail_path}`} alt={hover} title={hover} />
           </Placeholder>
         </div>
-        {overlay?<div className="top-overlay">{overlay}</div>:null}
-        <div className="bottom-overlay">
+        {overlay?<div class="top-overlay">{overlay}</div>:null}
+        <div class="bottom-overlay">
         <FileSize source={this.props.source} media={this.props.media} />
         </div>
       </div>

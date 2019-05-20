@@ -24,6 +24,8 @@ def handle(job, payload):
         raise Exception(error)
     else:
         for root, dirs, files in os.walk(source.content_path):
+            if len(files) == 0:
+                orm.job_log(job, f"No files found at {source.content_path}")
             for file in files:
                 extract_path = ioutil.path(root, file)
                 extension = ioutil.extension(extract_path)
@@ -45,7 +47,7 @@ def handle(job, payload):
                 if media.extract_path != extract_path:
                     media.extract_path = extract_path
                     media.save()
-                if transcode.is_video(media.extract_path) and media.extension != 'webm':
+                if transcode.is_video(media.extract_path) and ioutil.extension(media.extract_path) != 'webm':
                     transform_dir = orm.transform_dir(source.kind.name, source.legacy_v1_id)
                     transform_path = ioutil.path(transform_dir, f"{media.content_hash}.mp4")
                     if not ioutil.cached(transform_path):

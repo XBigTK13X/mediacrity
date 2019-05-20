@@ -59,6 +59,7 @@ class Media(models.Model):
         if self.transform_path != None and self.transform_path != "":
             return self.transform_path
         if self.extract_path != None and self.extract_path != "":
+            print(f"Found server_path {self.extract_path}")
             return self.extract_path
         return self.origin_path
 

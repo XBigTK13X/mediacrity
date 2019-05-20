@@ -17,7 +17,11 @@
       &nbsp;|&nbsp;
       <a href="{% url 'media:source_list' %}"> Sources </a>
       &nbsp;|&nbsp;
+      <a href="{% url 'media:media_list' %}"> Media </a>
+      &nbsp;|&nbsp;
       <a href="{% url 'media:job_list' %}"> Jobs </a>
+      &nbsp;|&nbsp;
+      <a href="{% url 'media:media_random' %}"> Random </a>
       <br/>
       <form action="{% url 'media:search_query' %}" method="post">
       {% csrf_token %}

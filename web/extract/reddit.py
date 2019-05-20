@@ -1,6 +1,6 @@
 import json, os, praw
 from web import settings
-from common import ioutil
+from common import ioutil, file_cache, orm
 
 def reddit_api(source):
     username, password = source.origin_path.split('<->')
@@ -47,3 +47,17 @@ def get_saves(source):
     #ioutil.write_json(saves_cache_path, results)
 
     return results
+
+def get_media(source):
+    extract_dir = orm.extract_dir('reddit', source.legacy_v1_id)
+    file_name = source.origin_path.split('/')[-1]
+
+    extract_path = os.path.join(extract_dir, file_name)
+
+    if not ioutil.cached(extract_path):
+        ioutil.get_file(source.origin_path, extract_path)
+
+    return {
+        'extract_path': extract_path,
+        'content_hash': file_cache.content_hash(extract_path)
+    }

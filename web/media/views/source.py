@@ -76,6 +76,10 @@ def sync(request, source_id):
         handler = 'extract-ripme-link'
     elif kind.name == 'imgur':
         handler = 'extract-imgur-link'
+    elif kind.name == 'reddit-post':
+        handler = 'extract-reddit-post'
+    elif kind.name == 'youtube-dl':
+        handler = 'extract-youtube-dl-link'
     job_id = message.write.send(
         source_id=source_id,
         handler=handler

@@ -1,7 +1,5 @@
 #! /bin/bash
 
-set -x
-
 RIPS_DIR=$1
 URL=$2
 

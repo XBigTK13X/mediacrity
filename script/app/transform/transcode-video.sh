@@ -32,7 +32,7 @@ else
 fi
 
 if [ ${FALLBACK_MODE} -eq 0 ]; then
-  ffmpeg -i "${INPUT_PATH}" -movflags faststart -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -acodec copy "${OUTPUT_PATH}" -y "${SUPPRESS_LOGS}"
+  ffmpeg -i "${INPUT_PATH}" -movflags faststart -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -acodec copy "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
 else
   ffmpeg -i "${INPUT_PATH}" -movflags faststart -strict -2 "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
 fi

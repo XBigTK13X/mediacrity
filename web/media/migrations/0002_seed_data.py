@@ -22,7 +22,11 @@ def create_source_kinds(apps, schema_editor):
         },
         {
             'name': 'ripme',
-            'description': 'URL to be handled by download utility.'
+            'description': 'URL to be handled by ripme download utility.'
+        },
+        {
+            'name': 'youtube-dl',
+            'description': 'URL to be handled by youtube-dl download utility.'
         }
     ]
 

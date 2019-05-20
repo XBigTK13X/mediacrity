@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Source Edit{% endblock %}
+{% block content %}
+
+{% if media %}
+<br/>
+Found {{media.count}} media.
+<br/>
+  <div>
+  {% for item in media %}
+      <div key={index} class="fluid-container">
+        {% include "media/comp/media_preview.html" with media=item only %}
+      </div>
+  {% endfor %}
+  </div>
+{% else %}
+No media found. Try syncing some sources.
+{% endif %}
+
+
+{% endblock content %}
