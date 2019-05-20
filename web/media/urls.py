@@ -18,6 +18,7 @@ urlpatterns = [
     path('search/<str:query>', search.results, name='search_results'),
 
     path('source/list', source.list, name='source_list'),
+    path('source/list/<str:mode>', source.list, name='source_list'),
     path('source/add', source.add, name='source_add'),
     path('source/insert', source.insert, name='source_insert'),
     path('source/<int:source_id>/update', source.update, name='source_update'),

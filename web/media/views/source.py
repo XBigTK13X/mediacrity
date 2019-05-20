@@ -3,16 +3,25 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from media.models import Source, SourceKind, Storage, StorageKind, Job, JobStatus, Media
+from media.models import *
+from django.db.models import Count
 import logging
 import message.write
 
 logger = logging.getLogger('debug')
 
 @login_required
-def list(request):
+def list(request, mode="populated"):
+    sources = None
+    if mode == 'all':
+        sources = Source.objects
+    elif mode == 'empty':
+        sources = Source.objects.filter(media__source__isnull=True)
+    else:
+        sources = Source.objects.filter(media__source__isnull=False)
     context = {
-        'sources': Source.objects.select_related().all()
+        'sources': sources.select_related().annotate(media_count=Count('id')).order_by('id').all(),
+        'mode': mode
     }
     return render(request, 'media/source_list.html', context)
 

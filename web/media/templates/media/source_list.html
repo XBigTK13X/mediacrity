@@ -2,11 +2,18 @@
 {% block title %}Sources{% endblock %}
 {% block content %}
 <a href="{% url 'media:source_add' %}">Create a new source</a>
-
+&nbsp;|&nbsp;
+<a href="{% url 'media:source_list' mode='populated' %}">Populated Sources</a>
+&nbsp;|&nbsp;
+<a href="{% url 'media:source_list' mode='empty' %}">Empty Sources</a>
+&nbsp;|&nbsp;
+<a href="{% url 'media:source_list' mode='all' %}">All Sources</a>
 <br/>
 <br/>
 
 {% if sources %}
+Found {{sources.count}} {{mode}} sources.
+<br/><br/>
   {% for source in sources %}
     <a href="{% url 'media:source_edit' source_id=source.id %}">{{source.id}} - {{source.kind.name}} - {{ source.name }} - {{source.legacy_v1_id}}</a>
     <br/>
