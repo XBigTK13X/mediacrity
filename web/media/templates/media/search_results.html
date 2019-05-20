@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Job Status{% endblock %}
+{% block content %}
+
+{% if media %}
+  Found {{media.count}} media.
+  <ul>
+  {% for item in media %}
+  <li><a href="{% url 'media:media_view' media_id=item.id %}">{{media.id}} - {{item.content_hash}} - {{item.origin_path}}</a></li>
+  {% endfor %}
+  </ul>
+{% else %}
+  No media found.
+{% endif %}
+
+<br/>
+{% if sources %}
+  Found {{sources.count}} sources.
+  <ul>
+  {% for source in sources %}
+    <li><a href="{% url 'media:source_edit' source_id=source.id %}">{{source.id}} - {{source.name}} - {{source.legacy_v1_id}} - {{source.origin_path}}</a></li>
+  {% endfor %}
+  </ul>
+{% else %}
+  No sources found.
+{% endif %}
+
+<br/>
+{% if jobs %}
+  Found {{jobs.count}} jobs.
+  <ul>
+  {% for job in jobs %}
+    <li><a href="{% url 'media:job_status' job_id=job.id %}">{{job.id}} - {{job.media_id}} - {{job.source_id}} - {{job.status_id}}</a></li>
+  {% endfor %}
+  </ul>
+{% else %}
+  No jobs found.
+{% endif %}
+
+{% endblock content %}

@@ -61,7 +61,6 @@ def video(job, input_path, output_path):
         fail_safe -= 1
 
 def image(job, input_path, output_path):
-    print(f"Thumbnailing image {input_path}")
     script_path = f"{settings.SCRIPT_DIR}/transform/thumbnail-image.sh"
     cwd =  f"{settings.SCRIPT_DIR}/transform"
     command = f"{script_path} {input_path} {output_path}"

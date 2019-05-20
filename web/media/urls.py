@@ -2,6 +2,7 @@ from django.urls import path
 
 from .views import media
 from .views import job
+from .views import search
 from .views import source
 from .views import storage
 
@@ -9,8 +10,12 @@ app_name='media'
 
 urlpatterns = [
     path('job/<int:job_id>', job.status, name='job_status'),
+    path('job/list', job.list, name='job_list'),
 
     path('media/<int:media_id>', media.view, name='media_view'),
+
+    path('search', search.find, name='search_query'),
+    path('search/<str:query>', search.results, name='search_results'),
 
     path('source/list', source.list, name='source_list'),
     path('source/add', source.add, name='source_add'),

@@ -31,7 +31,8 @@ def handle(job, payload):
     job_status = JobStatus.objects.get(name="success")
     job.status_id = job_status.id
     job.save()
-    message.write.send(
+    child_job_id = message.write.send(
         source_id=source.id,
         handler='transform-media'
     )
+    orm.job_log(job, f"Created child job {child_job_id}")

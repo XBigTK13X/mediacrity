@@ -11,7 +11,7 @@ default_status = JobStatus.objects.get(name="running")
 failed_status = JobStatus.objects.get(name="failed")
 
 def callback(channel, method, properties, body):
-    print(f"Message received {body}")
+    print(f"Message received {body}. {message.read.count()} messages remain in queue.")
     payload = json.loads(body)
     errors = False
     if 'handler' in payload:
@@ -42,4 +42,8 @@ def callback(channel, method, properties, body):
     print(f"Message processed with{'' if errors else ' no'} errors")
     channel.basic_ack(delivery_tag=method.delivery_tag)
 
-message.read.watch(callback)
+while True:
+    try:
+        message.read.watch(callback)
+    except Exception as e:
+        print(f"An exception occurred while processing messages.\n{traceback.format_exc()}")

@@ -4,10 +4,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  <br/>
-  <a href="{% url 'media:storage_list' %}"> Manage storage </a>
-  <br/>
-  <a href="{% url 'media:source_list' %}"> Manage sources </a>
+  <p>Use the links at the top. Maybe something useful will be here someday.</p>
 {% else %}
   <p>You are not logged in</p>
 {% endif %}

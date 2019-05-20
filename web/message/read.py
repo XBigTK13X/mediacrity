@@ -15,3 +15,16 @@ def watch(callback):
 
     print('Waiting for messages.')
     channel.start_consuming()
+
+def count():
+    connection, channel = message.connect.create()
+    queue = channel.queue_declare(
+        queue=settings.MESSAGE_QUEUE,
+        durable=True,
+        exclusive=False,
+        auto_delete=False
+    )
+
+    result = queue.method.message_count
+    connection.close()
+    return result

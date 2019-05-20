@@ -105,5 +105,5 @@ class Job(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.ForeignKey(JobStatus, on_delete=models.CASCADE)
     logs = models.TextField()
-    source_id = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
-    media_id = models.ForeignKey(Media, on_delete=models.CASCADE, blank=True, null=True)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
+    media = models.ForeignKey(Media, on_delete=models.CASCADE, blank=True, null=True)
