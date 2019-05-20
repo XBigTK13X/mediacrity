@@ -1,0 +1,18 @@
+version: '3'
+services:
+  web:
+    image: "mediacrity/mediacrity"
+    ports:
+      - "8000:8000"
+      depends_on:
+        - "db"
+        - "message"
+  worker:
+    image: "mediacrity/mediacrity"
+    depends_on:
+      - "db"
+      - "message"
+  message:
+    image: "rabbitmq:3-management"
+  db:
+    image: "postgres"

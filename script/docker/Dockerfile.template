@@ -1,0 +1,31 @@
+FROM ubuntu:18.04
+
+RUN apt-get update -y
+
+RUN apt-get install -y curl sudo wget gnupg2
+
+RUN apt-get install -y python3 ffmpeg default-jre
+
+RUN apt-get install -y python3-pip
+
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+RUN ln -s /usr/bin/pip3 /usr/bin/pip
+
+ADD script/docker/entrypoint.sh /root/script/docker-entrypoint.sh
+
+ADD script/docker/launch.sh /root/script/launch.sh
+
+RUN chmod +x /root/script/*.sh
+
+ADD ./ /mediacrity
+
+WORKDIR /mediacrity
+
+RUN pip install -r requirements.txt
+
+VOLUME [ "/mediacrity/log", "/mediacrity/config"]
+
+ENTRYPOINT [ "/root/script/docker-entrypoint.sh" ]
+
+CMD [ "/bin/bash","-c","/root/script/launch.sh" ]
