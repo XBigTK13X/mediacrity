@@ -54,9 +54,27 @@ def handle(job, payload):
                         media.transform_path = transcode.video(job, media.extract_path, transform_path)
                         media.save()
                 media.byte_size = os.path.getsize(media.server_path)
+                determine_order(media, file)
                 media.save()
                 thumbnail.generate(job, source, media)
 
     job_status = JobStatus.objects.get(name="success")
     job.status_id = job_status.id
     job.save()
+
+def determine_order(media, file):
+    sort_index = 0
+    if '-' in file:
+        first_part = file.split('-')[0]
+        try:
+            sort_index = int(first_part)
+            media.sort_order = sort_index
+        except:
+            swallow = True
+    if '_' in file:
+        first_part = file.split('_')[0]
+        try:
+            sort_index = int(first_part)
+            media.sort_order = sort_index
+        except:
+            swallow = True

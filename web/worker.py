@@ -4,6 +4,8 @@ orm.connect()
 
 import json
 import message.read
+from message.handler import extract_file_system_root
+from message.handler import extract_file_system_directory
 from message.handler import extract_reddit_saves
 from message.handler import extract_imgur_link
 from message.handler import extract_ripme_link
@@ -30,6 +32,10 @@ def callback(channel, method, properties, body):
             handler = payload['handler']
             if handler == 'extract-reddit-saves':
                 extract_reddit_saves.handle(job, payload)
+            elif handler == 'extract-file-system-root':
+                extract_file_system_root.handle(job, payload)
+            elif handler == 'extract-file-system-directory':
+                extract_file_system_directory.handle(job, payload)
             elif handler == 'extract-imgur-link':
                 extract_imgur_link.handle(job, payload)
             elif handler == 'extract-reddit-post':

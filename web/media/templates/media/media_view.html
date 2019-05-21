@@ -3,7 +3,15 @@
 {% block title %}Job Status{% endblock %}
 {% block content %}
 
-<a href="{% url 'media:source_edit' source_id=media.source_id%}">Source</a>
+<a href="{% url 'media:source_edit' source_id=media.source_id %}">Source</a>
+{% if prev_media %}
+&nbsp;|&nbsp;
+<a href="{% url 'media:media_view' media_id=prev_media.id %}">Prev</a>
+{% endif %}
+{% if next_media %}
+&nbsp;|&nbsp;
+<a href="{% url 'media:media_view' media_id=next_media.id %}">Next</a>
+{% endif %}
 
 <div class="media-container">
   {% if media.extension == 'mp4' %}
@@ -18,5 +26,9 @@
     <img class="media" src={% static media.web_content_path %} alt="{{media.content_hash}}" />
   {% endif %}
 </div>
+
+<br/>
+
+Extract Path: {{media.extract_path}}
 
 {% endblock content %}

@@ -45,7 +45,7 @@ class Media(models.Model):
     transform_path = models.CharField(max_length=1024)
     load_path = models.CharField(max_length=1024)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
-    order = models.IntegerField(blank=True, null=True)
+    sort_order = models.IntegerField(blank=True, null=True)
     thumbnail_path = models.CharField(max_length=1024)
     hidden = models.BooleanField(default=False)
     byte_size = models.IntegerField(blank=True, null=True)
@@ -59,7 +59,6 @@ class Media(models.Model):
         if self.transform_path != None and self.transform_path != "":
             return self.transform_path
         if self.extract_path != None and self.extract_path != "":
-            print(f"Found server_path {self.extract_path}")
             return self.extract_path
         return self.origin_path
 

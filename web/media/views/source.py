@@ -46,7 +46,7 @@ def insert(request):
 def edit(request, source_id):
     source = Source.objects.select_related().get(id=source_id)
     jobs = Job.objects.select_related().filter(source_id=source).order_by('-created')
-    media = Media.objects.filter(source_id=source).order_by('created')
+    media = Media.objects.filter(source_id=source).order_by('sort_order')
     context = {
         'source': source,
         'jobs': jobs,
@@ -80,8 +80,19 @@ def sync(request, source_id):
         handler = 'extract-reddit-post'
     elif kind.name == 'youtube-dl':
         handler = 'extract-youtube-dl-link'
+    elif kind.name == 'file-system-root':
+        handler = 'extract-file-system-root'
+    elif kind.name == 'file-system-directory':
+        handler = 'extract-file-system-directory'
     job_id = message.write.send(
         source_id=source_id,
         handler=handler
     )
     return HttpResponseRedirect(reverse('media:job_status', args=(job_id,)))
+
+@login_required
+def delete(request, source_id):
+    if source_id == None:
+        raise "A source id must be provided"
+    Source.objects.filter(id=source_id).delete()
+    return HttpResponseRedirect(reverse('media:source_list'))

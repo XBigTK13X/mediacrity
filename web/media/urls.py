@@ -23,6 +23,7 @@ urlpatterns = [
     path('source/list/<str:mode>', source.list, name='source_list'),
     path('source/add', source.add, name='source_add'),
     path('source/insert', source.insert, name='source_insert'),
+    path('source/<int:source_id>/delete', source.delete, name='source_delete'),
     path('source/<int:source_id>/update', source.update, name='source_update'),
     path('source/<int:source_id>/edit', source.edit, name='source_edit'),
     path('source/<int:source_id>/sync', source.sync, name='source_sync'),

@@ -16,8 +16,24 @@ def random(request):
 @login_required
 def view(request, media_id):
     media = Media.objects.select_related().get(id=media_id)
+    source_media = Media.objects.filter(source_id=media.source_id).order_by('sort_order')
+    next_media = None
+    prev_media = None
+    for index, item in enumerate(source_media):
+        if item.id == media.id:
+            try:
+                next_media = source_media[index + 1]
+            except:
+                next_media = source_media.first()
+            try:
+                prev_media = source_media[index - 1]
+            except:
+                prev_media = source_media.last()
+            break
     context = {
-        'media': media
+        'media': media,
+        'next_media': next_media,
+        'prev_media': prev_media
     }
     return render(request, 'media/media_view.html', context)
 

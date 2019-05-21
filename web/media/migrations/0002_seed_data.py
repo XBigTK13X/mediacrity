@@ -13,7 +13,7 @@ def create_source_kinds(apps, schema_editor):
             'description': 'An imgur album or direct image link to download.'
         },
         {
-            'name': 'file-system',
+            'name': 'file-system-root',
             'description': 'A path to a local directory to import.'
         },
         {
@@ -27,6 +27,10 @@ def create_source_kinds(apps, schema_editor):
         {
             'name': 'youtube-dl',
             'description': 'URL to be handled by youtube-dl download utility.'
+        },
+        {
+            'name': 'file-system-directory',
+            'description': 'Not intended to be used when manually adding a source.'
         }
     ]
 

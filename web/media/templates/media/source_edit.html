@@ -48,4 +48,11 @@ Jobs
 <a href="{% url 'media:job_status' job_id=job.id %}">Job {{job.id}} - {{job.status.name}} - {{job.completed}}</a>
 {% endfor %}
 {% endif %}
+<br/>
+<br/>
+<form action="{% url 'media:source_delete' source_id=source.id %}" method="post">
+{% csrf_token %}
+<input type="submit" value="Delete">
+</form>
+<br/>
 {% endblock content %}

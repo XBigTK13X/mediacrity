@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from media.models import Source, SourceKind, Storage, StorageKind, Job, JobStatus, Album
+from media.models import *
 from extract import reddit
 from common import file_cache, orm, ioutil
 import message.write
@@ -13,6 +13,12 @@ def handle(job, payload):
     job.source_id = source
     print(f"Tracking progress in job {job.id} for source {source_id}")
     orm.job_log(job,f"Beginning extract of URL using ripme for {source.name}.")
+
+    if source.legacy_v1_id == None or source.legacy_v1_id == "":
+        source_slug = source.origin_path
+        source_hash = file_cache.hash(source_slug)
+        source.legacy_v1_id = source_hash
+        source.save()
 
     script_path = f"{settings.SCRIPT_DIR}/ripme/ripme.sh"
     cwd =  f"{settings.SCRIPT_DIR}/ripme"
