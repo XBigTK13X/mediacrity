@@ -26,6 +26,7 @@ def handle(job, payload):
         for root, dirs, files in os.walk(source.content_path):
             if len(files) == 0:
                 orm.job_log(job, f"No files found at {source.content_path}")
+                break
             for file in files:
                 extract_path = ioutil.path(root, file)
                 extension = ioutil.extension(extract_path)

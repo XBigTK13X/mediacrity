@@ -11,7 +11,7 @@ from ..models import Job, JobStatus
 import message.read
 
 @login_required
-def status(request, job_id):
+def view(request, job_id):
     job = Job.objects.select_related().get(id=job_id)
     job_logs = job.logs.replace('\\n','\n').split('\n')
     time_elapsed = job.updated - job.created
@@ -20,7 +20,7 @@ def status(request, job_id):
         'job_logs': job_logs,
         'time_elapsed': time_elapsed
     }
-    return render(request, 'media/job_status.html', context)
+    return render(request, 'media/job_view.html', context)
 
 @login_required
 def list(request):

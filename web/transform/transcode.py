@@ -17,10 +17,8 @@ def has_audio(input_path):
 
 
 def video(job, input_path, output_path):
-    print("Transcoding video")
     extension = ioutil.extension(input_path)
     if not has_audio(input_path):
-        print("No audio found")
         if extension == 'webm':
             return input_path
         output_path = output_path.replace('.mp4','.webm')

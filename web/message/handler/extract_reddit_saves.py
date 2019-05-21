@@ -24,6 +24,10 @@ def handle(job, payload):
     except ObjectDoesNotExist:
         album = Album.objects.create(name=album_slug)
         orm.job_log(job, f"Creating new reddit saves album {album_slug}")
+    source.legacy_v1_id = file_cache.hash(album_slug)
+    source.save()
+    album.generated_by_source_v1_id = source.legacy_v1_id
+    album.save()
     saves = reddit.get_saves(source)
     orm.job_log(job, f"Retrieved saves for {source.name}")
     for key, save in saves.items():
@@ -36,16 +40,12 @@ def handle(job, payload):
         save_created = datetime.datetime.fromtimestamp(save['created'])
         try:
             save_source = Source.objects.get(legacy_v1_id=save_hash)
-            media_count = Media.objects.filter(source_id=save_source.id).count()
-            if media_count == 0:
-                orm.job_log(job, f"Updating existing source {save_source.id} for reddit save {save_title}")
-            else:
-                orm.job_log(job, f"Ignoring existing source {save_source.id} for reddit save {save_title} because existing media was found in the database.")
-                continue
+            orm.job_log(job, f"Updating existing source {save_source.id} for reddit save {save_title}")
         except ObjectDoesNotExist:
             save_source = Source.objects.create(kind_id=ripme_source_kind.id)
             orm.job_log(job, f"Created a new source {save_source.id} for reddit save {save_title}")
         save_source.title = save_title
+        save_source.sort_order = save['sort_index']
         save_source.created = save_created
         save_source.origin_path = save['reddit_link']
         reddit_link = f"https://old.reddit.com{save['reddit_link']}"

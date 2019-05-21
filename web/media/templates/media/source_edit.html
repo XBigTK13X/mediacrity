@@ -8,7 +8,14 @@ This is a {{source.kind.name}} source.
   <li>origin_path - <a href="{{source.origin_path}}">{{source.origin_path}}</a></li>
   <li>discussion_path - <a href="{{source.discussion_path}}">{{source.discussion_path}}</a></li>
   <li>content_path - <a href="file:///{{source.content_path}}">{{source.content_path}}</a></li>
+  <li>sort_order - {{source.sort_order}}</li>
 </ul>
+
+{% if album %}
+<a href="{% url 'media:album_view' album_id=album.id %}">Generated album</a>
+{% endif %}
+<br/>
+<br/>
 
 <br/>
 
@@ -45,7 +52,7 @@ No media found for this source. Try running a sync.
 <br/>
 Jobs
 <br/>
-<a href="{% url 'media:job_status' job_id=job.id %}">Job {{job.id}} - {{job.status.name}} - {{job.completed}}</a>
+<a href="{% url 'media:job_view' job_id=job.id %}">Job {{job.id}} - {{job.status.name}} - {{job.completed}}</a>
 {% endfor %}
 {% endif %}
 <br/>

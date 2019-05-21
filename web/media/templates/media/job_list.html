@@ -7,7 +7,7 @@
   Found {{jobs.paginator.count}} jobs. Showing the last {{jobs.paginator.per_page}}. There are {{message_count}} unprocessed messages.
   <ul>
   {% for job in jobs %}
-    <li><a href="{% url 'media:job_status' job_id=job.id %}">{{job.id}} - {{job.status.name}} - {{job.source.name}} - {{job.source.legacy_v1_id}}</a></li>
+    <li><a href="{% url 'media:job_view' job_id=job.id %}">{{job.id}} - {{job.status.name}} - {{job.source.name}} - {{job.source.legacy_v1_id}}</a></li>
   {% endfor %}
   </ul>
 {% else %}

@@ -47,10 +47,16 @@ def edit(request, source_id):
     source = Source.objects.select_related().get(id=source_id)
     jobs = Job.objects.select_related().filter(source_id=source).order_by('-created')
     media = Media.objects.filter(source_id=source).order_by('sort_order')
+    album = None
+    try:
+        album = Album.objects.get(generated_by_source_v1_id=source.legacy_v1_id)
+    except:
+        swallow = True
     context = {
         'source': source,
         'jobs': jobs,
-        'media': media
+        'media': media,
+        'album': album
     }
     return render(request, 'media/source_edit.html', context)
 
@@ -88,7 +94,7 @@ def sync(request, source_id):
         source_id=source_id,
         handler=handler
     )
-    return HttpResponseRedirect(reverse('media:job_status', args=(job_id,)))
+    return HttpResponseRedirect(reverse('media:job_view', args=(job_id,)))
 
 @login_required
 def delete(request, source_id):

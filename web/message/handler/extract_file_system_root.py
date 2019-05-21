@@ -23,8 +23,13 @@ def handle(job, payload):
         album = Album.objects.create(name=album_slug)
         orm.job_log(job, f"Creating newfile system album {album_slug}")
 
+    source.legacy_v1_id = file_cache.hash(album_slug)
+    source.save()
+
+    album.generated_by_source_v1_id = source.legacy_v1_id
+    album.save()
+
     for root, dirs, files in os.walk(source.origin_path):
-        orm.job_log(job, f"Retrieved {len(files)} files for {source.name}")
         for dir in dirs:
             dir_path = ioutil.path(root,dir)
             orm.job_log(job, f"dirs: {dir_path}")
@@ -33,12 +38,7 @@ def handle(job, payload):
             dir_source = None
             try:
                 dir_source = Source.objects.get(legacy_v1_id=dir_hash)
-                media_count = Media.objects.filter(source_id=dir_source.id).count()
-                if media_count == 0:
-                    orm.job_log(job, f"Updating existing source {dir_source.id} for dir {ioutil.path(root, dir)}")
-                else:
-                    orm.job_log(job, f"Ignoring existing source {dir_source.id} for dir {ioutil.path(root, dir)} because existing media was found in the database.")
-                    continue
+                orm.job_log(job, f"Updating existing source {dir_source.id} for dir {ioutil.path(root, dir)}")
             except ObjectDoesNotExist:
                 dir_source = Source.objects.create(kind_id=directory_source_kind.id)
                 orm.job_log(job, f"Created a new source {dir_source.id} for dir {ioutil.path(root, dir)}")

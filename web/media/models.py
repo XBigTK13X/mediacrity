@@ -33,6 +33,7 @@ class Source(models.Model):
     legacy_order = models.IntegerField(blank=True, null=True)
     legacy_v1_id = models.CharField(max_length=1024)
     legacy_v2_id = models.CharField(max_length=1024)
+    sort_order = models.IntegerField(blank=True, null=True)
 
 class Media(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -83,6 +84,7 @@ class Album(models.Model):
     sources = models.ManyToManyField(Source)
     media = models.ManyToManyField(Media)
     albums = models.ManyToManyField("self", blank=True)
+    generated_by_source_v1_id = models.CharField(max_length=1024, blank=True, null=True)
 
 class WebLink(models.Model):
     name = models.CharField(max_length=1024)

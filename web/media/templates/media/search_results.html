@@ -30,7 +30,7 @@
   Found {{jobs.count}} jobs.
   <ul>
   {% for job in jobs %}
-    <li><a href="{% url 'media:job_status' job_id=job.id %}">{{job.id}} - {{job.media_id}} - {{job.source_id}} - {{job.status_id}}</a></li>
+    <li><a href="{% url 'media:job_view' job_id=job.id %}">{{job.id}} - {{job.media_id}} - {{job.source_id}} - {{job.status_id}}</a></li>
   {% endfor %}
   </ul>
 {% else %}

@@ -1,5 +1,6 @@
 from django.urls import path
 
+from .views import album
 from .views import media
 from .views import job
 from .views import search
@@ -9,7 +10,9 @@ from .views import storage
 app_name='media'
 
 urlpatterns = [
-    path('job/<int:job_id>', job.status, name='job_status'),
+    path('album/<int:album_id>', album.view, name='album_view'),
+
+    path('job/<int:job_id>', job.view, name='job_view'),
     path('job/list', job.list, name='job_list'),
 
     path('media/<int:media_id>', media.view, name='media_view'),

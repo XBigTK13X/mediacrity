@@ -171,9 +171,9 @@ LOAD_DIR="mediacrity/03-load"
 MESSAGE_QUEUE='mediacrity'
 
 TRANSFORM_IGNORE_EXTENTIONS = [
-    ".txt",
-    ".json",
-    ".py"
+    "txt",
+    "json",
+    "py"
 ]
 
 VIDEO_FORMATS = [

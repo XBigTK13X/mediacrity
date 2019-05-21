@@ -14,20 +14,14 @@ def reddit_api(source):
 
 def get_saves(source):
     username, password = source.origin_path.split('<->')
-    #saves_cache_path = ioutil.path(settings.REDDIT_SAVES_DIR, f"{username}.json")
-
-    #if ioutil.cached(saves_cache_path):
-    #    return ioutil.read_json(saves_cache_path)
 
     reddit = reddit_api(source)
     saved = reddit.user.me().saved(limit=settings.REDDIT_SAVE_READ_LIMIT)
     results = {}
-    save_index = -1
+    save_index = 1
     for save in saved:
         post_id = save.id
         save_index = save_index + 1
-        if post_id in results and not 'refresh' in results[post_id]:
-            continue
 
         result = {
             'reddit_link': save.permalink,
@@ -43,8 +37,6 @@ def get_saves(source):
             result['reddit_link'] = save.permalink(fast=True)
         result['reddit_index'] = result['sort_index']
         results[post_id] = result
-
-    #ioutil.write_json(saves_cache_path, results)
 
     return results
 
