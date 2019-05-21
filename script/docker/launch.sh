@@ -13,8 +13,10 @@ mkdir -p /mediacrity/log
 
 cd /mediacrity
 
-echo "Starting worker"
-script/worker/dev-start.sh
-
-echo "Starting web app"
-script/web/dev-start.sh
+if [ $MEDIACRITY_RUN_MODE -eq "worker" ]; AuthenticationMiddleware
+  echo "Starting worker"
+  script/worker/dev-start.sh
+else
+  echo "Starting web app"
+  script/web/dev-start.sh
+fi

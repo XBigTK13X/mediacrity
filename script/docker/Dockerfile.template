@@ -24,7 +24,7 @@ WORKDIR /mediacrity
 
 RUN pip install -r requirements.txt
 
-VOLUME [ "/mediacrity/log", "/mediacrity/config"]
+VOLUME [ "/mediacrity/log", "/mediacrity/config" ]
 
 ENTRYPOINT [ "/root/script/docker-entrypoint.sh" ]
 

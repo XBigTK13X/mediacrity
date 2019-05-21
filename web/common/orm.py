@@ -35,24 +35,7 @@ def transform_dir(subdir, hash):
 
 def connect():
     settings.configure(
-        DATABASES={
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': os.environ.get('MEDIACRITY_DB_NAME'),
-                'USER': os.environ.get('MEDIACRITY_DB_USER'),
-                'PASSWORD': os.environ.get('MEDIACRITY_DB_PASSWORD'),
-                'HOST': '0.0.0.0',
-                'PORT': '5432'
-            }
-        },
-        INSTALLED_APPS = [
-            'django.contrib.admin',
-            'django.contrib.auth',
-            'django.contrib.contenttypes',
-            'django.contrib.sessions',
-            'django.contrib.messages',
-            'django.contrib.staticfiles',
-            'media.apps.MediaConfig'
-        ]
+        DATABASES=config.DATABASES,
+        INSTALLED_APPS = config.INSTALLED_APPS
     )
     django.setup()

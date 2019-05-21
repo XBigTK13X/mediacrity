@@ -80,8 +80,8 @@ DATABASES = {
         'NAME': os.environ.get('MEDIACRITY_DB_NAME'),
         'USER': os.environ.get('MEDIACRITY_DB_USER'),
         'PASSWORD': os.environ.get('MEDIACRITY_DB_PASSWORD'),
-        'HOST': '0.0.0.0',
-        'PORT': '5432',
+        'HOST': os.environ.get('MEDIACRITY_DB_HOST'),
+        'PORT': os.environ.get('MEDIACRITY_DB_PORT'),
     }
 }
 
@@ -190,3 +190,8 @@ VIDEO_FORMATS = [
 ]
 
 SUPPRESS_TRANSCODE_LOGGING=1
+
+MESSAGE_HOST=os.environ.get('MEDIACRITY_MESSAGE_HOST')
+MESSAGE_PORT=os.environ.get('MEDIACRITY_MESSAGE_PORT')
+MESSAGE_USER=os.environ.get('MEDIACRITY_MESSAGE_USER')
+MESSAGE_PASS=os.environ.get('MEDIACRITY_MESSAGE_PASSWORD')
