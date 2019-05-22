@@ -13,6 +13,7 @@ from message.handler import extract_youtube_dl_link
 from message.handler import transform_media
 from message.handler import extract_reddit_post
 from media.models import Job, JobStatus
+from media.service import storage
 
 default_status = JobStatus.objects.get(name="running")
 failed_status = JobStatus.objects.get(name="failed")
@@ -29,6 +30,8 @@ def callback(channel, method, properties, body):
         job.status_id = default_status.id
         job.save()
         try:
+            if storage.is_locked():
+                raise Exception("Unable to process jobs while storage is locked")
             handler = payload['handler']
             if handler == 'extract-reddit-saves':
                 extract_reddit_saves.handle(job, payload)

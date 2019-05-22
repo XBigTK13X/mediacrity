@@ -13,18 +13,19 @@ def get_path(source, media):
     return transform_path
 
 def generate(job, source, media):
+    if ioutil.cached(media.thumbnail_path):
+        return media.thumbnail_path
+
     media.thumbnail_path = get_path(source, media)
     media.save()
-    if not ioutil.cached(media.thumbnail_path):
-        input_path = media.server_path
-        output_path = media.thumbnail_path
-        if ioutil.cached(output_path):
-            return output_path
 
-        if transcode.is_video(input_path):
-            video(job, input_path, output_path)
-        else:
-            image(job, input_path, output_path)
+    input_path = media.server_path
+    output_path = media.thumbnail_path
+
+    if transcode.is_video(input_path):
+        video(job, input_path, output_path)
+    else:
+        image(job, input_path, output_path)
 
 def fail(result, input_path, output_path, command):
     if result != 0 or not os.path.isfile(output_path):
@@ -34,6 +35,7 @@ def fail(result, input_path, output_path, command):
 
 
 def video(job, input_path, output_path):
+    print(f"Thumbnail not found at {output_path}. Regenerating")
     fail_safe = 10
     frame = 0
     temp_path = output_path.replace('.png', '.tmp.png')

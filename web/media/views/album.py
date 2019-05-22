@@ -15,7 +15,7 @@ from common import debug
 @login_required
 def view(request, album_id):
     album = Album.objects.select_related().prefetch_related('sources__media_set').get(id=album_id)
-    # This should be doable in Django without needing to sort in Python
+    # TODO This should be doable in Django without needing to sort in Python
     sources = sorted(album.sources.all(), key=lambda x: x.sort_order if x.sort_order != None else 0)
     context = {
         'album': album,

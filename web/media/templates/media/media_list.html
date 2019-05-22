@@ -4,6 +4,14 @@
 
 {% if media %}
 <br/>
+<a href="{% url 'media:media_list' %}"> All </a>
+&nbsp;|&nbsp;
+<a href="{% url 'media:media_list' kind='video' %}"> Video </a>
+&nbsp;|&nbsp;
+<a href="{% url 'media:media_list' kind='animation' %}"> Animation </a>
+&nbsp;|&nbsp;
+<a href="{% url 'media:media_list' kind='image' %}"> Image </a>
+<br/>
 Found {{media.count}} media.
 <br/>
   <div>

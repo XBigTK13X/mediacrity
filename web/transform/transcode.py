@@ -5,8 +5,6 @@ import uuid
 from common import ioutil, orm
 from web import settings
 
-#TODO These commands should be bash scripts like the ripme and ecryptfs
-
 def is_video(path):
     return ioutil.extension(path) in settings.VIDEO_FORMATS
 

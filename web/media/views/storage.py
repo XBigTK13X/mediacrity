@@ -33,12 +33,9 @@ def insert(request):
 @login_required
 def edit(request, storage_id):
     storage = Storage.objects.get(id=storage_id)
-    contents = os.listdir(storage.path)
-    locked = len([x for x in contents if 'ECRYPTFS' in x]) > 0
+
     context = {
-        'storage': storage,
-        'contents': contents,
-        'locked': locked
+        'storage': storage
     }
     return render(request, 'media/storage_edit.html', context)
 

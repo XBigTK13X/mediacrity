@@ -18,6 +18,7 @@ urlpatterns = [
     path('media/<int:media_id>', media.view, name='media_view'),
     path('media/random', media.random, name="media_random"),
     path('media/list', media.list, name="media_list"),
+    path('media/list/<str:kind>', media.list, name="media_list"),
 
     path('search', search.find, name='search_query'),
     path('search/<str:query>', search.results, name='search_results'),

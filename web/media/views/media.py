@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from ..models import *
+from django.db.models import Q
 from random import randint
 
 @login_required
@@ -38,8 +39,11 @@ def view(request, media_id):
     return render(request, 'media/media_view.html', context)
 
 @login_required
-def list(request):
-    media = Media.objects.order_by('-created').all()
+def list(request, kind=None):
+    media_query = Q()
+    if kind != None:
+        media_query = Q(kind__name=kind)
+    media = Media.objects.select_related().filter(media_query).order_by('-created').all()
     context = {
         'media': media
     }

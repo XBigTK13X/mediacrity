@@ -2,6 +2,20 @@
 
 source $MEDIACRITY_CONFIG
 
+docker rm -f mediacrity-content
+
+docker pull nginx
+
+docker run -d \
+  --name mediacrity-content \
+  -p $MEDIACRITY_CONTENT_SERVER_PORT:80 \
+  -v $MEDIACRITY_ASSET_DIR:/mediacrity/asset \
+  -v $MEDIACRITY_MEDIA_DIR:/mediacrity/media \
+  -v $(pwd)/script/docker/nginx.conf:/etc/nginx/nginx.conf \
+  nginx
+
+exit 0
+
 docker rm -f mediacrity-db
 
 docker pull postgres

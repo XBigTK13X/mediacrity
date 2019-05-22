@@ -8,6 +8,10 @@ from web import settings
 import subprocess, os
 from transform import transcode, thumbnail
 
+VIDEO_KIND = MediaKind.objects.get(name="video")
+ANIMATION_KIND = MediaKind.objects.get(name="animation")
+IMAGE_KIND = MediaKind.objects.get(name="image")
+
 def handle(job, payload):
     source_id = payload['source_id']
     source = Source.objects.select_related().get(id=source_id)
@@ -54,6 +58,12 @@ def handle(job, payload):
                     if not ioutil.cached(transform_path):
                         media.transform_path = transcode.video(job, media.extract_path, transform_path)
                         media.save()
+                if media.extension == "mp4":
+                    media.kind = VIDEO_KIND
+                elif media.extension == "webm":
+                    media.kind = ANIMATION_KIND
+                else:
+                    media.kind = IMAGE_KIND
                 media.byte_size = os.path.getsize(media.server_path)
                 determine_order(media, file)
                 media.save()

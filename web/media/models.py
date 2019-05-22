@@ -2,6 +2,7 @@ from django.db import models
 import datetime
 from common import ioutil
 from web import settings
+import os
 
 class StorageKind(models.Model):
     name = models.CharField(max_length=128)
@@ -16,6 +17,14 @@ class Storage(models.Model):
     path = models.CharField(max_length=1024)
     mount_arguments = models.CharField(max_length=1024,blank=True,null=True)
     unmount_arguments = models.CharField(max_length=1024,blank=True,null=True)
+
+    @property
+    def locked(self):
+        return len([x for x in self.contents if 'ECRYPTFS' in x]) > 0
+
+    @property
+    def contents(self):
+        return os.listdir(self.path)
 
 class SourceKind(models.Model):
     name = models.CharField(max_length=128)
@@ -35,6 +44,10 @@ class Source(models.Model):
     legacy_v2_id = models.CharField(max_length=1024)
     sort_order = models.IntegerField(blank=True, null=True)
 
+class MediaKind(models.Model):
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=1024)
+
 class Media(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -50,6 +63,7 @@ class Media(models.Model):
     thumbnail_path = models.CharField(max_length=1024)
     hidden = models.BooleanField(default=False)
     byte_size = models.IntegerField(blank=True, null=True)
+    kind = models.ForeignKey(MediaKind, on_delete=models.CASCADE, blank=True, null=True)
 
     @property
     def extension(self):
@@ -65,16 +79,10 @@ class Media(models.Model):
 
     @property
     def web_content_path(self):
-        path = self.server_path
-        for dir in settings.STATICFILES_DIRS:
-            path = path.replace(dir,'')
-        return path
+        return self.server_path
 
     def web_thumbnail_path(self):
-        path = self.thumbnail_path
-        for dir in settings.STATICFILES_DIRS:
-            path = path.replace(dir,'')
-        return path
+        return self.thumbnail_path
 
 class Album(models.Model):
     created = models.DateTimeField(auto_now_add=True)

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load content %}
 {% block title %}Job Status{% endblock %}
 {% block content %}
 
@@ -16,14 +16,14 @@
 <div class="media-container">
   {% if media.extension == 'mp4' %}
     <video controls autoplay class="media">
-      <source src={% static media.web_content_path %} type="video/mp4"/>
+      <source src={% media media.web_content_path %} type="video/mp4"/>
     </video>
   {% elif media.extension == 'webm' %}
     <video controls autoplay loop class="media">
-      <source src={% static media.web_content_path %} type="video/mp4"/>
+      <source src={% media media.web_content_path %} type="video/mp4"/>
     </video>
   {% else %}
-    <img class="media" src={% static media.web_content_path %} alt="{{media.content_hash}}" />
+    <img class="media" src={% media media.web_content_path %} alt="{{media.content_hash}}" />
   {% endif %}
 </div>
 

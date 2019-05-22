@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('MEDIACRITY_DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('MEDIACRITY_DJANGO_DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'media.apps.MediaConfig'
 ]
 
@@ -121,15 +120,6 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    os.environ.get('MEDIACRITY_STATICFILES_DIRS_CSV')
-]
-
 SCRIPT_DIR = os.environ.get('MEDIACRITY_SCRIPT_DIR')
 
 REDDIT_CLIENT_ID=os.environ.get('MEDIACRITY_REDDIT_CLIENT_ID')
@@ -195,3 +185,6 @@ MESSAGE_HOST=os.environ.get('MEDIACRITY_MESSAGE_HOST')
 MESSAGE_PORT=os.environ.get('MEDIACRITY_MESSAGE_PORT')
 MESSAGE_USER=os.environ.get('MEDIACRITY_MESSAGE_USER')
 MESSAGE_PASS=os.environ.get('MEDIACRITY_MESSAGE_PASSWORD')
+
+CONTENT_SERVER_HOST=os.environ.get('MEDIACRITY_CONTENT_SERVER_HOST')
+CONTENT_SERVER_PORT=os.environ.get('MEDIACRITY_CONTENT_SERVER_PORT')

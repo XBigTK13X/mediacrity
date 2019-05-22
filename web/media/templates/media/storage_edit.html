@@ -10,7 +10,7 @@ It contains a description of {{storage.description}}.
 <br/>
 It points to the path {{storage.path}}.
 <br/>
-Mediacrity thinks this storage is {% if locked %} locked{% else %} unlocked{% endif %}.
+Mediacrity thinks this storage is {% if storage.locked %} locked{% else %} unlocked{% endif %}.
 </form>
 
 <br/>
@@ -27,12 +27,12 @@ Mediacrity thinks this storage is {% if locked %} locked{% else %} unlocked{% en
   <button type='submit'>Unmount</button>
 </form>
 
-{% if contents %}
+{% if storage.contents %}
 </br>
 Files and dirs found at top level.
 <br/>
   <ul>
-  {% for entry in contents %}
+  {% for entry in storage.contents %}
     <li>{{entry}}</li>
   {% endfor %}
 </ul>

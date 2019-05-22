@@ -87,6 +87,29 @@ def create_job_statuses(apps, schema_editor):
                 description=kind['description']
             )
 
+def create_media_kinds(apps, schema_editor):
+        kinds = [
+            {
+                'name': 'video',
+                'description': 'Many pictures with sound.'
+            },
+            {
+                'name': 'animation',
+                'description': 'Many pictures no sound.'
+            },
+            {
+                'name': 'image',
+                'description': 'Single static picture no sound.'
+            }
+        ]
+
+        MediaKind = apps.get_model('media', 'MediaKind')
+        for kind in kinds:
+            MediaKind.objects.create(
+                name=kind['name'],
+                description=kind['description']
+            )
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -97,4 +120,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(create_source_kinds),
         migrations.RunPython(create_storage_kinds),
         migrations.RunPython(create_job_statuses),
+        migrations.RunPython(create_media_kinds)
     ]
