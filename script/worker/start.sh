@@ -4,4 +4,6 @@ cd web
 
 source $MEDIACRITY_CONFIG
 
-python worker.py
+mkdir -p $MEDIACRITY_TEMP_DIR
+
+python3 worker.py
