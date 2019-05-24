@@ -4,6 +4,8 @@ from django.conf import settings
 from web import settings as config
 from common import ioutil
 
+CONNECTED=False
+
 def job_log(job,message):
     job.logs = job.logs + '\n' + message
     job.save()
@@ -34,8 +36,11 @@ def transform_dir(subdir, hash):
     return path
 
 def connect():
-    settings.configure(
-        DATABASES=config.DATABASES,
-        INSTALLED_APPS = config.INSTALLED_APPS
-    )
-    django.setup()
+    global CONNECTED
+    if not CONNECTED:
+        settings.configure(
+            DATABASES=config.DATABASES,
+            INSTALLED_APPS = config.INSTALLED_APPS
+        )
+        django.setup()
+        CONNECTED = True

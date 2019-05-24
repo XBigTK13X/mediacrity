@@ -2,18 +2,19 @@
 
 source $MEDIACRITY_CONFIG
 
-mkdir -p $MEDIACRITY_DB_DATA_DIR
+mkdir -p /mediacrity/data/postgres
 
-POSTGRES_USER=$MEDIACRITY_DB_USER
-POSTGRES_PASSWORD=$MEDIACRITY_DB_PASSWORD
-POSTGRES_DB=$MEDIACRITY_DB_NAME
+export PGDATA=/mediacrity/data/postgres
+export POSTGRES_USER=$MEDIACRITY_DB_USER
+export POSTGRES_PASSWORD=$MEDIACRITY_DB_PASSWORD
+export POSTGRES_DB=$MEDIACRITY_DB_NAME
 
-rm "$MEDIACRITY_DB_DATA_DIR/postmaster.pid"
+rm "/mediacrity/data/postgres/postmaster.pid"
 
 set -Eeo pipefail
 
 PATH="$PATH:/usr/lib/postgresql/10/bin/"
-POSTGRES_INITDB_ARGS="-D $MEDIACRITY_DB_DATA_DIR"
+POSTGRES_INITDB_ARGS="-D /mediacrity/data/postgres"
 
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'

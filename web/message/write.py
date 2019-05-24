@@ -4,10 +4,13 @@ from media.models import Job, JobStatus
 from web import settings
 import pika
 
-DEFAULT_STATUS = JobStatus.objects.get(name="pending")
-PERSISTENT_DELIVERY_MODE=2
+PERSISTENT_DELIVERY_MODE = 2
+DEFAULT_JOB_STATUS = None
 
 def send(source_id=None, media_id=None, log_entry="Starting the job", handler=None):
+    global DEFAULT_JOB_STATUS
+    if DEFAULT_JOB_STATUS is None:
+        DEFAULT_JOB_STATUS = JobStatus.objects.get(name="pending")
     if handler == None:
         raise Exception("handler is required when calling message.send()")
     payload = {

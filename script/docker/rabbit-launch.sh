@@ -3,9 +3,9 @@ set -eu
 
 source $MEDIACRITY_CONFIG
 
-mkdir -p $MEDIACRITY_MESSAGE_DATA_DIR
+mkdir -p /mediacrity/data/rabbit
 
-RABBITMQ_BASE=$MEDIACRITY_MESSAGE_DATA_DIR
+RABBITMQ_BASE=/mediacrity/data/rabbit
 
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
