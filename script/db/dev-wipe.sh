@@ -2,7 +2,7 @@
 
 source $MEDIACRITY_CONFIG
 
-docker rm -f mediacrity-db
+docker rm -f mediacrity-dev
 
 sudo rm -rf $MEDIACRITY_DB_DATA_DIR
 

@@ -23,12 +23,21 @@ def download(source):
     imgur_index = 0
     for image in images['images']:
         imgur_index += 1
-        image_path = ioutil.path(extract_dir, '{}.{}'.format(image['id'], image['extension']))
+
+        web_path = image['link']
+        extension = image['extension']
+        if 'gifv' in image:
+            web_path = image['gifv']
+            extension = 'gifv'
+        if 'mp4' in image:
+            web_path = image['mp4']
+            extension = 'mp4'
+        image_path = ioutil.path(extract_dir, '{}.{}'.format(image['id'], extension))
         if not ioutil.cached(image_path):
-            ioutil.get_file(image['link'], image_path)
+            ioutil.get_file(web_path, image_path)
         entry = {
             'extract_path': image_path,
-            'origin_path': image['link'],
+            'origin_path': web_path,
             'sort_index': imgur_index,
             'content_hash': file_cache.content_hash(image_path)
         }

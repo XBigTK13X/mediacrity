@@ -35,7 +35,6 @@ def fail(result, input_path, output_path, command):
 
 
 def video(job, input_path, output_path):
-    print(f"Thumbnail not found at {output_path}. Regenerating")
     fail_safe = 10
     frame = 0
     temp_path = output_path.replace('.png', '.tmp.png')

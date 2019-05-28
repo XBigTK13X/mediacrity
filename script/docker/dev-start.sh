@@ -8,17 +8,18 @@ docker rm -f mediacrity-dev
 
 docker pull mediacrity/mediacrity
 
-mkdir -p $MEDIACRITY_DB_DATA_DIR
+sudo mkdir -p $MEDIACRITY_DB_DATA_DIR
 
 sudo chown 101:103 $MEDIACRITY_DB_DATA_DIR
 
-mkdir -p $MEDIACRITY_MESSAGE_DATA_DIR
+sudo mkdir -p $MEDIACRITY_MESSAGE_DATA_DIR
 
 docker run -d \
   --name mediacrity-dev \
   -v $MEDIACRITY_CONFIG_DIR:/mediacrity/config \
   -v $MEDIACRITY_DB_DATA_DIR:/mediacrity/data/postgres \
   -v $MEDIACRITY_MESSAGE_DATA_DIR:/mediacrity/data/rabbit \
+  -v $MEDIACRITY_ASSET_DIR:/mediacrity/asset \
   -v $MEDIACRITY_MEDIA_DIR:/mediacrity/media \
   -p $MEDIACRITY_DB_PORT:5432 \
   -p $MEDIACRITY_MESSAGE_PORT:5672 \

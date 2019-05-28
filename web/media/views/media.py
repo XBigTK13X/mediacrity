@@ -9,9 +9,14 @@ from random import randint
 
 @login_required
 def random(request):
-    count = Media.objects.count()
-    media_index = randint(0, count - 1)
-    media = Media.objects.all()[media_index]
+    sources = Source.objects.filter(media__source__isnull=False)
+    source_count = sources.count()
+    source_index = randint(0, source_count -1)
+    source = sources.all()[source_index]
+    media = Media.objects.filter(source_id=source.id)
+    media_count = media.count()
+    media_index = randint(0, media_count - 1)
+    media = media.all()[media_index]
     return HttpResponseRedirect(reverse('media:media_view', args=(media.id,)))
 
 @login_required
