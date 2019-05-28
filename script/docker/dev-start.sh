@@ -2,6 +2,8 @@
 
 source $MEDIACRITY_CONFIG
 
+CREATE_DB=$1
+
 docker rm -f mediacrity-dev
 
 docker pull mediacrity/mediacrity
@@ -26,8 +28,10 @@ docker run -d \
   -e MEDIACRITY_CONFIG=/mediacrity/config/mediacrity-settings.sh \
   mediacrity/mediacrity
 
-echo "Wait for postgres to start, then ensure user/db is created"
-sleep 5
+if [ ! -z $CREATE_DB ]; then
+  echo "Wait for postgres to start, then ensure user/db is created"
+  sleep 5
 
-docker exec -it mediacrity-dev su postgres -c "createuser $MEDIACRITY_DB_USER"
-docker exec -it mediacrity-dev su postgres -c "createdb $MEDIACRITY_DB_USER"
+  docker exec -it mediacrity-dev su postgres -c "createuser $MEDIACRITY_DB_USER"
+  docker exec -it mediacrity-dev su postgres -c "createdb $MEDIACRITY_DB_USER"
+fi

@@ -1,7 +1,5 @@
 #! /bin/bash
 
-set -e
-
 MIGRATE=$1
 
 source $MEDIACRITY_CONFIG

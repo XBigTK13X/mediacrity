@@ -21,7 +21,7 @@ def send(source_id=None, media_id=None, log_entry="Starting the job", handler=No
         payload['media_id'] = media_id
     if source_id != None:
         payload['source_id'] = source_id
-    job = Job.objects.create(status_id=DEFAULT_STATUS.id)
+    job = Job.objects.create(status_id=DEFAULT_JOB_STATUS.id)
     payload['job_id'] = job.id
     connection, channel = message.connect.create()
     channel.basic_publish(
