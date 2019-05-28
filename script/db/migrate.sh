@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -e
+
 echo "Migrating database"
 
 cd web

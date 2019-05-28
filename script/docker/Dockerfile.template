@@ -97,6 +97,10 @@ ADD script/docker/postgresql.conf /etc/postgresql/10/main/postgresql.conf
 
 RUN chown postgres:postgres /etc/postgresql/10/main/postgresql.conf
 
+ADD script/docker/pg_hba.conf /etc/postgresql/10/main/pg_hba.conf
+
+RUN chown postgres:postgres /etc/postgresql/10/main/pg_hba.conf
+
 ADD ./ /mediacrity/app
 
 WORKDIR /mediacrity/app

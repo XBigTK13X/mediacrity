@@ -2,6 +2,6 @@
 
 cp script/docker/Dockerfile.template ./Dockerfile
 
-docker build --tag mediacrity/mediacrity:latest .
+docker build --tag mediacrity/mediacrity .
 
 rm ./Dockerfile
