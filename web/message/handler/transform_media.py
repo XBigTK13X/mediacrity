@@ -12,6 +12,17 @@ VIDEO_KIND = MediaKind.objects.get(name="video")
 ANIMATION_KIND = MediaKind.objects.get(name="animation")
 IMAGE_KIND = MediaKind.objects.get(name="image")
 
+# os.walk was missing recursion into some ripme directories.
+# This method ensures all files are found
+def search(results, path):
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            file_path = ioutil.path(root, file)
+            results[file_path] = file_path
+        for dir in dirs:
+            results = search(results, ioutil.path(root, dir))
+    return results
+
 def handle(job, payload):
     source_id = payload['source_id']
     source = Source.objects.select_related().get(id=source_id)
@@ -27,18 +38,19 @@ def handle(job, payload):
         job.save()
         raise Exception(error)
     else:
-        for root, dirs, files in os.walk(source.content_path):
-            if len(files) == 0:
-                orm.job_log(job, f"No files found at {source.content_path}")
-                break
+        file_lookup = search({}, source.content_path)
+        files = list(file_lookup.keys())
+        if len(files) == 0:
+            orm.job_log(job, f"No files found at {source.content_path}")            
+        else:
             for file in files:
-                extract_path = ioutil.path(root, file)
+                extract_path = file
                 extension = ioutil.extension(extract_path)
                 if extension in settings.TRANSFORM_IGNORE_EXTENTIONS:
                     orm.job_log(job,f"Ignoring file {extract_path}")
                     continue
                 content_hash = file_cache.content_hash(extract_path)
-                orm.job_log(job,f"Converting file {root}/{file} with hash {content_hash}")
+                orm.job_log(job,f"Converting file {extract_path} with hash {content_hash}")
                 media = None
                 try:
                     media = Media.objects.get(content_hash=content_hash, source_id=source_id)

@@ -29,6 +29,7 @@ if [ ${SUPPRESS_LOGS} -eq 1 ]; then
   SUPPRESS_LOGS=" -nostats -loglevel 0"
 else
   SUPPRESS_LOGS=""
+  set -x
 fi
 
-ffmpeg -ss $FRAME -i "${INPUT_PATH}" -vframes 1 -filter:v 'yadif,scale=100:100' "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
+ffmpeg -i "${INPUT_PATH}" -vframes 1 -filter:v 'yadif,scale=100:100' -vf "select=gte(n\,${FRAME})" "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}

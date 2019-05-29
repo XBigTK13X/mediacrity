@@ -23,8 +23,7 @@ if [ ${SUPPRESS_LOGS} -eq 1 ]; then
   SUPPRESS_LOGS=" -nostats -loglevel 0"
 else
   SUPPRESS_LOGS=""
+  set -x
 fi
-
-set -x
 
 ffmpeg -i "${INPUT_PATH}" -c:v libvpx -crf 12 -b:v 1M -auto-alt-ref 0 "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}

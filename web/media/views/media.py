@@ -6,6 +6,7 @@ from django.conf import settings
 from ..models import *
 from django.db.models import Q
 from random import randint
+from media.service import storage
 
 @login_required
 def random(request):
@@ -39,7 +40,8 @@ def view(request, media_id):
     context = {
         'media': media,
         'next_media': next_media,
-        'prev_media': prev_media
+        'prev_media': prev_media,
+        'storage_locked': storage.is_locked()
     }
     return render(request, 'media/media_view.html', context)
 

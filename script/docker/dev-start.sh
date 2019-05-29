@@ -2,6 +2,9 @@
 
 source $MEDIACRITY_CONFIG
 
+echo "If developing locally, mounted ecryptfs volumes won't unlock inside the container."
+echo "Unlock the storage before running the containers."
+
 CREATE_DB=$1
 
 docker rm -f mediacrity-dev
@@ -15,6 +18,7 @@ sudo chown 101:103 $MEDIACRITY_DB_DATA_DIR
 sudo mkdir -p $MEDIACRITY_MESSAGE_DATA_DIR
 
 docker run -d \
+  --privileged \
   --name mediacrity-dev \
   -v $MEDIACRITY_CONFIG_DIR:/mediacrity/config \
   -v $MEDIACRITY_DB_DATA_DIR:/mediacrity/data/postgres \

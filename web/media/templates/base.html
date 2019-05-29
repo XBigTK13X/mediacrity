@@ -8,10 +8,14 @@
 </head>
 <body>
   <div class="page-container">
-    <a href="{% url 'home' %}">Home</a>
-    &nbsp;|&nbsp;
     {% if user.is_authenticated %}
       <a href="{% url 'logout' %}">logout</a>
+    {% else %}
+      <a href="{% url 'login' %}">login</a>
+    {% endif %}
+    &nbsp;|&nbsp;
+    <a href="{% url 'home' %}">Home</a>
+    {% if user.is_authenticated %}
       &nbsp;|&nbsp;
       <a href="{% url 'media:storage_list' %}"> Storage </a>
       &nbsp;|&nbsp;
@@ -29,8 +33,11 @@
       <input type="submit" value="Search">
       </form>
       <br/>
-    {% else %}
-      <a href="{% url 'login' %}">login</a>
+    {% endif %}
+    {% if storage_locked %}
+    <br/>
+    <br/>
+    !WARNING! - Storage is curently locked. This page may not function appropriately.
     {% endif %}
     <br/>
     <br/>

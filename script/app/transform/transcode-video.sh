@@ -29,6 +29,7 @@ if [ ${SUPPRESS_LOGS} -eq 1 ]; then
   SUPPRESS_LOGS=" -nostats -loglevel 0"
 else
   SUPPRESS_LOGS=""
+  set -x
 fi
 
 if [ ${FALLBACK_MODE} -eq 0 ]; then

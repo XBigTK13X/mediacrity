@@ -1,4 +1,9 @@
+max_failures = 4
+delay_seconds = 5
+
 def start():
+    global max_failures
+    global delay_seconds
     import traceback
     from common import orm
     orm.connect()
@@ -60,14 +65,14 @@ def start():
             print(f"No handler provided")
         print(f"Message processed with{'' if errors else ' no'} errors")
         channel.basic_ack(delivery_tag=method.delivery_tag)
+        max_failures=4
+        delay_seconds = 5
     while True:
         try:
             message.read.watch(callback)
         except Exception as e:
             raise Exception(f"An exception occurred while processing messages.\n{traceback.format_exc()}")
 
-max_failures = 4
-delay_seconds = 5
 while True:
     try:
         start()
@@ -78,7 +83,7 @@ while True:
             system.exit(-1)
         import traceback
         print(f"{traceback.format_exc()}")
-        print(f"An exception occurred while launching the worker. Waiting {delay_seconds} seconds and trying again.")
+        print(f"An exception occurred while running the worker. Waiting {delay_seconds} seconds and trying again.")
         import time
         time.sleep(delay_seconds)
         delay_seconds *= 2
