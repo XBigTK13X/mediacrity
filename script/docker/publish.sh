@@ -1,3 +1,3 @@
 #! /bin/bash
 
-docker push mediacrity/mediacrity:latest
+docker push mediacrity/mediacrity

@@ -91,6 +91,12 @@ RUN apt-get install -y supervisor
 
 RUN apt-get install -y python3 python3-pip ffmpeg default-jre
 
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get install -y imagemagick ecryptfs-utils
+
+RUN apt-get install -y sudo
+
 ADD script/docker/nginx.conf /etc/nginx/nginx.conf
 
 ADD script/docker/postgresql.conf /etc/postgresql/10/main/postgresql.conf
