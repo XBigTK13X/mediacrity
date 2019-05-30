@@ -6,7 +6,7 @@
   Found {{media.count}} media.
   <ul>
   {% for item in media %}
-  <li><a href="{% url 'media:media_view' media_id=item.id %}">{{media.id}} - {{item.content_hash}} - {{item.origin_path}}</a></li>
+  <li><a href="{% url 'media:media_edit' media_id=item.id %}">{{media.id}} - {{item.content_hash}} - {{item.origin_path}}</a></li>
   {% endfor %}
   </ul>
 {% else %}

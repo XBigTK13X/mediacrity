@@ -3,6 +3,7 @@ import datetime
 from common import ioutil
 from web import settings
 import os
+import urllib
 
 class StorageKind(models.Model):
     name = models.CharField(max_length=128)
@@ -79,10 +80,11 @@ class Media(models.Model):
 
     @property
     def web_content_path(self):
-        return self.server_path
+        return urllib.parse.quote(self.server_path)
 
+    @property
     def web_thumbnail_path(self):
-        return self.thumbnail_path
+        return urllib.parse.quote(self.thumbnail_path)
 
 class Album(models.Model):
     created = models.DateTimeField(auto_now_add=True)

@@ -17,6 +17,9 @@ def find(request):
 
 @login_required
 def results(request, query):
+    terms = None
+    if query == None or query == "":
+        return render(request, 'media/search_results.html',{})
     terms = query.split(' ')
     source_query = Q()
     media_query = Q()

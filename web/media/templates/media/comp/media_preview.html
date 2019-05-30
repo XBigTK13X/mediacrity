@@ -1,6 +1,6 @@
 {% load content %}
 <div class="fluid-container">
-  <a href="{% url 'media:media_view' media_id=media.id %}">
+  <a href="{% url 'media:media_edit' media_id=media.id %}">
       <div class="preview-container">
         <div class="image">
           <img src={% media media.web_thumbnail_path %} alt="{{media.sort_order}}-{{media.content_hash}}" title="{{media.sort_order}}-{{media.content_hash}}" />

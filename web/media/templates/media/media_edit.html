@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load content %}
+{% block title %}Job Status{% endblock %}
+{% block content %}
+
+<a href="{% url 'media:source_edit' source_id=media.source.id %}"><button>Source</button></a>
+{% if prev_media %}
+<a href="{% url 'media:media_edit' media_id=prev_media.id %}"><button>Prev</button></a>
+{% endif %}
+{% if next_media %}
+<a href="{% url 'media:media_edit' media_id=next_media.id %}"><button>Next</button></a>
+{% endif %}
+
+<div class="media-container">
+  {% if media.extension == 'mp4' %}
+    <video controls autoplay class="media">
+      <source src={% media media.web_content_path %} type="video/mp4"/>
+    </video>
+  {% elif media.extension == 'webm' %}
+    <video controls autoplay loop class="media">
+      <source src={% media media.web_content_path %} type="video/mp4"/>
+    </video>
+  {% else %}
+    <img class="media" src={% media media.web_content_path %} alt="{{media.content_hash}}" />
+  {% endif %}
+</div>
+
+<br/>
+<br/>
+Direct Link: <a href="{% media media.web_content_path %}">{% media media.web_content_path %}</a>
+<br/>
+Extract Path: {{media.extract_path}}
+<br/>
+Transform Path: {{media.transform_path}}
+<br/>
+Source: {{media.source.id}} - {{media.source.kind.name}} - {{ media.source.name }} - {{media.source.legacy_v1_id}} - {{media.source.origin_path}}
+<br/>
+<form id="delete-form" action="{% url 'media:media_delete' media_id=media.id %}" method="post">
+{% csrf_token %}
+<input type="submit" value="Delete">
+</form>
+<script>
+$('#delete-form').submit(function() {
+    return confirm("Are you sure you want to delete this item?");
+});
+</script>
+{% endblock content %}

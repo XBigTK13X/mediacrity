@@ -3,16 +3,18 @@
 {% block content %}
 
 {% if media %}
+<a href="{% url 'media:media_list' %}"><button>All</button></a>
+<a href="{% url 'media:media_list' kind='video' %}"><button>Video</button></a>
+<a href="{% url 'media:media_list' kind='animation' %}"><button>Animation</button></a>
+<a href="{% url 'media:media_list' kind='image' %}"><button>Image</button></a>
+{% if media.has_previous %}
+  <a href="{% url 'media:media_list' kind=kind page=media.previous_page_number %}"><button>Page -</button></a>
+{% endif %}
+{% if media.has_next %}
+  <a href="{% url 'media:media_list' kind=kind page=media.next_page_number %}"><button>Page +</button></a>
+{% endif %}
 <br/>
-<a href="{% url 'media:media_list' %}"> All </a>
-&nbsp;|&nbsp;
-<a href="{% url 'media:media_list' kind='video' %}"> Video </a>
-&nbsp;|&nbsp;
-<a href="{% url 'media:media_list' kind='animation' %}"> Animation </a>
-&nbsp;|&nbsp;
-<a href="{% url 'media:media_list' kind='image' %}"> Image </a>
-<br/>
-Found {{media.count}} media.
+Found {{media.paginator.count}} media showing page {{page}} of {{media.paginator.num_pages}}.
 <br/>
   <div>
   {% for item in media %}

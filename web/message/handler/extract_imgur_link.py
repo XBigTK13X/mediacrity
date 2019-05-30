@@ -33,7 +33,7 @@ def handle(job, payload):
                 content_hash=image['content_hash']
             )
             orm.job_log(job, f"Creating new media {media.content_hash} - {source_id}")
-        media.order=image['sort_index']
+        media.sort_order=image['sort_index']
         media.origin_path=image['origin_path']
         media.extract_path=image['extract_path']
         media.save()

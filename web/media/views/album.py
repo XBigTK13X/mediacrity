@@ -13,6 +13,13 @@ import message.read
 from common import debug
 
 @login_required
+def list(request):
+    context = {
+        'albums': Album.objects.all()
+    }
+    return render(request, 'media/album_list.html', context)
+
+@login_required
 def view(request, album_id):
     album = Album.objects.select_related().prefetch_related('sources__media_set').get(id=album_id)
     # TODO This should be doable in Django without needing to sort in Python

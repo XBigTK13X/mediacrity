@@ -11,14 +11,17 @@ app_name='media'
 
 urlpatterns = [
     path('album/<int:album_id>', album.view, name='album_view'),
+    path('album/list', album.list, name='album_list'),
 
     path('job/<int:job_id>', job.view, name='job_view'),
     path('job/list', job.list, name='job_list'),
 
-    path('media/<int:media_id>', media.view, name='media_view'),
+    path('media/<int:media_id>', media.edit, name='media_edit'),
     path('media/random', media.random, name="media_random"),
     path('media/list', media.list, name="media_list"),
     path('media/list/<str:kind>', media.list, name="media_list"),
+    path('media/list/<str:kind>/<int:page>', media.list, name="media_list"),
+    path('media/<int:media_id>/delete', media.delete, name="media_delete"),
 
     path('search', search.find, name='search_query'),
     path('search/<str:query>', search.results, name='search_results'),

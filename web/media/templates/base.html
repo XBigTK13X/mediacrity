@@ -5,42 +5,49 @@
   <meta charset="utf-8">
   <title>{% block title %}{% endblock %} - Mediacrity</title>
   <link rel="stylesheet" type="text/css" href="{% asset 'css/mediacrity.css' %}" />
+   <script src="{% asset 'js/jquery-3.4.1.min.js' %}"></script>
 </head>
 <body>
   <div class="page-container">
     {% if user.is_authenticated %}
-      <a href="{% url 'logout' %}">logout</a>
+      <a href="{% url 'logout' %}"><button>Logout</button></a>
     {% else %}
-      <a href="{% url 'login' %}">login</a>
+      <a href="{% url 'login' %}"><button>Login</button></a>
     {% endif %}
-    &nbsp;|&nbsp;
-    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'home' %}"><button>Home</button></a>
     {% if user.is_authenticated %}
-      &nbsp;|&nbsp;
-      <a href="{% url 'media:storage_list' %}"> Storage </a>
-      &nbsp;|&nbsp;
-      <a href="{% url 'media:source_list' %}"> Sources </a>
-      &nbsp;|&nbsp;
-      <a href="{% url 'media:media_list' %}"> Media </a>
-      &nbsp;|&nbsp;
-      <a href="{% url 'media:job_list' %}"> Jobs </a>
-      &nbsp;|&nbsp;
-      <a href="{% url 'media:media_random' %}"> Random </a>
+      <a href="{% url 'media:storage_list' %}"><button>Storage</button></a>
+      <a href="{% url 'media:album_list' %}"><button>Albums</button></a>
+      <a href="{% url 'media:source_list' %}"><button>Sources</button></a>
+      <a href="{% url 'media:media_list' %}"><button>Media</button></a>
+      <a href="{% url 'media:job_list' %}"><button>Jobs</button></a>
+      <a href="{% url 'media:media_random' %}"><button>Random</button></a>
       <br/>
       <form action="{% url 'media:search_query' %}" method="post">
       {% csrf_token %}
-      <input name="query" value="">
-      <input type="submit" value="Search">
+      <input name="query" value="" id="search-query">
+      <input type="submit" value="Search" id="search-submit">
+      <p style="display:none;" id="search-warning">Please enter a search query</p>
       </form>
+      <script>
+
+        $('#search-submit').click((e)=>{
+          let warning = $('#search-warning')
+          warning.hide()
+          let query = $('#search-query').val()
+          if(query === ''){
+            e.preventDefault()
+            warning.show()
+          }
+        })
+      </script>
       <br/>
     {% endif %}
     {% if storage_locked %}
-    <br/>
-    <br/>
-    !WARNING! - Storage is curently locked. This page may not function appropriately.
+      <br/>
+      <br/>
+      !WARNING! - Storage is curently locked. This page may not function appropriately.
     {% endif %}
-    <br/>
-    <br/>
     {% block content %}
     {% endblock %}
   </div>
