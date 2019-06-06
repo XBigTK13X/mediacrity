@@ -9,6 +9,8 @@ from django.conf import settings
 from ..models import Job, JobStatus
 
 import message.read
+import message.write
+import json
 
 @login_required
 def view(request, job_id):
@@ -31,3 +33,14 @@ def list(request):
         'message_count': message.read.count()
     }
     return render(request, 'media/job_list.html', context)
+
+@login_required
+def requeue(request, job_id):
+    job = Job.objects.select_related().get(id=job_id)
+    job_logs = job.logs.replace('\\n','\n').split('\n')
+    # TODO The second log entry is always the payload. This should be moved to a field on the job.
+    content = job_logs[1]
+    content = content[2:-1]
+    payload = json.loads(content)
+    message.write.send(payload=payload)
+    return HttpResponseRedirect(reverse('media:job_view', args=(job_id,)))

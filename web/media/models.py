@@ -65,6 +65,7 @@ class Media(models.Model):
     hidden = models.BooleanField(default=False)
     byte_size = models.IntegerField(blank=True, null=True)
     kind = models.ForeignKey(MediaKind, on_delete=models.CASCADE, blank=True, null=True)
+    file_created = models.DateTimeField(blank=True, null=True)
 
     @property
     def extension(self):
@@ -77,6 +78,12 @@ class Media(models.Model):
         if self.extract_path != None and self.extract_path != "":
             return self.extract_path
         return self.origin_path
+
+    @property
+    def original_file_path(self):
+        if self.origin_path != None and not 'http' in self.origin_path:
+            return self.origin_path
+        return self.extract_path
 
     @property
     def web_content_path(self):

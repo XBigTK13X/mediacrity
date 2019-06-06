@@ -65,9 +65,6 @@ def update(request, source_id):
     instance = Source.objects.get(id=source_id)
     instance.name = request.POST['name']
     instance.description = request.POST['description']
-    instance.origin_path = request.POST['path']
-    if 'discussion_path' in request.POST:
-        instance.discussion_path = request.POST['discussion_path']
     instance.save()
     return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
 

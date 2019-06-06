@@ -13,9 +13,16 @@ def handle(job, payload):
     job.source_id = source
     print(f"Tracking progress in job {job.id} for source {source_id}")
     orm.job_log(job,f"Beginning extract of file system dir for {source.name}.")
-
-    source.content_path = source.origin_path
-    source.save()    
+    dir_path = source.origin_path
+    orm.job_log(job, f"dirs: {dir_path}")
+    dir_slug = f"file-system-dir-{source.name}-{dir}"
+    dir_hash = file_cache.hash(dir_slug)
+    source.legacy_v1_id = dir_hash
+    source.name = source.name
+    source.description="Auto generated source based on file system root."
+    source.origin_path = dir_path
+    source.content_path = dir_path
+    source.save()
 
     job_status = JobStatus.objects.get(name="success")
     job.status_id = job_status.id

@@ -35,6 +35,10 @@ Transform Path: {{media.transform_path}}
 <br/>
 Source: {{media.source.id}} - {{media.source.kind.name}} - {{ media.source.name }} - {{media.source.legacy_v1_id}} - {{media.source.origin_path}}
 <br/>
+Mediacrity Created: {{media.created}}
+<br/>
+File Created: {{media.file_created}}
+<br/>
 <form id="delete-form" action="{% url 'media:media_delete' media_id=media.id %}" method="post">
 {% csrf_token %}
 <input type="submit" value="Delete">

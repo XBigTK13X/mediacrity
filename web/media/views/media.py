@@ -49,9 +49,10 @@ def edit(request, media_id):
 @login_required
 def list(request, kind='all', page=1):
     media_query = Q()
+    order_by = '-created'
     if kind != 'all' and kind != None:
         media_query = Q(kind__name=kind)
-    media = Media.objects.select_related().filter(media_query).order_by('-created').all()
+    media = Media.objects.select_related().filter(media_query).order_by(order_by).all()
     pager = Paginator(media, settings.MEDIA_LIST_PAGE_SIZE)
     context = {
         'media': pager.get_page(page),

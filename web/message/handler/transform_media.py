@@ -6,7 +6,7 @@ import message.write
 import datetime, json
 from web import settings
 import subprocess, os
-from transform import transcode, thumbnail
+from transform import transcode, thumbnail, metadata
 
 VIDEO_KIND = MediaKind.objects.get(name="video")
 ANIMATION_KIND = MediaKind.objects.get(name="animation")
@@ -41,7 +41,7 @@ def handle(job, payload):
         file_lookup = search({}, source.content_path)
         files = list(file_lookup.keys())
         if len(files) == 0:
-            orm.job_log(job, f"No files found at {source.content_path}")            
+            orm.job_log(job, f"No files found at {source.content_path}")
         else:
             for file in files:
                 extract_path = file

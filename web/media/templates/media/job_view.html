@@ -9,6 +9,11 @@ Last updated {{job.updated}}.
 Time elapsed: {{time_elapsed}}.
 <br/>
 
+<form action="{% url 'media:job_requeue' job_id=job.id %}" method="post">
+{% csrf_token %}
+<input type="submit" value="Requeue">
+</form>
+
 <br/>
 
 Job logs

@@ -3,3 +3,5 @@ imgurpython == 1.1.7
 pika == 1.0.1
 praw == 6.2.0
 psycopg2-binary == 2.7.7
+ExifRead == 2.1.2
+python-dateutil == 2.8.0
