@@ -20,6 +20,8 @@ def job_fail(result, job, error):
         raise Exception(error)
 
 def extract_dir(subdir, hash):
+    if hash == None or hash == "":
+        raise Exception("A hash is required for the extract_dir")
     from media.models import Storage
     storage = Storage.objects.first()
     path = f"{storage.path}/{config.EXTRACT_DIR}/{subdir}/{hash}"
@@ -28,6 +30,8 @@ def extract_dir(subdir, hash):
     return path
 
 def transform_dir(subdir, hash):
+    if hash == None or hash == "":
+        raise Exception("A hash is required for the transform_dir")
     from media.models import Storage
     storage = Storage.objects.first()
     path = f"{storage.path}/{config.TRANSFORM_DIR}/{subdir}/{hash}"

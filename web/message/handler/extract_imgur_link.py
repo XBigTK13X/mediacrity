@@ -14,7 +14,9 @@ def handle(job, payload):
     job.source_id = source
     print(f"Tracking progress in job {job.id} for source {source_id}")
     orm.job_log(job,f"Beginning extract of URL using imgur downloader for {source.name}.")
-
+    if source.legacy_v1_id == None or source.legacy_v1_id == "":
+        source.legacy_v1_id = file_cache.hash(source.origin_path)
+        source.save()
     extract_dir = orm.extract_dir('imgur', source.legacy_v1_id)
     source.content_path = extract_dir
     source.save()
