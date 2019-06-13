@@ -4,10 +4,10 @@
 {% block content %}
 
 <a href="{% url 'media:source_edit' source_id=media.source.id %}"><button>Source</button></a>
-{% if prev_media %}
+{% if prev_media and prev_media.id != media.id %}
 <a href="{% url 'media:media_edit' media_id=prev_media.id %}"><button>Prev</button></a>
 {% endif %}
-{% if next_media %}
+{% if next_media and next_media.id != media.id %}
 <a href="{% url 'media:media_edit' media_id=next_media.id %}"><button>Next</button></a>
 {% endif %}
 
@@ -33,11 +33,17 @@ Extract Path: {{media.extract_path}}
 <br/>
 Transform Path: {{media.transform_path}}
 <br/>
-Source: {{media.source.id}} - {{media.source.kind.name}} - {{ media.source.name }} - {{media.source.legacy_v1_id}} - {{media.source.origin_path}}
+Source: {{media.source.id}} - {{media.source.kind.name}} - {{ media.source.name }} - {{media.source.legacy_v1_id}}
+<br/>
+Source Origin: <a href="{{media.source.origin_path}}">{{media.source.origin_path}}</a>
+<br/>
+Source Discussion: <a href="{{media.source.discussion_path}}">{{media.source.discussion_path}}</a>
 <br/>
 Mediacrity Created: {{media.created}}
 <br/>
 File Created: {{media.file_created}}
+<br/>
+Content Hash: {{media.content_hash}}
 <br/>
 <form id="delete-form" action="{% url 'media:media_delete' media_id=media.id %}" method="post">
 {% csrf_token %}
