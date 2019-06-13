@@ -28,6 +28,8 @@ urlpatterns = [
     path('media/list', media.list, name="media_list"),
     path('media/list?<slug:kind>', media.list, name="media_list"),
     path('media/list?<slug:kind>&<int:page>', media.list, name="media_list"),
+    path('media/admin', media.admin, name='media_admin'),
+    path('media/regnerate-thumbnails', media.regenerate_thumbnails, name="media_regenerate_thumbnails"),
 
     path('search', search.find, name='search_query'),
     path('search/<str:query>', search.results, name='search_results'),

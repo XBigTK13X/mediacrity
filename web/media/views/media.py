@@ -8,6 +8,7 @@ from django.db.models import Q,Count
 from random import randint
 from media.service import storage
 from django.core.paginator import Paginator
+import message.write
 
 @login_required
 def random(request):
@@ -75,3 +76,14 @@ def delete(request, media_id):
     source = media.source
     media.delete()
     return HttpResponseRedirect(reverse('media:source_edit', args=(source.id,)))
+
+@login_required
+def admin(request):
+    return render(request, 'media/media_admin.html', {})
+
+@login_required
+def regenerate_thumbnails(request):
+    job_id = message.write.send(
+        handler='regenerate-thumbnails'
+    )
+    return HttpResponseRedirect(reverse('media:job_view', args=(job_id,)))

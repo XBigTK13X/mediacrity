@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+Admin stuff. I hope you know what you're doing.
+<br/>
+<form action="{% url 'media:media_regenerate_thumbnails' %}" method="post">
+{% csrf_token %}
+<input type="submit" value="Regenerate Thumbnails">
+</form>
+{% endblock %}

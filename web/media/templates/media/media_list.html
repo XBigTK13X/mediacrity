@@ -20,13 +20,7 @@
 <br/>
 Found {{media.paginator.count}} media showing page {{page}} of {{media.paginator.num_pages}}.
 <br/>
-  <div>
-  {% for item in media %}
-      <div key={index} class="fluid-container">
-        {% include "media/comp/media_preview.html" with media=item only %}
-      </div>
-  {% endfor %}
-  </div>
+{% include "media/comp/media_list_preview.html" with media_list=media only %}
 {% else %}
 No media found. Try syncing some sources.
 {% endif %}

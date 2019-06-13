@@ -18,6 +18,7 @@ def start():
     from message.handler import extract_youtube_dl_link
     from message.handler import transform_media
     from message.handler import extract_reddit_post
+    from message.handler import regenerate_thumbnails
     from media.models import Job, JobStatus
     from media.service import storage
 
@@ -55,6 +56,8 @@ def start():
                     extract_youtube_dl_link.handle(job, payload)
                 elif handler == 'transform-media':
                     transform_media.handle(job, payload)
+                elif handler == 'regenerate-thumbnails':
+                    regenerate_thumbnails.handle(job,payload)
                 else:
                     print(f"Unknown handler [{handler}]")
             except Exception as e:

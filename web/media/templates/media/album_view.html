@@ -6,13 +6,7 @@ Album: {{album.name}} - {{album.description}}
 <br/>
 
 <div>
-{% for source in sources %}
-  {% for item in source.media_set.all %}
-      <div key={index} class="fluid-container">
-        {% include "media/comp/media_preview.html" with media=item only %}
-      </div>
-  {% endfor %}
-{% endfor %}
+{% include "media/comp/media_list_preview.html" with media_list=media only %}
 
 </div>
 

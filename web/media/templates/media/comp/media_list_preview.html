@@ -1,0 +1,7 @@
+<div>
+{% for media in media_list %}
+    <div class="fluid-container">
+      {% include "media/comp/media_preview.html" with media=media only %}
+    </div>
+{% endfor %}
+</div>

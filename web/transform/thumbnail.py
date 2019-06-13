@@ -25,8 +25,8 @@ def get_path(source, media):
     transform_path = ioutil.path(transform_dir, f"{media.content_hash}.png")
     return transform_path
 
-def generate(job, source, media):
-    if ioutil.cached(media.thumbnail_path):
+def generate(job, source, media, force=False):
+    if not force and ioutil.cached(media.thumbnail_path):
         return media.thumbnail_path
 
     media.thumbnail_path = get_path(source, media)

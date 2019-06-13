@@ -8,7 +8,10 @@ def create():
         settings.MESSAGE_HOST,
         settings.MESSAGE_PORT,
         '/',
-        credentials
+        credentials,
+        blocked_connection_timeout=None,
+        socket_timeout=None,
+        stack_timeout=None
     ))
     channel = connection.channel()
     channel.queue_declare(queue=settings.MESSAGE_QUEUE, durable=True)

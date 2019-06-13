@@ -33,3 +33,4 @@ else
 fi
 
 ffmpeg -i "${INPUT_PATH}" -vframes 1 -filter:v 'yadif,scale=100:100' -vf "select=gte(n\,${FRAME})" "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
+convert "${OUTPUT_PATH}" -resize '100x100!' ${OUTPUT_PATH}
