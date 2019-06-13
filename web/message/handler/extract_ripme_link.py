@@ -15,9 +15,7 @@ def handle(job, payload):
     orm.job_log(job,f"Beginning extract of URL using ripme for {source.name}.")
 
     if source.legacy_v1_id == None or source.legacy_v1_id == "":
-        source_slug = source.origin_path
-        source_hash = file_cache.hash(source_slug)
-        source.legacy_v1_id = source_hash
+        source.legacy_v1_id = file_cache.hash(source.origin_path)
         source.save()
 
     script_path = f"{settings.SCRIPT_DIR}/ripme/ripme.sh"

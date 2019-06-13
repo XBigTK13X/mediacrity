@@ -7,6 +7,7 @@ from media.models import *
 from django.db.models import Count
 import logging
 import message.write
+from common import file_cache
 
 logger = logging.getLogger('debug')
 
@@ -38,7 +39,8 @@ def insert(request):
         kind_id = request.POST['kind'],
         name = request.POST['name'],
         description = request.POST['description'],
-        origin_path = request.POST['path']
+        origin_path = request.POST['path'],
+        legacy_v1_id = file_cache.hash(request.POST['path'])
     )
     return HttpResponseRedirect(reverse('media:source_edit', args=(instance.id,)))
 

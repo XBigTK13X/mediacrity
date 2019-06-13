@@ -13,7 +13,9 @@ def handle(job, payload):
     job.source_id = source
     print(f"Tracking progress in job {job.id} for source {source_id}")
     orm.job_log(job,f"Beginning extract of URL using youtube-dl for {source.name}.")
-
+    if source.legacy_v1_id == None or source.legacy_v1_id == "":
+        source.legacy_v1_id = file_cache.hash(source.origin_path)
+        source.save()
     script_path = f"{settings.SCRIPT_DIR}/youtube-dl/youtube-dl.sh"
     cwd =  f"{settings.SCRIPT_DIR}/youtube-dl"
     download_dir = orm.extract_dir('youtube-dl', source.legacy_v1_id)

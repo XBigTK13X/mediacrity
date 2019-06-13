@@ -18,11 +18,11 @@ urlpatterns = [
     path('job/<int:job_id>/requeue', job.requeue, name='job_requeue'),
 
     path('media/<int:media_id>', media.edit, name='media_edit'),
+    path('media/<int:media_id>/delete', media.delete, name="media_delete"),
     path('media/random', media.random, name="media_random"),
     path('media/list', media.list, name="media_list"),
-    path('media/list?<str:kind>', media.list, name="media_list"),
-    path('media/list?<str:kind>&<int:page>', media.list, name="media_list"),
-    path('media/<int:media_id>/delete', media.delete, name="media_delete"),
+    path('media/list?<slug:kind>', media.list, name="media_list"),
+    path('media/list?<slug:kind>&<int:page>', media.list, name="media_list"),
 
     path('search', search.find, name='search_query'),
     path('search/<str:query>', search.results, name='search_results'),
