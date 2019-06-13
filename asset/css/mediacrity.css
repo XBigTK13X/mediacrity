@@ -183,3 +183,8 @@ li a .overlay{
   height: 2em;
   width: 50%;
 }
+
+textarea {
+  width: 85%;
+  height: 700px;
+}

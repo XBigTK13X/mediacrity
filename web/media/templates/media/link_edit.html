@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Links{% endblock %}
+{% block content %}
+<a href="{% url 'media:link_edit' %}"><button>Edit links</button></a>
+<br/>
+<br/>
+
+<form action="{% url 'media:link_update' %}" method="post">
+{% csrf_token %}
+<label for="links-json">Links JSON</label>
+<br/>
+<textarea name="links-json" value="{{links_json}}">
+{{links_json}}
+</textarea>
+<br/>
+<input type="submit" value="Save">
+</form>
+
+{% endblock %}

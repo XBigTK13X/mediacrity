@@ -6,6 +6,7 @@ from .views import job
 from .views import search
 from .views import source
 from .views import storage
+from .views import link
 
 app_name='media'
 
@@ -16,6 +17,10 @@ urlpatterns = [
     path('job/<int:job_id>', job.view, name='job_view'),
     path('job/list', job.list, name='job_list'),
     path('job/<int:job_id>/requeue', job.requeue, name='job_requeue'),
+
+    path('link/edit', link.edit, name='link_edit'),
+    path('link/update', link.update, name='link_update'),
+    path('link/list', link.list, name='link_list'),
 
     path('media/<int:media_id>', media.edit, name='media_edit'),
     path('media/<int:media_id>/delete', media.delete, name="media_delete"),

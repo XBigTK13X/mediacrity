@@ -48,7 +48,6 @@ def edit(request, media_id):
 
 @login_required
 def list(request, kind='all', page=1):
-    print(f"kind - {kind}, page - {page}")
     media_query = Q()
     order_by = '-created'
     if kind != 'all' and kind != None:
