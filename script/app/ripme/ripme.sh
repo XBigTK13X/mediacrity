@@ -16,7 +16,7 @@ fi
 cp rip-base.properties rip.properties
 
 java \
-  -jar ripme-1.7.83.jar \
+  -jar ./ripme-1.7.83.jar \
   -d \
   -l "${RIPS_DIR}" \
   -u "${URL}"

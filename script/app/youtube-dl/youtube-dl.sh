@@ -13,4 +13,4 @@ if [ -z ${URL} ]; then
   exit 1
 fi
 
-youtube-dl -f best -o "$YOUTUBEDL_DIR/%(title)s.%(ext)s" "$URL"
+./youtube-dl -f best -o "$YOUTUBEDL_DIR/%(title)s.%(ext)s" "$URL"

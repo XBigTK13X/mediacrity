@@ -22,7 +22,7 @@ def handle(job, payload):
     source.content_path = download_dir
     source.save()
     command = f"{script_path} {download_dir} {source.origin_path}"
-    orm.job_log(job, f"Running command {command}")
+    orm.job_log(job, f"Running command {command} in {cwd}")
     process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout,stderr = process.communicate()
     orm.job_log(job, f"stdout: {stdout}")
