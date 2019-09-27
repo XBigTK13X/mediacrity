@@ -10,12 +10,12 @@ if [ -z ${FRAME} ]; then
   exit 1
 fi
 
-if [ -z ${INPUT_PATH} ]; then
+if [ -z "${INPUT_PATH}" ]; then
   echo "INPUT_PATH is required as the second argument"
   exit 1
 fi
 
-if [ -z ${OUTPUT_PATH} ]; then
+if [ -z "${OUTPUT_PATH}" ]; then
   echo "OUTPUT_PATH is required as the third argument"
   exit 1
 fi
@@ -33,4 +33,4 @@ else
 fi
 
 ffmpeg -i "${INPUT_PATH}" -vframes 1 -filter:v 'yadif,scale=100:100' -vf "select=gte(n\,${FRAME})" "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
-convert "${OUTPUT_PATH}" -resize '100x100!' ${OUTPUT_PATH}
+convert "${OUTPUT_PATH}" -resize '100x100!' "${OUTPUT_PATH}"

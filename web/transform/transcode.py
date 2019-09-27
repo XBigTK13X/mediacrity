@@ -27,8 +27,8 @@ def video(job, input_path, output_path):
     if extension == 'mp4':
         return input_path
 
-    if not ioutil.cached(output_Path):
-        ffmpeg(input_path, output_path)
+    if not ioutil.cached(output_path):
+        ffmpeg(job, input_path, output_path)
 
     return output_path
 
@@ -51,10 +51,10 @@ def animate(job, input_path, output_path):
 def ffmpeg(job, input_path, output_path, log=False):
     fallback_mode = 0
     result = -1
+    script_path = f"{settings.SCRIPT_DIR}/transform/transcode-video.sh"
+    cwd =  f"{settings.SCRIPT_DIR}/transform"
     # mpg and avi files seem to fail on the primary conversion method
     if not '.mpg' in input_path and not '.avi' in input_path:
-        script_path = f"{settings.SCRIPT_DIR}/transform/transcode-video.sh"
-        cwd =  f"{settings.SCRIPT_DIR}/transform"
         command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode}"
         orm.job_log(job, f"Running command {command}")
         process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

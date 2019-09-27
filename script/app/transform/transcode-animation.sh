@@ -4,12 +4,12 @@ INPUT_PATH=$1
 OUTPUT_PATH=$2
 SUPPRESS_LOGS=$3
 
-if [ -z ${INPUT_PATH} ]; then
+if [ -z "${INPUT_PATH}" ]; then
   echo "INPUT_PATH is required as the first argument"
   exit 1
 fi
 
-if [ -z ${OUTPUT_PATH} ]; then
+if [ -z "${OUTPUT_PATH}" ]; then
   echo "OUTPUT_PATH is required as the second argument"
   exit 1
 fi
