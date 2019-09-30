@@ -15,8 +15,10 @@ def has_audio(input_path):
 
 
 def video(job, input_path, output_path):
+    orm.job_log(job, f"Attempting to transcode video {input_path} to {output_path}")
     extension = ioutil.extension(input_path)
     if not has_audio(input_path):
+        orm.job_log(job, f"No audio detected. Converting to webm")
         if extension == 'webm':
             return input_path
         output_path = output_path.replace('.mp4','.webm')
@@ -25,9 +27,11 @@ def video(job, input_path, output_path):
         return output_path
 
     if extension == 'mp4':
+        orm.job_log(job, f"Video already in web supported format")
         return input_path
 
     if not ioutil.cached(output_path):
+        orm.job_log(job, f"Performing conversion")
         ffmpeg(job, input_path, output_path)
 
     return output_path
@@ -56,7 +60,7 @@ def ffmpeg(job, input_path, output_path, log=False):
     # mpg and avi files seem to fail on the primary conversion method
     if not '.mpg' in input_path and not '.avi' in input_path:
         command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode}"
-        orm.job_log(job, f"Running command {command}")
+        orm.job_log(job, f"Running primary command {command}")
         process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout,stderr = process.communicate()
         result = process.returncode
@@ -70,7 +74,7 @@ def ffmpeg(job, input_path, output_path, log=False):
     if result != 0:
         fallback_mode = 1
         command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode}"
-        orm.job_log(job, f"Running command {command}")
+        orm.job_log(job, f"Running fallback command {command}")
         process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout,stderr = process.communicate()
         result = process.returncode
