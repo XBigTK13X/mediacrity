@@ -10,6 +10,7 @@
   {% for storage in storages %}
     <a href="{% url 'media:storage_edit' storage_id=storage.id %}">{{ storage.name }}</a>
     <br/>
+    <br/>
   {% endfor %}
 {% else %}
   No storages found. How about adding one?

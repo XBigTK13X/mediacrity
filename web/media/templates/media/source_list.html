@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Sources{% endblock %}
 {% block content %}
-<a href="{% url 'media:source_add' %}"><button>Create a new source</button></a>
-<a href="{% url 'media:source_list' mode='populated' %}"><button>Populated Sources</button></a>
-<a href="{% url 'media:source_list' mode='empty' %}"><button>Empty Sources</button></a>
-<a href="{% url 'media:source_list' mode='all' %}"><button>All Sources</button></a>
+<a href="{% url 'media:source_add' %}"><button class="action-link">Create a new source</button></a>
+<a href="{% url 'media:source_list' mode='populated' %}"><button class="action-link">Populated Sources</button></a>
+<a href="{% url 'media:source_list' mode='empty' %}"><button class="action-link">Empty Sources</button></a>
+<a href="{% url 'media:source_list' mode='all' %}"><button class="action-link">All Sources</button></a>
 <br/>
 <br/>
 

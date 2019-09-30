@@ -4,8 +4,8 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  <p>Make sure to unlock any locked storage before anything else.</p>
+  <p class="landing">Make sure to unlock any locked storage before anything else.</p>
 {% else %}
-  <p>You are not logged in</p>
+  <p class="landing">You are not logged in</p>
 {% endif %}
 {% endblock %}

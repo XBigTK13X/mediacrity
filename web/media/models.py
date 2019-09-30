@@ -4,6 +4,9 @@ from common import ioutil
 from web import settings
 import os
 import urllib
+import math
+
+size_names = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
 
 class StorageKind(models.Model):
     name = models.CharField(max_length=128)
@@ -92,6 +95,16 @@ class Media(models.Model):
     @property
     def web_thumbnail_path(self):
         return urllib.parse.quote(self.thumbnail_path)
+
+    @property
+    def display_size(self):
+        global size_names
+        if not self.byte_size or self.byte_size == 0:
+            return "0B"
+        i = int(math.floor(math.log(self.byte_size, 1024)))
+        p = math.pow(1024, i)
+        s = round(self.byte_size / p, 2)
+        return "%s %s" % (s, size_names[i])
 
 class Album(models.Model):
     created = models.DateTimeField(auto_now_add=True)

@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load content %}
-{% block title %}Job Status{% endblock %}
+{% block title %}Media Edit{% endblock %}
 {% block content %}
 
-<a href="{% url 'media:source_edit' source_id=media.source.id %}"><button>Source</button></a>
+<a  href="{% url 'media:source_edit' source_id=media.source.id %}"><button class="action-link">Source</button></a>
 {% if prev_media and prev_media.id != media.id %}
-<a href="{% url 'media:media_edit' media_id=prev_media.id %}"><button>Prev</button></a>
+<a  href="{% url 'media:media_edit' media_id=prev_media.id %}"><button class="action-link">Prev</button></a>
 {% endif %}
 {% if next_media and next_media.id != media.id %}
-<a href="{% url 'media:media_edit' media_id=next_media.id %}"><button>Next</button></a>
+<a  href="{% url 'media:media_edit' media_id=next_media.id %}"><button class="action-link">Next</button></a>
 {% endif %}
 
 <div class="media-container">

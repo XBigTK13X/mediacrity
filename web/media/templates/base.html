@@ -5,31 +5,30 @@
   <meta charset="utf-8">
   <title>{% block title %}{% endblock %} - Mediacrity</title>
   <link rel="stylesheet" type="text/css" href="{% asset 'css/mediacrity.css' %}" />
-   <script src="{% asset 'js/jquery-3.4.1.min.js' %}"></script>
 </head>
 <body>
   <div class="page-container">
     {% if user.is_authenticated %}
-      <a href="{% url 'logout' %}"><button>Logout</button></a>
+      <a href="{% url 'logout' %}"><button class="action-link">Logout</button></a>
     {% else %}
-      <a href="{% url 'login' %}"><button>Login</button></a>
+      <a href="{% url 'login' %}"><button class="action-link">Login</button></a>
     {% endif %}
-    <a href="{% url 'home' %}"><button>Home</button></a>
+    <a href="{% url 'home' %}"><button class="action-link">Home</button></a>
     {% if user.is_authenticated %}
-      <a href="{% url 'media:storage_list' %}"><button>Storage</button></a>
-      <a href="{% url 'media:album_list' %}"><button>Albums</button></a>
-      <a href="{% url 'media:source_list' %}"><button>Sources</button></a>
-      <a href="{% url 'media:media_list' %}"><button>Media</button></a>
-      <a href="{% url 'media:job_list' %}"><button>Jobs</button></a>
-      <a href="{% url 'media:link_list' %}"><button>Links</button></a>
-      <a href="{% url 'media:media_random' %}"><button>Random</button></a>
-      <a href="{% url 'media:media_admin' %}"><button>Admin</button></a>
+      <a href="{% url 'media:storage_list' %}"><button class="action-link">Storage</button></a>
+      <a href="{% url 'media:album_list' %}"><button class="action-link">Albums</button></a>
+      <a href="{% url 'media:source_list' %}"><button class="action-link">Sources</button></a>
+      <a href="{% url 'media:media_list' %}"><button class="action-link">Media</button></a>
+      <a href="{% url 'media:job_list' %}"><button class="action-link">Jobs</button></a>
+      <a href="{% url 'media:link_list' %}"><button class="action-link">Links</button></a>
+      <a href="{% url 'media:media_random' %}"><button class="action-link">Random</button></a>
+      <a href="{% url 'media:media_admin' %}"><button class="action-link">Admin</button></a>
       <br/>
       <form action="{% url 'media:search_query' %}" method="post">
-      {% csrf_token %}
-      <input name="query" value="" id="search-query">
-      <input type="submit" value="Search" id="search-submit">
-      <p style="display:none;" id="search-warning">Please enter a search query</p>
+        {% csrf_token %}
+        <input class="search-input" name="query" value="" id="search-query">
+        <input class="search-submit" type="submit" value="Search" id="search-submit">
+        <p style="display:none;" id="search-warning">Please enter a search query</p>
       </form>
       <script>
 
@@ -53,5 +52,12 @@
     {% block content %}
     {% endblock %}
   </div>
+  <script src="{% asset 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% asset 'js/jquery-lazy-1.7.10.min.js' %}"></script>
+  <script>
+    $(function() {
+       $('.lazy').Lazy();
+   });
+  </script>
 </body>
 </html>

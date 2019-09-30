@@ -1,6 +1,18 @@
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+{% load content %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Login - Mediacrity</title>
+  <link rel="stylesheet" type="text/css" href="{% asset 'css/mediacrity.css' %}" />
+</head>
+<body>
+<div class="landing">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="login-btn" type="submit">Login</button>
+  </form>
+</div>
+</body>
+</html>

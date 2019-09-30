@@ -23,15 +23,8 @@ def list(request):
 def view(request, album_id):
     # TODO Work in progress raw query for paging, there is probably a way to do this through the django API
     album = Album.objects.get(id=album_id)
-    media_query = '''
-        select * from media_album a
-        join media_album_sources as als on a.id = als.album_id
-        join media_media m on m.source_id = als.source_id
-        order by als.source_id,m.sort_order;
-    '''
+    media_query = f"select m.id,m.thumbnail_path,m.content_hash,m.kind_id,m.source_id,m.byte_size from media_album a join media_album_sources as als on a.id = als.album_id join media_media m on m.source_id = als.source_id where a.id={album_id} order by als.source_id,m.sort_order;"
     media = Media.objects.raw(media_query)
-    # TODO This should be doable in Django without needing to sort in Python
-    sources = sorted(album.sources.all(), key=lambda x: x.sort_order if x.sort_order != None else 0)
     context = {
         'album': album,
         'media': media

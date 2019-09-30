@@ -3,19 +3,19 @@
 {% block content %}
 
 {% if media %}
-<a href="{% url 'media:media_list' %}"><button>All</button></a>
-<a href="{% url 'media:media_list' kind='video' %}"><button>Video</button></a>
-<a href="{% url 'media:media_list' kind='animation' %}"><button>Animation</button></a>
-<a href="{% url 'media:media_list' kind='image' %}"><button>Image</button></a>
+<a  href="{% url 'media:media_list' %}"><button class="action-link">All</button></a>
+<a  href="{% url 'media:media_list' kind='video' %}"><button class="action-link">Video</button></a>
+<a  href="{% url 'media:media_list' kind='animation' %}"><button class="action-link">Animation</button></a>
+<a  href="{% url 'media:media_list' kind='image' %}"><button class="action-link">Image</button></a>
 {% if media.has_previous %}
-  <a href="{% url 'media:media_list' kind=kind page=media.previous_page_number %}"><button>Page -</button></a>
+  <a  href="{% url 'media:media_list' kind=kind page=media.previous_page_number %}"><button class="action-link">Page -</button></a>
 {% elif media.paginator.num_pages > 1 %}
-  <a href="{% url 'media:media_list' kind=kind page=media.paginator.num_pages %}"><button>Page -</button></a>
+  <a  href="{% url 'media:media_list' kind=kind page=media.paginator.num_pages %}"><button class="action-link">Page -</button></a>
 {% endif %}
 {% if media.has_next %}
-  <a href="{% url 'media:media_list' kind=kind page=media.next_page_number %}"><button>Page +</button></a>
+  <a  href="{% url 'media:media_list' kind=kind page=media.next_page_number %}"><button class="action-link">Page +</button></a>
 {% elif media.paginator.num_pages > 1 %}
-  <a href="{% url 'media:media_list' kind=kind page=1 %}"><button>Page +</button></a>
+  <a  href="{% url 'media:media_list' kind=kind page=1 %}"><button class="action-link">Page +</button></a>
 {% endif %}
 <br/>
 Found {{media.paginator.count}} media showing page {{page}} of {{media.paginator.num_pages}}.
