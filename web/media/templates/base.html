@@ -26,8 +26,8 @@
       <br/>
       <form action="{% url 'media:search_query' %}" method="post">
         {% csrf_token %}
-        <input class="search-input" name="query" value="" id="search-query">
-        <input class="search-submit" type="submit" value="Search" id="search-submit">
+        <input class="big-input" name="query" value="" id="search-query">
+        <input class="big-submit" type="submit" value="Search" id="search-submit">
         <p style="display:none;" id="search-warning">Please enter a search query</p>
       </form>
       <script>

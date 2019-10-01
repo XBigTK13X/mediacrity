@@ -168,13 +168,13 @@ p > input {
   width: 80%;
 }
 
-.search-input {
+.big-input {
   width:60%;
   height: 5vh;
   font-size: 2vh;
 }
 
-.search-submit {
+.big-submit {
   width:30%;
   height: 6vh;
   font-size: 3vh;

@@ -67,9 +67,7 @@ def ffmpeg(job, input_path, output_path, log=False):
         if result != 0:
             orm.job_log(job, f"stdout: {stdout}")
             orm.job_log(job, f"stderr: {stderr}")
-            error = f"An error occurred when transcoding media [{media.id}]"
-            orm.job_fail(result, job, error)
-            raise Exception(error)
+            error = f"An error occurred when transcoding media [{input_path}]"
 
     if result != 0:
         fallback_mode = 1

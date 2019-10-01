@@ -17,14 +17,14 @@ Mediacrity thinks this storage is {% if storage.locked %} locked{% else %} unloc
 
 <form action="{% url 'media:storage_mount' storage_id=storage.id %}" method='POST'>
   {% csrf_token %}
-  <input name="password" type="password" value=""><label for="password">Password</label>
+  <input class="big-input" name="password" type="password" value=""><label for="password">Password</label>
   <br/>
-  <button type='submit'>Mount</button>
+  <input class="big-submit" type="submit" value="Mount">
 </form>
 <br/>
 <form action="{% url 'media:storage_unmount' storage_id=storage.id %}" method='POST'>
   {% csrf_token %}
-  <button type='submit'>Unmount</button>
+  <input class="big-submit" type="submit" value="Unmount">
 </form>
 
 {% if storage.contents %}
