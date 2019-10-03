@@ -8,9 +8,7 @@
 
 {% if storages %}
   {% for storage in storages %}
-    <a href="{% url 'media:storage_edit' storage_id=storage.id %}">{{ storage.name }}</a>
-    <br/>
-    <br/>
+    <a href="{% url 'media:storage_edit' storage_id=storage.id %}"><button class="action-link">{{ storage.name }}</button></a>
   {% endfor %}
 {% else %}
   No storages found. How about adding one?
