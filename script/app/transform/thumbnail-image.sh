@@ -13,4 +13,4 @@ if [ -z "${OUTPUT_PATH}" ]; then
   exit 1
 fi
 
-convert "${INPUT_PATH}" -resize '100x100!' "${OUTPUT_PATH}"
+convert -auto-orient "${INPUT_PATH}" -resize '100x100!' "${OUTPUT_PATH}"
