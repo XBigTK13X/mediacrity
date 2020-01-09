@@ -26,7 +26,7 @@ def view(request, job_id):
 
 @login_required
 def list(request):
-    jobs = Job.objects.select_related().exclude(status_id=1).order_by('-created').all()
+    jobs = Job.objects.select_related().exclude(status_id=1).order_by('-id').all()
     pager = Paginator(jobs, 250)
     context = {
         'jobs': pager.get_page(1),
