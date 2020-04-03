@@ -13,11 +13,11 @@
 
 <div class="media-container">
   {% if media.extension == 'mp4' %}
-    <video controls autoplay class="media">
+    <video controls autoplay class="media" onclick="this.play()" touchstart="this.play()">
       <source src={% media media.web_content_path %} type="video/mp4"/>
     </video>
   {% elif media.extension == 'webm' %}
-    <video controls autoplay loop class="media">
+    <video controls autoplay loop class="media" onclick="this.play()" touchstart="this.play()">
       <source src={% media media.web_content_path %} type="video/mp4"/>
     </video>
   {% else %}

@@ -5,17 +5,15 @@ body {
 
 .fluid-container{
   display: inline-flex;
-  width: 16vh;
-  height: 16vh;
+  width: 150px;
+  height: 150px;
 }
-
-
 
 .image img{
   max-width: 100%;
   max-height: 100%;
-  width: 16vh;
-  height: 16vh;
+  width: 150px;
+  height: 150px;
 }
 
 .page-container{
@@ -58,7 +56,7 @@ body {
 
 img {
     max-width: 100%;
-    max-height: 80vh;
+    max-height: 70vh;
     display: block;
     margin: 0 auto;
 
@@ -66,7 +64,7 @@ img {
 
 video {
     width: 100%;
-    max-height: 80vh;
+    max-height: 70vh;
     display: block;
     margin: 0 auto;
 }
@@ -147,9 +145,9 @@ li a .overlay{
 }
 
 .action-link {
-  font-size: 2vh;
-  width: 15%;
-  height: 8vh;
+  font-size: 24px;
+  width: 18%;
+  height: 5vh;
 }
 
 .landing {
@@ -162,20 +160,20 @@ p > input {
 }
 
 .login-btn {
-  font-size: 8vh;
+  font-size: 60px;
   width: 80%;
 }
 
 .big-input {
   width:60%;
-  height: 5vh;
-  font-size: 2vh;
+  height: 60px;
+  font-size: 24px;
 }
 
 .big-submit {
   width:30%;
-  height: 6vh;
-  font-size: 3vh;
+  height: 60px;
+  font-size: 24px;
 }
 
 .meta-block{
@@ -197,5 +195,5 @@ textarea {
 }
 
 .list-link {
-  font-size: 3vh;
+  font-size: 30px;
 }
