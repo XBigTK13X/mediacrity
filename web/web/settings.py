@@ -180,6 +180,13 @@ VIDEO_FORMATS = [
     'wmv'
 ]
 
+IMAGE_FORMATS = [
+    'png',
+    'jpg',
+    'jpeg',
+    'bmp'
+]
+
 SUPPRESS_TRANSCODE_LOGGING=1
 
 MESSAGE_HOST=os.environ.get('MEDIACRITY_MESSAGE_HOST')

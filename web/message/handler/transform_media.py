@@ -74,6 +74,16 @@ def handle(job, payload):
                     else:
                         media.transform_path = transform_path
                     media.save()
+                if transcode.is_image(media.extract_path):
+                    transform_dir = orm.transform_dir(source.kind.name, source.legacy_v1_id)
+                    transform_path = ioutil.path(transform_dir, f"{media.content_hash}.jpg")
+                    transform_cached = ioutil.cached(transform_path)
+                    orm.job_log(job, f"Was the transform cached for {transform_path}? {transform_cached}")
+                    if not transform_cached:
+                        media.transform_path = transcode.image(job, media.extract_path, transform_path)
+                    else:
+                        media.transform_path = transform_path
+                    media.save()
                 if media.extension == "mp4":
                     media.kind = VIDEO_KIND
                 elif media.extension == "webm":
