@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <title>{% block title %}{% endblock %} - Mediacrity</title>
   <link rel="stylesheet" type="text/css" href="{% asset 'css/mediacrity.css' %}" />
+  <script src="{% asset 'js/jquery-3.4.1.min.js' %}"></script>
 </head>
 <body>
   <div class="page-container">
@@ -23,6 +24,7 @@
       <a href="{% url 'media:link_list' %}"><button class="action-link">Links</button></a>
       <a href="{% url 'media:media_random' %}"><button class="action-link">Random</button></a>
       <a href="{% url 'media:media_admin' %}"><button class="action-link">Admin</button></a>
+      <a href="{% url 'media:file_upload' %}"><button class="action-link">Upload</button></a>
       <br/>
       <form action="{% url 'media:search_query' %}" method="post">
         {% csrf_token %}
@@ -52,7 +54,6 @@
     {% block content %}
     {% endblock %}
   </div>
-  <script src="{% asset 'js/jquery-3.4.1.min.js' %}"></script>
   <script src="{% asset 'js/jquery-lazy-1.7.10.min.js' %}"></script>
   <script>
     $(function() {

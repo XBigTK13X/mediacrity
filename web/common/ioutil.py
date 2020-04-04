@@ -8,6 +8,16 @@ import pathlib
 
 from web import settings
 
+def path(*targets):
+	result = os.path.join(targets[0], targets[1])
+	for ii in range(2, len(targets)):
+		result = os.path.join(result, targets[ii])
+	mkdir(os.path.dirname(result))
+	return result
+
+def list_dirs(path):
+    return sorted([f.path for f in os.scandir(path) if f.is_dir()])
+
 def mkdir(path, clean=False):
 	if clean:
 		try:
@@ -19,14 +29,6 @@ def mkdir(path, clean=False):
 		os.makedirs(path)
 	except:
 		swallow = True
-
-
-def path(*targets):
-	result = os.path.join(targets[0], targets[1])
-	for ii in range(2, len(targets)):
-		result = os.path.join(result, targets[ii])
-	mkdir(os.path.dirname(result))
-	return result
 
 
 def path_compact(*targets):

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load content %}
+{% block title %}Upload Media{% endblock %}
+{% block content %}
+<br/>
+<form action="{% url 'media:file_write' %}" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <input type="file" name="files" multiple />
+    <input class="big-input" name="directory" value="{{directory}}" id="upload-directory">
+    <input class="big-submit" type="submit" value="Upload" id="file-write-submit">
+</form>
+<form action="{% url 'media:file_upload' %}" method="post">
+  {% csrf_token %}
+  <input class="big-input" name="path" value="{{directory}}" id="file-query">
+  <input class="big-submit" type="submit" value="Browse" id="file-query-submit">
+</form>
+<script>
+
+  $('#file-query-submit').click((e)=>{
+    let query = $('#file-query').val()
+    if(query === ''){
+      e.preventDefault()
+      query = '/'
+    }
+
+  })
+</script>
+<br/>
+{% if paths %}
+Found {{paths.count}} directories.
+<br/><br/>
+  {% for path in paths %}
+    <p class="directory">{{path}}</p>
+  {% endfor %}
+  <script>
+      $(function() {
+          $('.directory').on('click',(event)=>{
+              let target = $(event.target).text()
+              if(target==='../'){
+                target = $('#file-query').val()
+                let parts = target.split('/')
+                if(parts.length > 1){
+                    parts.splice(-1,1)
+                    target = parts.join('/')
+                    if(target === ''){
+                        target = '/'
+                    }
+                }
+              }
+              $('#file-query').val(target);
+              $('#file-query-submit').click();
+          })
+     });
+  </script>
+{% else %}
+  No paths found. Does the parent dir exist?
+{% endif %}
+{% endblock content %}

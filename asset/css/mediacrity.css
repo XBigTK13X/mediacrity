@@ -21,19 +21,6 @@ body {
   margin: auto;
 }
 
-.nav-column{
-    width: 10%;
-    float:right;
-    word-break: break-all;
-    margin-right: 1%;
-}
-
-.content-column{
-    float:right;
-    margin-right: 1%;
-    width: 88%
-}
-
 .hidden{
     display: none;
 }
@@ -146,7 +133,7 @@ li a .overlay{
 
 .action-link {
   font-size: 24px;
-  width: 18%;
+  width: 10vw;
   height: 5vh;
 }
 
@@ -176,13 +163,6 @@ p > input {
   font-size: 24px;
 }
 
-.meta-block{
-}
-
-.search-form form {
-
-}
-
 .search-form input {
   margin: 1em 1em;
   height: 2em;
@@ -196,4 +176,8 @@ textarea {
 
 .list-link {
   font-size: 30px;
+}
+
+.directory{
+    cursor: pointer;
 }

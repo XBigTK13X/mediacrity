@@ -7,6 +7,7 @@ from .views import search
 from .views import source
 from .views import storage
 from .views import link
+from .views import file_system
 
 app_name='media'
 
@@ -49,5 +50,8 @@ urlpatterns = [
     path('storage/<int:storage_id>/update', storage.update, name='storage_update'),
     path('storage/<int:storage_id>/edit', storage.edit, name='storage_edit'),
     path('storage/<int:storage_id>/mount', storage.mount, name='storage_mount'),
-    path('storage/<int:storage_id>/unmount', storage.unmount, name='storage_unmount')
+    path('storage/<int:storage_id>/unmount', storage.unmount, name='storage_unmount'),
+
+    path('file-system/upload', file_system.upload, name="file_upload"),
+    path('file-system/write', file_system.write, name="file_write")
 ]
