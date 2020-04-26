@@ -12,10 +12,10 @@ def handle(job, payload):
     source = Source.objects.get(id=source_id)
     job.source_id = source
     print(f"Tracking progress in job {job.id} for source {source_id}")
-    orm.job_log(job,f"Beginning extract of file system dir for {source.name}.")
     dir_path = source.origin_path
+    orm.job_log(job,f"Beginning extract of file system dir for {dir_path}.")
     orm.job_log(job, f"dirs: {dir_path}")
-    dir_slug = f"file-system-dir-{source.name}-{dir}"
+    dir_slug = f"file-system-dir-{dir_path}"
     dir_hash = file_cache.hash(dir_slug)
     source.legacy_v1_id = dir_hash
     source.name = source.name

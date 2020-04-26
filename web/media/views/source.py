@@ -99,5 +99,7 @@ def sync(request, source_id):
 def delete(request, source_id):
     if source_id == None:
         raise "A source id must be provided"
+    source = Source.objects.get(id=source_id)
+    Source.objects.filter(origin_path__contains=source.origin_path).delete()
     Source.objects.filter(id=source_id).delete()
     return HttpResponseRedirect(reverse('media:source_list'))

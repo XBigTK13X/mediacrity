@@ -33,18 +33,18 @@ def handle(job, payload):
         for dir in dirs:
             dir_path = ioutil.path(root,dir)
             orm.job_log(job, f"dirs: {dir_path}")
-            dir_slug = f"file-system-dir-{source.name}-{dir}"
+            dir_slug = f"file-system-dir-{dir_path}"
             dir_hash = file_cache.hash(dir_slug)
             dir_source = None
             try:
                 dir_source = Source.objects.get(legacy_v1_id=dir_hash)
-                orm.job_log(job, f"Updating existing source {dir_source.id} for dir {ioutil.path(root, dir)}")
+                orm.job_log(job, f"Updating existing source {dir_source.id} for dir {dir_path}")
             except ObjectDoesNotExist:
                 dir_source = Source.objects.create(kind_id=directory_source_kind.id)
-                orm.job_log(job, f"Created a new source {dir_source.id} for dir {ioutil.path(root, dir)}")
+                orm.job_log(job, f"Created a new source {dir_source.id} for dir {dir_path}")
 
             dir_source.legacy_v1_id = dir_hash
-            dir_source.name = dir
+            dir_source.name = dir_path
             dir_source.description="Auto generated source based on file system root."
             dir_source.origin_path = dir_path
             dir_source.content_path = dir_path
