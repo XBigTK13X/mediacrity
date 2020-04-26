@@ -3,21 +3,24 @@
 {% block title %}Media Edit{% endblock %}
 {% block content %}
 
-<a  href="{% url 'media:source_edit' source_id=media.source.id %}"><button class="action-link">Source</button></a>
+<a href="{% url 'media:source_edit' source_id=media.source.id %}"><button class="action-link">Source</button></a>
 {% if prev_media and prev_media.id != media.id %}
-<a  href="{% url 'media:media_edit' media_id=prev_media.id %}"><button class="action-link">Prev</button></a>
+<a href="{% url 'media:media_edit' media_id=prev_media.id %}"><button class="action-link">Prev</button></a>
 {% endif %}
 {% if next_media and next_media.id != media.id %}
-<a  href="{% url 'media:media_edit' media_id=next_media.id %}"><button class="action-link">Next</button></a>
+<a href="{% url 'media:media_edit' media_id=next_media.id %}"><button class="action-link">Next</button></a>
+{% endif %}
+{% if media.extension == 'mp4' or media.extension == 'webm' %}
+<button class="action-link" onClick="toggleVideo()">Play</button>
 {% endif %}
 
 <div class="media-container">
   {% if media.extension == 'mp4' %}
-    <video controls autoplay class="media" onclick="this.play()" touchstart="this.play()">
+    <video id="video-player" controls autoplay loop class="media" onclick="this.play()">
       <source src={% media media.web_content_path %} type="video/mp4"/>
     </video>
   {% elif media.extension == 'webm' %}
-    <video controls autoplay loop class="media" onclick="this.play()" touchstart="this.play()">
+    <video id="video-player" controls autoplay loop class="media" onclick="this.play()">
       <source src={% media media.web_content_path %} type="video/mp4"/>
     </video>
   {% else %}
@@ -53,5 +56,9 @@ Content Hash: {{media.content_hash}}
 $('#delete-form').submit(function() {
     return confirm("Are you sure you want to delete this item?");
 });
+function toggleVideo(){
+    let player = $('#video-player').get(0)
+    player.paused ? player.play() : player.pause();
+}
 </script>
 {% endblock content %}
