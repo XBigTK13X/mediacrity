@@ -12,7 +12,7 @@ def is_image(path):
     return ioutil.extension(path) in settings.IMAGE_FORMATS
 
 def has_audio(input_path):
-    command = f"ffprobe -v error -show_format -show_streams '{input_path}' | grep -q audio"
+    command = f"ffprobe -v error -show_entries stream=codec_type '{input_path}' | grep -q audio"
     process = subprocess.Popen(command, shell=True, cwd=os.getcwd())
     return process.wait() == 0
 

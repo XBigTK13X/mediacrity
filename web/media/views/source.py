@@ -20,8 +20,9 @@ def list(request, mode="populated"):
         sources = Source.objects.filter(media__source__isnull=True)
     else:
         sources = Source.objects.filter(media__source__isnull=False)
+    sources = sources.select_related().annotate(media_count=Count('id')).order_by('-id').all()
     context = {
-        'sources': sources.select_related().annotate(media_count=Count('id')).order_by('id').all(),
+        'sources': sources,
         'mode': mode
     }
     return render(request, 'media/source_list.html', context)
@@ -29,7 +30,7 @@ def list(request, mode="populated"):
 @login_required
 def add(request):
     context = {
-        'source_kinds': SourceKind.objects.all()
+        'source_kinds': SourceKind.objects.order_by('name').all()
     }
     return render(request, 'media/source_add.html', context)
 
@@ -47,8 +48,8 @@ def insert(request):
 @login_required
 def edit(request, source_id):
     source = Source.objects.select_related().get(id=source_id)
-    jobs = Job.objects.select_related().filter(source_id=source).order_by('-created')
-    media = Media.objects.filter(source_id=source).order_by('sort_order')
+    jobs = Job.objects.select_related().filter(source_id=source).order_by('-id')
+    media = Media.objects.filter(source_id=source).order_by('id')
     album = None
     try:
         album = Album.objects.get(generated_by_source_v1_id=source.legacy_v1_id)

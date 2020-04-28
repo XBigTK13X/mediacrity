@@ -13,7 +13,7 @@ This is a {{source.kind.name}} source.
 </ul>
 
 {% if album %}
-<a href="{% url 'media:album_view' album_id=album.id %}">Generated album</a>
+<a href="{% url 'media:album_edit' album_id=album.id %}">Generated album</a>
 {% endif %}
 <br/>
 <br/>

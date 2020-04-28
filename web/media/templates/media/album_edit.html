@@ -9,5 +9,11 @@ Album: {{album.name}} - {{album.description}}
 {% include "media/comp/media_list_preview.html" with media_list=media only %}
 
 </div>
+<br/>
+<br/>
+<form action="{% url 'media:album_delete' album_id=album.id %}" method="post">
+{% csrf_token %}
+<input type="submit" value="Delete">
+</form>
 
 {% endblock content %}

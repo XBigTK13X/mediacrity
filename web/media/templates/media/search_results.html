@@ -2,17 +2,6 @@
 {% block title %}Search Results{% endblock %}
 {% block content %}
 
-{% if media %}
-  Found {{media.count}} media.
-  <ul>
-  {% for item in media %}
-  <li><a href="{% url 'media:media_edit' media_id=item.id %}">{{media.id}} - {{item.content_hash}} - {{item.origin_path}}</a></li>
-  {% endfor %}
-  </ul>
-{% else %}
-  No media found.
-{% endif %}
-
 <br/>
 {% if sources %}
   Found {{sources.count}} sources.
@@ -23,6 +12,17 @@
   </ul>
 {% else %}
   No sources found.
+{% endif %}
+
+{% if media %}
+  Found {{media.count}} media.
+  <ul>
+  {% for item in media %}
+  <li><a href="{% url 'media:media_edit' media_id=item.id %}">{{item.id}} - {{item.content_hash}} - {{item.extract_path}}</a></li>
+  {% endfor %}
+  </ul>
+{% else %}
+  No media found.
 {% endif %}
 
 <br/>

@@ -40,6 +40,7 @@ def handle(job, payload):
     else:
         file_lookup = search({}, source.content_path)
         files = list(file_lookup.keys())
+        files.sort()
         if len(files) == 0:
             orm.job_log(job, f"No files found at {source.content_path}")
         else:
@@ -60,11 +61,11 @@ def handle(job, payload):
                         source_id=source.id,
                         content_hash=content_hash
                     )
-                    orm.job_log(job, f"Creating new media {content_hash} - {source_id}")
+                    orm.job_log(job, f"Created new media for content {content_hash} under source {source_id}")
                 if media.extract_path != extract_path:
                     media.extract_path = extract_path
                     media.save()
-                if transcode.is_video(media.extract_path) and ioutil.extension(media.extract_path) != 'webm':
+                if transcode.is_video(extract_path):
                     transform_dir = orm.transform_dir(source.kind.name, source.legacy_v1_id)
                     transform_path = ioutil.path(transform_dir, f"{media.content_hash}.mp4")
                     transform_cached = ioutil.cached(transform_path)
@@ -74,7 +75,7 @@ def handle(job, payload):
                     else:
                         media.transform_path = transform_path
                     media.save()
-                if transcode.is_image(media.extract_path):
+                elif transcode.is_image(extract_path):
                     transform_dir = orm.transform_dir(source.kind.name, source.legacy_v1_id)
                     transform_path = ioutil.path(transform_dir, f"{media.content_hash}.jpg")
                     transform_cached = ioutil.cached(transform_path)

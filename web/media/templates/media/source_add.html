@@ -18,8 +18,8 @@
 Kind
 <br/>
 {% for kind in source_kinds %}
-    <input type="radio" name="kind" id="kind{{ forloop.counter }}" value="{{ kind.id }}">
-    <label for="kind{{ forloop.counter }}">{{ kind.name }}</label>
+    <input type="radio" name="kind" id="kind-{{ kind.id }}" value="{{ kind.id }}">
+    <label for="kind-{{ kind.id }}">{{ kind.name }}</label>
     <br>
 {% endfor %}
 

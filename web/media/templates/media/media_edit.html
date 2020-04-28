@@ -48,6 +48,8 @@ File Created: {{media.file_created}}
 <br/>
 Content Hash: {{media.content_hash}}
 <br/>
+Sort Order: {{media.sort_order}}
+<br/>
 <form id="delete-form" action="{% url 'media:media_delete' media_id=media.id %}" method="post">
 {% csrf_token %}
 <input type="submit" value="Delete">

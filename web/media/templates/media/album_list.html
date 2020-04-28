@@ -6,7 +6,7 @@
 Found {{albums.count}} albums.
 <br/><br/>
   {% for album in albums %}
-    <a href="{% url 'media:album_view' album_id=album.id %}">{{album.id}} - {{album.name}} - {{ album.description }}</a>
+    <a href="{% url 'media:album_edit' album_id=album.id %}">{{album.id}} - {{album.name}} - {{ album.description }}</a>
     <br/>
   {% endfor %}
 {% else %}

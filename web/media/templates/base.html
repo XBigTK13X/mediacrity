@@ -17,9 +17,9 @@
     <a href="{% url 'home' %}"><button class="action-link">Home</button></a>
     {% if user.is_authenticated %}
       <a href="{% url 'media:storage_list' %}"><button class="action-link">Storage</button></a>
-      <a href="{% url 'media:album_list' %}"><button class="action-link">Albums</button></a>
-      <a href="{% url 'media:source_list' %}"><button class="action-link">Sources</button></a>
       <a href="{% url 'media:media_list' %}"><button class="action-link">Media</button></a>
+      <a href="{% url 'media:source_list' %}"><button class="action-link">Sources</button></a>
+      <a href="{% url 'media:album_list' %}"><button class="action-link">Albums</button></a>
       <a href="{% url 'media:job_list' %}"><button class="action-link">Jobs</button></a>
       <a href="{% url 'media:link_list' %}"><button class="action-link">Links</button></a>
       <a href="{% url 'media:media_random' %}"><button class="action-link">Random</button></a>

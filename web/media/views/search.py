@@ -31,12 +31,12 @@ def results(request, query):
             job_query = job_query | Q(id=term) | Q(source_id=term) | Q(media_id=term)
         else:
             source_query = source_query | Q(legacy_v1_id=term) | Q(name__icontains=term) | Q(description__icontains=term) | Q(origin_path__icontains=term)
-            media_query = media_query | Q(content_hash=term)
+            media_query = media_query | Q(content_hash=term) | Q(extract_path__icontains=term)
             job_query = job_query | Q(logs__icontains=term)
 
-    sources = Source.objects.filter(source_query).order_by('-created').all()
-    media = Media.objects.filter(media_query).order_by('-created').all()
-    jobs = Job.objects.filter(job_query).order_by('-created').all()
+    sources = Source.objects.filter(source_query).order_by('id').all()
+    media = Media.objects.filter(media_query).order_by('id').all()
+    jobs = Job.objects.filter(job_query).order_by('-id').all()
 
     context = {
         'sources': sources,

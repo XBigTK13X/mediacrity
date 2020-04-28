@@ -12,7 +12,8 @@ from .views import file_system
 app_name='media'
 
 urlpatterns = [
-    path('album/<int:album_id>', album.view, name='album_view'),
+    path('album/<int:album_id>', album.edit, name='album_edit'),
+    path('album/<int:album_id>/delete', album.delete, name='album_delete'),
     path('album/list', album.list, name='album_list'),
 
     path('job/<int:job_id>', job.view, name='job_view'),
