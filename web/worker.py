@@ -65,7 +65,9 @@ def start():
                 job.status_id = failed_status.id
                 orm.job_log(job, f"{e}\n {traceback.format_exc()}")
         else:
+            orm.job_log(job, f"No handler provided for {payload['handler']}")
             print(f"No handler provided")
+        orm.job_log(job,"Job finished processing")
         print(f"Message processed with{'' if errors else ' no'} errors")
         channel.basic_ack(delivery_tag=method.delivery_tag)
         max_failures=4

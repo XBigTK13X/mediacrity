@@ -4,6 +4,7 @@ INPUT_PATH=$1
 OUTPUT_PATH=$2
 SUPPRESS_LOGS=$3
 FALLBACK_MODE=$4
+REENCODE_VIDEO=$5
 
 if [ -z "${INPUT_PATH}" ]; then
   echo "INPUT_PATH is required as the first argument"
@@ -32,8 +33,14 @@ else
   set -x
 fi
 
+VIDEO_ENCODING=""
+
+if [ ${REENCODE_VIDEO} -eq 1 ]; then
+    VIDEO_ENCODING="-codec:v h264"
+fi
+
 if [ ${FALLBACK_MODE} -eq 0 ]; then
-  ffmpeg -i "${INPUT_PATH}" -movflags faststart -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -codec:a aac "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
+  ffmpeg -i "${INPUT_PATH}" -movflags faststart -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" ${VIDEO_ENCODING} -codec:a aac "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
 else
-  ffmpeg -i "${INPUT_PATH}" -movflags faststart -strict -2 -codec:a aac "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
+  ffmpeg -i "${INPUT_PATH}" -movflags faststart -strict -2 ${VIDEO_ENCODING} -codec:a aac "${OUTPUT_PATH}" -y ${SUPPRESS_LOGS}
 fi

@@ -14,8 +14,14 @@ def is_image(path):
 def has_audio(input_path):
     command = f"ffprobe -v error -show_entries stream=codec_type '{input_path}' | grep -q audio"
     process = subprocess.Popen(command, shell=True, cwd=os.getcwd())
+    # grep -q returning 0 means the needles were found
     return process.wait() == 0
 
+def unsupported_video(input_path):
+    command = f"ffprobe -v error -show_entries stream=codec_name '{input_path}' | grep -q hevc"
+    process = subprocess.Popen(command, shell=True, cwd=os.getcwd())
+    # grep -q returning 0 means the needles were found
+    return process.wait() == 0
 
 def video(job, input_path, output_path):
     orm.job_log(job, f"Attempting to transcode video {input_path} to {output_path}")
@@ -29,13 +35,15 @@ def video(job, input_path, output_path):
             animate(job, input_path, output_path)
         return output_path
 
-    if extension == 'mp4':
+    uses_unsupported_video_codec = unsupported_video(input_path)
+
+    if extension == 'mp4' and not uses_unsupported_video_codec:
         orm.job_log(job, f"Video already in web supported format")
         return input_path
 
     if not ioutil.cached(output_path):
         orm.job_log(job, f"Performing conversion")
-        ffmpeg(job, input_path, output_path)
+        ffmpeg(job, input_path, output_path, uses_unsupported_video_codec)
 
     return output_path
 
@@ -70,14 +78,15 @@ def animate(job, input_path, output_path):
         orm.job_fail(result, job, error)
         raise Exception(error)
 
-def ffmpeg(job, input_path, output_path, log=False):
+def ffmpeg(job, input_path, output_path, reencode_video, log=False):
     fallback_mode = 0
+    reencode_arg = 1 if reencode_video == True else 0
     result = -1
     script_path = f"{settings.SCRIPT_DIR}/transform/transcode-video.sh"
     cwd =  f"{settings.SCRIPT_DIR}/transform"
     # mpg and avi files seem to fail on the primary conversion method
     if not '.mpg' in input_path and not '.avi' in input_path:
-        command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode}"
+        command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode} {reencode_arg}"
         orm.job_log(job, f"Running primary command {command}")
         process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout,stderr = process.communicate()
@@ -89,7 +98,7 @@ def ffmpeg(job, input_path, output_path, log=False):
 
     if result != 0:
         fallback_mode = 1
-        command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode}"
+        command = f"{script_path} '{input_path}' '{output_path}' {settings.SUPPRESS_TRANSCODE_LOGGING} {fallback_mode} {reencode_arg}"
         orm.job_log(job, f"Running fallback command {command}")
         process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout,stderr = process.communicate()
