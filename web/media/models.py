@@ -24,11 +24,11 @@ class Storage(models.Model):
 
     @property
     def locked(self):
-        return len([x for x in self.contents if 'ECRYPTFS' in x]) > 0
+        return len(self.contents()) == 0
 
     @property
     def contents(self):
-        return os.listdir(self.path)
+        return os.listdir(os.path.join(self.path,"/dec"))
 
 class SourceKind(models.Model):
     name = models.CharField(max_length=128)

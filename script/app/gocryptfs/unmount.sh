@@ -7,4 +7,4 @@ if [ -z ${MOUNT_PATH} ]; then
   exit 1
 fi
 
-umount $MOUNT_PATH
+fusermount -u $MOUNT_PATH/dec

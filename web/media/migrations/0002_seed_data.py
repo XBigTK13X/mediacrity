@@ -44,10 +44,10 @@ def create_source_kinds(apps, schema_editor):
 def create_storage_kinds(apps, schema_editor):
     kinds = [
         {
-            'name': 'ecryptfs',
+            'name': 'gocryptfs',
             'description': 'Encrypted file system requiring a password.',
-            'mount_script_path': '<script>/ecryptfs/mount.sh',
-            'unmount_script_path': '<script>/ecryptfs/unmount.sh'
+            'mount_script_path': '<script>/gocryptfs/mount.sh',
+            'unmount_script_path': '<script>/gocryptfs/unmount.sh'
         }
     ]
 

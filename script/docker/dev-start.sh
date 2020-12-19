@@ -2,7 +2,7 @@
 
 source $MEDIACRITY_CONFIG
 
-echo "If developing locally, mounted ecryptfs volumes won't unlock inside the container."
+echo "If developing locally, mounted encrypted volumes won't unlock inside the container."
 echo "Unlock the storage before running the containers."
 
 CREATE_DB=$1
