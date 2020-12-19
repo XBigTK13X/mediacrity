@@ -24,11 +24,11 @@ class Storage(models.Model):
 
     @property
     def locked(self):
-        return len(self.contents()) == 0
+        return len(self.contents) == 0
 
     @property
     def contents(self):
-        return os.listdir(os.path.join(self.path,"/dec"))
+        return os.listdir(os.path.join(self.path,"dec"))
 
 class SourceKind(models.Model):
     name = models.CharField(max_length=128)

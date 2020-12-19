@@ -18,7 +18,6 @@ sudo chown 101:103 $MEDIACRITY_DB_DATA_DIR
 sudo mkdir -p $MEDIACRITY_MESSAGE_DATA_DIR
 
 docker run -d \
-  --privileged \
   --name mediacrity-dev \
   -v $MEDIACRITY_LOG_DIR:/mediacrity/log \
   -v $MEDIACRITY_CONFIG_DIR:/mediacrity/config \
